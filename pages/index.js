@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import Button from '../components/Button'
 import ClickCount from '../components/ClickCount'
 import styles from '../styles/home.module.css'
+import ColorPalette from '../components/ColorPalette'
 
 function throwError() {
   console.log(
@@ -64,6 +65,9 @@ function Home() {
         </Button>
       </div>
       <hr className={styles.hr} />
+
+      // Color Palette
+      <ColorPalette />
     </main>
   )
 }
