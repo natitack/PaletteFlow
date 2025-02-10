@@ -8,8 +8,7 @@ function Deliverable() {
                 This is the deliverable for the first assignment of the course. It is a simple web application that displays a color palette
             </p>
             <hr />
-        ColorPalette.render()
-        
+            <ColorPalette />
         </main>
     )
 }
