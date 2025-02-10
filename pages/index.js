@@ -19,7 +19,7 @@ export default function Home() {
       <main className="text-center">
         <h1 className="text-4xl font-bold text-white mb-4">Welcome to PaletteFlow</h1>
         <p className="text-xl text-white mb-8">Streamline your website design process</p>
-        <Link href="/deliverable">
+        <Link href="/brand-builder">
           <Button size="lg">Start Building Your Brand Identity</Button>
         </Link>
       </main>

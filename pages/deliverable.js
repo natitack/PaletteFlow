@@ -1,4 +1,5 @@
-import ColorPalette from '../components/ColorPalette'
+import ColorPalette from '../components/ColorPalette copy'
+
 
 function Deliverable() {
     return (

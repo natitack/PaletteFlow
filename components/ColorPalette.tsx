@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import * as lightColors from './light';
 import * as darkColors from './dark';
 
@@ -23,89 +23,66 @@ const getColorDistance = (color1: string, color2: string) => {
   );
 };
 
-export const ColorPalette = () => {
-  const [color, setColor] = useState('#000000');
+export const generateColorScale = (baseColor: string) => {
+  let closestDistance = Infinity;
+  let closestPaletteName = '';
+  let palette = [];
 
-  const { lightPalette, darkPalette, paletteName } = useMemo(() => {
-    let closestDistance = Infinity;
-    let closestPaletteName = '';
+  // Find the closest matching palette
+  Object.entries(lightColors).forEach(([name, colorPalette]) => {
+    if (name.includes('A') || name.includes('P3')) return;
 
-    Object.entries(lightColors).forEach(([name, palette]) => {
-      if (name.includes('A') || name.includes('P3')) return;
-
-      Object.entries(palette).forEach(([_, paletteColor]) => {
-        const distance = getColorDistance(color, paletteColor);
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestPaletteName = name;
-        }
-      });
+    Object.entries(colorPalette).forEach(([_, paletteColor]) => {
+      const distance = getColorDistance(baseColor, paletteColor);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestPaletteName = name;
+      }
     });
+  });
 
-    return {
-      lightPalette: lightColors[closestPaletteName],
-      darkPalette: darkColors[`${closestPaletteName}Dark`],
-      paletteName: closestPaletteName
-    };
-  }, [color]);
+  // Get the matching light palette
+  const matchingPalette = lightColors[closestPaletteName];
+  
+  // Convert palette object to array of colors
+  if (matchingPalette) {
+    palette = Object.entries(matchingPalette)
+      .filter(([key]) => !key.includes('A') && !key.includes('P3'))
+      .sort(([a], [b]) => parseInt(a) - parseInt(b))
+      .map(([_, color]) => color);
+  }
 
-  const renderPalette = (palette: Record<string, string>, title: string) => {
-    if (!palette) return null;
+  return palette;
+};
 
-    const swatches = Object.entries(palette).filter(
-      ([key]) => !key.includes('A') && !key.includes('P3')
-    );
-
-    return (
-      <div>
-        <h3>{title}</h3>
-        <div style={{ display: 'flex', gap: '10px' }}>
-          {swatches.map(([shade, color]) => (
-            <div key={shade} style={{ textAlign: 'center' }}>
-              <div style={{ 
-                width: '50px', 
-                height: '50px', 
-                backgroundColor: color 
-              }} />
-              <span style={{ fontSize: '12px' }}>{shade}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
+export const ColorPalette: React.FC<{
+  color: string;
+  onChange: (color: string) => void;
+}> = ({ color, onChange }) => {
+  const palette = generateColorScale(color);
 
   return (
     <div>
       <input
         type="color"
         value={color}
-        onChange={(e) => setColor(e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
       />
-      <div
-        style={{ 
-          width: '100px', 
-          height: '100px', 
-          backgroundColor: color 
-        }}
-        onClick={() => {
-          const newColor = prompt('Enter a hex color (e.g., #FF0000)');
-          if (newColor) {
-            setColor(newColor);
-          }
-        }}
-      />
-      <p>{color}</p>
-
-      {paletteName && (
-        <div>
-          <h2>Matching Palette: {paletteName}</h2>
-          {renderPalette(lightPalette, 'Light Variant')}
-          {renderPalette(darkPalette, 'Dark Variant')}
-        </div>
-      )}
+      <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+        {palette.map((color, index) => (
+          <div
+            key={index}
+            style={{
+              width: '30px',
+              height: '30px',
+              backgroundColor: color,
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+            onClick={() => onChange(color)}
+          />
+        ))}
+      </div>
     </div>
   );
 };
-
-export default ColorPalette;
