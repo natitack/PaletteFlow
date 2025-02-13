@@ -47,6 +47,9 @@ export default function BrandBuilder() {
   const handleNext = () => {
     if (currentStep < STEPS.length - 1) {
       setCurrentStep((prev) => prev + 1)
+    } else {
+      // Mark as completed
+      localStorage.setItem("brandBuilderComplete", "true");
     }
   }
 
