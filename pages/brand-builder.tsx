@@ -13,7 +13,7 @@ import { Button, Flex, Text } from "@radix-ui/themes"
 import { motion, AnimatePresence } from "framer-motion"
 
 const STEPS = [
-{ id: "color", component: ColorPalette, title: "Color Palette" },
+  { id: "color", component: ColorPalette, title: "Color Palette" },
   { id: "mood", component: MoodStep, title: "Brand Personality" },
   { id: "buttonStyle", component: ButtonStyleStep, title: "Button Style" },
   { id: "cardStyle", component: CardStyleStep, title: "Card Style" },
