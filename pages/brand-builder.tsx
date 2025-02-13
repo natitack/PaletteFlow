@@ -18,7 +18,7 @@ import { motion, AnimatePresence } from "framer-motion"
 const STEPS = [
   { id: "color", component: ColorPalette, title: "Color Palette" },
   { id: "mood", component: MoodStep, title: "Brand Personality" },
-  // { id: "font", component: FontStep, title: "Font Style" },
+  { id: "font", component: FontStep, title: "Font Style" },
   { id: "buttonStyle", component: ButtonStyleStep, title: "Button Style" },
   { id: "cardStyle", component: CardStyleStep, title: "Card Style" },
   { id: "heroLayout", component: HeroLayoutStep, title: "Hero Layout" },
@@ -42,6 +42,7 @@ export default function BrandBuilder() {
   const updateChoice = useCallback((key: string, value: string) => {
     setChoices((prev) => {
       const newChoices = { ...prev, [key]: value }
+      localStorage.setItem("brandChoices", JSON.stringify(newChoices)); // Save to localStorage
       console.log("Updated choices:", newChoices) // Debug log
       return newChoices
     })
