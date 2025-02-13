@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
+// import { useCallback, useEffect, useState } from 'react'
+// import ClickCount from '../components/ClickCount'
+// import styles from '../styles/home.module.css'
+// import ColorPalette from '../components/ColorPalette'
+import Link from "next/link"
 import Button from '../components/Button'
-import ClickCount from '../components/ClickCount'
-import styles from '../styles/home.module.css'
-import ColorPalette from '../components/ColorPalette'
 
 function throwError() {
   console.log(
@@ -10,8 +11,6 @@ function throwError() {
     document.body()
   )
 }
-
-import Link from "next/link"
 
 export default function Home() {
   return (
