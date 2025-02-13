@@ -1,0 +1,10 @@
+*Does not reflect the actual page layout, but a simplification of it
+
+<div>
+  <progress bar>
+  <div>
+    <questionnaire>
+    <live preview>
+  </div>
+  <progress buttons>
+</div>
