@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react"
 import { useRouter } from "next/router"
+
 import { ColorPalette } from "../components/ColorPalette copy"
 import { MoodStep } from "../components/steps/MoodStep"
 import { FontStep } from "../components/steps/FontStep"
@@ -9,6 +10,7 @@ import { ButtonStyleStep } from "../components/steps/ButtonStyleStep"
 import { CardStyleStep } from "../components/steps/CardStyleStep"
 import { HeroLayoutStep } from "../components/steps/HeroLayoutStep"
 import { FeatureLayoutStep } from "../components/steps/FeatureLayoutStep"
+
 import { LivePreview } from "../components/LivePreview"
 import { Button, Flex, Text } from "@radix-ui/themes"
 import { motion, AnimatePresence } from "framer-motion"
@@ -16,6 +18,7 @@ import { motion, AnimatePresence } from "framer-motion"
 const STEPS = [
   { id: "color", component: ColorPalette, title: "Color Palette" },
   { id: "mood", component: MoodStep, title: "Brand Personality" },
+  // { id: "font", component: FontStep, title: "Font Style" },
   { id: "buttonStyle", component: ButtonStyleStep, title: "Button Style" },
   { id: "cardStyle", component: CardStyleStep, title: "Card Style" },
   { id: "heroLayout", component: HeroLayoutStep, title: "Hero Layout" },
