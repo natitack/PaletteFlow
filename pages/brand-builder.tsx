@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useCallback } from "react"
+import { useRouter } from "next/router"
 import { ColorPalette } from "../components/ColorPalette copy"
 import { MoodStep } from "../components/steps/MoodStep"
 import { FontStep } from "../components/steps/FontStep"
@@ -23,6 +24,8 @@ const STEPS = [
 
 export default function BrandBuilder() {
   const [currentStep, setCurrentStep] = useState(0)
+  const router = useRouter()
+
   const [choices, setChoices] = useState({
     color: "indigo9",
     mood: "modern",
@@ -59,6 +62,14 @@ export default function BrandBuilder() {
     }
   }
 
+  const handleFinish = () => {
+    // Mark as completed
+    localStorage.setItem("brandBuilderComplete", "true")
+
+    // Navigate to deliverable
+    router.push("/deliverable")
+  }
+
   return (
     <Flex direction="column" gap="4" className="min-h-screen bg-gray-50 p-8">
       <div className="h-1 w-full bg-gray-200 rounded-full overflow-hidden">
@@ -93,9 +104,11 @@ export default function BrandBuilder() {
             <Button onClick={handlePrevious} disabled={currentStep === 0} variant="soft">
               Previous
             </Button>
-            <Button onClick={handleNext} disabled={currentStep === STEPS.length - 1}>
-              {currentStep === STEPS.length - 1 ? "Finish" : "Next"}
-            </Button>
+            {currentStep === STEPS.length - 1 ? (
+              <Button onClick={handleFinish}>Finish</Button>
+            ) : (
+              <Button onClick={handleNext}>Next</Button>
+            )}
           </Flex>
         </Flex>
 
