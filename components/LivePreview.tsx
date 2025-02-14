@@ -1,10 +1,7 @@
 import { Flex, Box, Text, Button, Card, Heading } from "@radix-ui/themes"
 import Image from "next/image"
-import { generateColorScale } from "./ColorPalette"
 import { useEffect, useState } from "react"
 import * as lightColors from '../components/light';
-import { L } from "framer-motion/dist/types.d-6pKw1mTI";
-import { text } from "stream/consumers";
 
 export function LivePreview({ choices }) {
   const {
