@@ -3,7 +3,8 @@
 import { useState, useCallback } from "react"
 import { useRouter } from "next/router"
 
-import { ColorPalette } from "../components/ColorPalette copy"
+//import { ColorPalette } from "../components/ColorPalette copy"
+import { ColorPickerStep } from "../components/steps/ColorPickerStep"
 import { MoodStep } from "../components/steps/MoodStep"
 import { FontStep } from "../components/steps/FontStep"
 import { ButtonStyleStep } from "../components/steps/ButtonStyleStep"
@@ -16,7 +17,7 @@ import { Button, Flex, Text } from "@radix-ui/themes"
 import { motion, AnimatePresence } from "framer-motion"
 
 const STEPS = [
-  { id: "color", component: ColorPalette, title: "Color Palette" },
+  { id: "color", component: ColorPickerStep, title: "Color Palette" },
   { id: "mood", component: MoodStep, title: "Brand Personality" },
   { id: "font", component: FontStep, title: "Font Style" },
   { id: "buttonStyle", component: ButtonStyleStep, title: "Button Style" },
@@ -30,7 +31,7 @@ export default function BrandBuilder() {
   const router = useRouter()
 
   const [choices, setChoices] = useState({
-    color: "indigo9",
+    color: "indigo",
     mood: "modern",
     font: "system-ui",
     buttonStyle: "rounded",

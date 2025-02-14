@@ -2,10 +2,13 @@ import { Flex, Box, Text, Button, Card, Heading } from "@radix-ui/themes"
 import Image from "next/image"
 import { generateColorScale } from "./ColorPalette"
 import { useEffect, useState } from "react"
+import * as lightColors from '../components/light';
+import { L } from "framer-motion/dist/types.d-6pKw1mTI";
+import { text } from "stream/consumers";
 
 export function LivePreview({ choices }) {
   const {
-    color = "#6366f1", // Default indigo color
+    color = "indigo", // Default indigo color
     mood = "modern",
     font = "system-ui",
     buttonStyle = "rounded",
@@ -14,13 +17,12 @@ export function LivePreview({ choices }) {
     featureLayout = "grid",
   } = choices || {}
 
-  const [colorScale, setColorScale] = useState([])
   const [mainColor, setMainColor] = useState(color)
+  const [colorScale, setColorScale] = useState(lightColors[color])
 
   useEffect(() => {
-    const newColorScale = generateColorScale(color)
-    setColorScale(newColorScale)
-    setMainColor(color) // Use the selected color directly as main color
+    setMainColor(color)
+    setColorScale(lightColors[color])
   }, [color])
 
   // Rest of the component remains the same...
@@ -46,13 +48,13 @@ export function LivePreview({ choices }) {
         <Box style={{ marginBottom: "2rem" }}>
           {heroLayout === "centered" && (
             <Flex direction="column" align="center" gap="2">
-              <Heading size="8" style={{ color: mainColor }}>
-                Welcome to Your Brand
-              </Heading>
+                    <Heading size="8" style={{ color: colorScale[`${color}11`]}}>
+                    Welcome to Your Brand 
+                    </Heading>
               <Text size="3" color="gray">
                 This is your {mood} brand
               </Text>
-              <Button size="3" style={{ ...buttonStyles[buttonStyle], backgroundColor: mainColor }}>
+              <Button size="3" style={{ ...buttonStyles[buttonStyle], color:colorScale[`${color}12`], backgroundColor: colorScale[`${color}3`] }}>
                 Call to Action
               </Button>
             </Flex>
@@ -62,7 +64,7 @@ export function LivePreview({ choices }) {
 
         {/* Feature Section */}
         <Box style={{ marginBottom: "2rem" }}>
-          <Heading size="6" style={{ marginBottom: "1rem", color: mainColor }}>
+          <Heading size="6" style={{ marginBottom: "1rem", color: colorScale[`${color}11`]}}>
             Features
           </Heading>
           {/* ... feature layouts ... */}
@@ -74,17 +76,12 @@ export function LivePreview({ choices }) {
             Color Palette
           </Text>
           <Flex gap="1">
-            {colorScale.map((color, index) => (
-              <Box
-                key={index}
-                style={{
-                  width: "2rem",
-                  height: "2rem",
-                  backgroundColor: color,
-                  borderRadius: "4px",
-                }}
-              />
+            {Object.keys(colorScale).map((key) => (
+              <Box key={key} style={{ backgroundColor: colorScale[key], width: "2rem", height: "2rem", borderRadius: "4px" }} />
             ))}
+
+
+
           </Flex>
         </Flex>
       </Box>
