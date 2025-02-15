@@ -1,6 +1,6 @@
 import { Flex, Text, RadioGroup, Box, Heading, Button } from "@radix-ui/themes"
 import Image from "next/image"
-import { createElement } from "react"
+import { createElement, useState, useEffect } from "react"
 
 const heroLayouts = [
   { value: "centered", label: "Centered", component: heroCentered },
@@ -55,15 +55,22 @@ function heroFullwidth() {
 }
 
 export function HeroLayoutStep({ value, onChange }) {
+  const [selectedLayout, setSelectedLayout] = useState(value);
+
+  const handleLayoutChange = (newLayout) => {
+    setSelectedLayout(newLayout);
+    onChange(newLayout);
+  };
+  
   return (
     <Flex direction="column" gap="4">
       <Text size="5" weight="bold">
         Choose your hero layout
       </Text>
-      <RadioGroup.Root value={value} onValueChange={onChange}>
+      <RadioGroup.Root value={value} onValueChange={handleLayoutChange}>
         {heroLayouts.map((layout) => (
           <Flex key={layout.value} direction="column" gap="2">
-            <RadioGroup.Item value={layout.value} />
+            <RadioGroup.Item value={layout.value}/>
             <Box
               style={{
                 border: "1px solid #ccc",
@@ -71,9 +78,7 @@ export function HeroLayoutStep({ value, onChange }) {
                 borderRadius: "4px",
               }}
             >
-
-              {createElement(layout.component)}
-
+              <layout.component/>               
             </Box>
           </Flex>
         ))}
@@ -81,4 +86,3 @@ export function HeroLayoutStep({ value, onChange }) {
     </Flex>
   )
 }
-
