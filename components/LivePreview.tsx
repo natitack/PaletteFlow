@@ -45,23 +45,64 @@ export function LivePreview({ choices }) {
         <Box style={{ marginBottom: "2rem" }}>
           {heroLayout === "centered" && (
             <Flex direction="column" align="center" gap="2">
-                    <Heading size="8" style={{ color: colorScale[`${color}11`]}}>
-                    Welcome to Your Brand 
-                    </Heading>
+              <Heading size="8" style={{ color: colorScale[`${color}11`] }}>
+                Welcome to Your Brand
+              </Heading>
               <Text size="3" color="gray">
                 This is your {mood} brand
               </Text>
-              <Button size="3" style={{ ...buttonStyles[buttonStyle], color:colorScale[`${color}12`], backgroundColor: colorScale[`${color}3`] }}>
+              <Button size="3" style={{ ...buttonStyles[buttonStyle], color: colorScale[`${color}12`], backgroundColor: colorScale[`${color}3`] }}>
                 Call to Action
               </Button>
             </Flex>
           )}
-          {/* ... rest of the hero layouts ... */}
+
+          {heroLayout === "split" && (
+            <Flex>
+              <Box style={{ width: "50%" }}>
+                <Heading size="8" style={{ color: colorScale[`${color}11`] }}>
+                  Welcome to Your Brand
+                </Heading>
+                <Text size="3" color="gray">
+                  This is your {mood} brand
+                </Text>
+              </Box>
+              <Box style={{ width: "50%" }}>
+                <Button size="3" style={{ ...buttonStyles[buttonStyle], color: colorScale[`${color}12`], backgroundColor: colorScale[`${color}3`] }}>
+                  Call to Action
+                </Button>
+              </Box>
+            </Flex>
+          )}
+
+          {heroLayout === "fullWidth" && (
+            <Box style={{ position: "relative", height: "150px" }}>
+              <Box
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  textAlign: "center",
+                }}
+              >
+                <Heading size="8" style={{ color: colorScale[`${color}11`] }}>
+                  Welcome to Your Brand
+                </Heading>
+                <Text size="3" color="gray">
+                  This is your {mood} brand
+                </Text>
+                <Button size="3" style={{ ...buttonStyles[buttonStyle], color: colorScale[`${color}12`], backgroundColor: colorScale[`${color}3`] }}>
+                  Call to Action
+                </Button>
+              </Box>
+            </Box>
+          )}
         </Box>
 
         {/* Feature Section */}
         <Box style={{ marginBottom: "2rem" }}>
-          <Heading size="6" style={{ marginBottom: "1rem", color: colorScale[`${color}11`]}}>
+          <Heading size="6" style={{ marginBottom: "1rem", color: colorScale[`${color}11`] }}>
             Features
           </Heading>
           {/* ... feature layouts ... */}
