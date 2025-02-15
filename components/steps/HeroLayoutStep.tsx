@@ -10,6 +10,31 @@ const heroLayouts = [
 
 function heroCentered() {
   return (
+    <Flex direction="column" align="center" gap="2">
+      <Heading size="4">Centered Hero</Heading>
+      <Text>Subtitle text goes here</Text>
+      <Button>Call to Action</Button>
+    </Flex>
+  )
+}
+
+function heroSplit() {
+  return (
+    <Flex>
+      <Box style={{ width: "50%" }}>
+        <Heading size="4">Split Hero</Heading>
+        <Text>Subtitle text goes here</Text>
+        <Button>Call to Action</Button>
+      </Box>
+      <Box style={{ width: "50%" }}>
+        <Image src="/placeholder.svg" alt="Placeholder" width={200} height={100} />
+      </Box>
+    </Flex>
+  )
+}
+
+function heroFullwidth() {
+  return (
     <Box style={{ position: "relative", height: "150px" }}>
       <Image src="/placeholder.svg" alt="Placeholder" layout="fill" objectFit="cover" />
       <Box
@@ -29,31 +54,6 @@ function heroCentered() {
   )
 }
 
-export function heroSplit() {
-  return (
-    <Flex direction="column" align="center" gap="2">
-      <Heading size="4">Centered Hero</Heading>
-      <Text>Subtitle text goes here</Text>
-      <Button>Call to Action</Button>
-    </Flex>
-  )
-}
-
-function heroFullwidth() {
-  return (
-    <Flex>
-      <Box style={{ width: "50%" }}>
-        <Heading size="4">Split Hero</Heading>
-        <Text>Subtitle text goes here</Text>
-        <Button>Call to Action</Button>
-      </Box>
-      <Box style={{ width: "50%" }}>
-        <Image src="/placeholder.svg" alt="Placeholder" width={200} height={100} />
-      </Box>
-    </Flex>
-  )
-}
-
 export function HeroLayoutStep({ value, onChange }) {
   return (
     <Flex direction="column" gap="4">
@@ -63,6 +63,7 @@ export function HeroLayoutStep({ value, onChange }) {
       <RadioGroup.Root value={value} onValueChange={onChange}>
         {heroLayouts.map((layout) => (
           <Flex key={layout.value} direction="column" gap="2">
+            <RadioGroup.Item value={layout.value} />
             <Box
               style={{
                 border: "1px solid #ccc",
@@ -70,8 +71,9 @@ export function HeroLayoutStep({ value, onChange }) {
                 borderRadius: "4px",
               }}
             >
+
               {createElement(layout.component)}
-              
+
             </Box>
           </Flex>
         ))}
