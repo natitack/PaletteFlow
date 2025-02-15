@@ -1,6 +1,6 @@
 import { Flex, Text, RadioGroup, Box, Heading, Button } from "@radix-ui/themes"
 import Image from "next/image"
-import { createElement, useState, useEffect } from "react"
+import { useState } from "react"
 
 const heroLayouts = [
   { value: "centered", label: "Centered", component: heroCentered },
