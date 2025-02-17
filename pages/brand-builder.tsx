@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/router"
 
 //import { ColorPalette } from "../components/ColorPalette copy"
@@ -16,6 +16,13 @@ import { LivePreview } from "../components/LivePreview"
 import { Button, Flex, Text } from "@radix-ui/themes"
 import { motion, AnimatePresence } from "framer-motion"
 
+import * as lightColors from '../components/light';
+import * as darkColors from '../components/dark';
+import  { grayPairs } from '../components/gray';
+
+
+
+
 const STEPS = [
   { id: "color", component: ColorPickerStep, title: "Color Palette" },
   { id: "mood", component: MoodStep, title: "Brand Personality" },
@@ -29,6 +36,8 @@ const STEPS = [
 export default function BrandBuilder() {
   const [currentStep, setCurrentStep] = useState(0)
   const router = useRouter()
+
+
 
   const [choices, setChoices] = useState({
     color: "indigo",
@@ -48,6 +57,18 @@ export default function BrandBuilder() {
       return newChoices
     })
   }, [])
+
+  const [colorScale, setColorScale] = useState(lightColors[choices.color])
+  const [darkModeColorScale, setDarkModeColorScale] = useState(darkColors[`${choices.color}Dark`])
+  const [grayColorScale, setGrayColorScale] = useState(lightColors[grayPairs[choices.color] || "gray"])
+  const [darkGrayColorScale, setDarkGrayColorScale] = useState(darkColors[`${grayPairs[choices.color]}Dark`]|| "grayDark")
+
+  useEffect(() => {
+    setColorScale(lightColors[choices.color])
+    setGrayColorScale(lightColors[grayPairs[choices.color] || "gray"])
+    setDarkGrayColorScale(darkColors[`${grayPairs[choices.color]}Dark`]|| "grayDark")
+    setDarkModeColorScale(darkColors[`${choices.color}Dark`])
+  }, [choices.color, grayPairs])
 
   const CurrentStepComponent = STEPS[currentStep].component
   const currentStepId = STEPS[currentStep].id
@@ -79,8 +100,11 @@ export default function BrandBuilder() {
     <Flex direction="column" gap="4" className="min-h-screen bg-gray-50 p-8">
       <div className="h-1 w-full bg-gray-200 rounded-full overflow-hidden">
         <div
-          className="h-full bg-blue-600 transition-all duration-300 ease-in-out"
-          style={{ width: `${((currentStep + 1) / STEPS.length) * 100}%` }}
+          className="h-full transition-all duration-300 ease-in-out"
+          style={{ 
+        width: `${((currentStep + 1) / STEPS.length) * 100}%`,
+        backgroundColor: colorScale[`${choices.color}9`]
+          }}
         />
       </div>
 
@@ -90,7 +114,7 @@ export default function BrandBuilder() {
 
       <Flex gap="8">
         <Flex direction="column" className="w-1/2">
-          <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait">
             <motion.div
               key={currentStep}
               initial={{ opacity: 0, x: -50 }}
@@ -99,23 +123,37 @@ export default function BrandBuilder() {
               transition={{ duration: 0.3 }}
             >
               <CurrentStepComponent
-                value={choices[currentStepId]}
-                onChange={(value: string) => updateChoice(currentStepId, value)}
+              value={choices[currentStepId]}
+              onChange={(value: string) => updateChoice(currentStepId, value)}
               />
             </motion.div>
-          </AnimatePresence>
+            </AnimatePresence>
 
-          <Flex justify="between" mt="4">
-            <Button onClick={handlePrevious} disabled={currentStep === 0} variant="soft">
+            <Flex justify="between" mt="4">
+            <Button 
+              onClick={handlePrevious} 
+              disabled={currentStep === 0} 
+              style={{ backgroundColor: colorScale[`${choices.color}9`], color: grayColorScale[`${choices.color}11`] }}
+            >
               Previous
             </Button>
             {currentStep === STEPS.length - 1 ? (
-              <Button onClick={handleFinish}>Finish</Button>
+              <Button 
+              onClick={handleFinish} 
+              style={{ backgroundColor: colorScale[`${choices.color}9`], color: grayColorScale[`${choices.color}11`] }}
+              >
+              Finish
+              </Button>
             ) : (
-              <Button onClick={handleNext}>Next</Button>
+              <Button 
+              onClick={handleNext} 
+              style={{ backgroundColor: colorScale[`${choices.color}9`], color: grayColorScale[`${choices.color}11`] }}
+              >
+              Next
+              </Button>
             )}
+            </Flex>
           </Flex>
-        </Flex>
 
         <div className="w-1/2">
           <LivePreview choices={choices} />
