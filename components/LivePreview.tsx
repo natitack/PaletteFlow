@@ -78,20 +78,24 @@ export function LivePreview({ choices }) {
                   Call to Action
                 </Button>
               </Box>
+              <Box style={{ width: "50%" }}>
+                <Image src="/placeholder.svg" alt="Placeholder" width={200} height={100} />
+              </Box>
             </Flex>
           )}
 
           {heroLayout === "fullWidth" && (
-            <Box style={{ position: "relative", height: "150px" }}>
-              <Box
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  textAlign: "center",
-                }}
-              >
+            <Box style={{ position: "relative", height: "200px" }}>
+            <Image src="/placeholder.svg" alt="Placeholder" layout="fill" objectFit="cover" />
+            <Box
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                textAlign: "center",
+              }}
+            >
                 <Heading size="8" style={{ color: colorScale[`${color}11`] }}>
                   Welcome to Your Brand
                 </Heading>
