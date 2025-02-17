@@ -19,10 +19,12 @@ export function LivePreview({ choices }) {
   const [colorScale, setColorScale] = useState(lightColors[color])
   const [darkModeColorScale, setDarkModeColorScale] = useState(darkColors[`${color}Dark`])
   const [grayColorScale, setGrayColorScale] = useState(lightColors[grayPairs[color] || "gray"])
+  const [darkGrayColorScale, setDarkGrayColorScale] = useState(darkColors[`${grayPairs[color]}Dark`]|| "grayDark")
 
   useEffect(() => {
     setColorScale(lightColors[color])
     setGrayColorScale(lightColors[grayPairs[color] || "gray"])
+    setDarkGrayColorScale(darkColors[`${grayPairs[color]}Dark`]|| "grayDark")
     setDarkModeColorScale(darkColors[`${color}Dark`])
   }, [color, grayPairs])
 
@@ -138,6 +140,16 @@ export function LivePreview({ choices }) {
           <Flex gap="1">
             {Object.keys(grayColorScale).map((key) => (
               <Box key={key} style={{ backgroundColor: grayColorScale[key], width: "2rem", height: "2rem", borderRadius: "4px" }} />
+            ))}
+          </Flex>
+        </Flex>
+
+        <Flex direction="column" gap="2">
+          <Text size="2" weight="bold">
+          </Text>
+          <Flex gap="1">
+            {Object.keys(darkGrayColorScale).map((key) => (
+              <Box key={key} style={{ backgroundColor: darkGrayColorScale[key], width: "2rem", height: "2rem", borderRadius: "4px" }} />
             ))}
           </Flex>
         </Flex>
