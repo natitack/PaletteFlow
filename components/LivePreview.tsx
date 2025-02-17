@@ -51,13 +51,13 @@ export function LivePreview({ choices }) {
         <Box style={{ marginBottom: "2rem" }}>
           {heroLayout === "centered" && (
             <Flex direction="column" align="center" gap="2">
-              <Heading size="8" style={{ color: colorScale[`${color}11`] }}>
+                <Heading size="8" style={{ color: colorScale[`${color}11`], fontFamily: font }}>
                 Welcome to Your Brand
-              </Heading>
+                </Heading>
               <Text size="3" color="gray">
                 This is your {mood} brand
               </Text>
-              <Button size="3" style={{ ...buttonStyles[buttonStyle], color: colorScale[`${color}12`], backgroundColor: colorScale[`${color}3`] }}>
+              <Button size="3" style={{ ...buttonStyles[buttonStyle], fontFamily: font, color: colorScale[`${color}12`], backgroundColor: colorScale[`${color}3`] }}>
                 Call to Action
               </Button>
             </Flex>
@@ -66,7 +66,7 @@ export function LivePreview({ choices }) {
           {heroLayout === "split" && (
             <Flex>
               <Box style={{ width: "50%" }}>
-                <Heading size="8" style={{ color: colorScale[`${color}11`] }}>
+                <Heading size="8" style={{ color: colorScale[`${color}11`] , fontFamily: font}}>
                   Welcome to Your Brand
                 </Heading>
                 <Text size="3" color="gray">
@@ -74,7 +74,7 @@ export function LivePreview({ choices }) {
                 </Text>
               </Box>
               <Box style={{ width: "50%" }}>
-                <Button size="3" style={{ ...buttonStyles[buttonStyle], color: colorScale[`${color}12`], backgroundColor: colorScale[`${color}3`] }}>
+                <Button size="3" style={{ ...buttonStyles[buttonStyle], fontFamily: font, color: colorScale[`${color}12`], backgroundColor: colorScale[`${color}3`] }}>
                   Call to Action
                 </Button>
               </Box>
@@ -96,13 +96,13 @@ export function LivePreview({ choices }) {
                 textAlign: "center",
               }}
             >
-                <Heading size="8" style={{ color: colorScale[`${color}11`] }}>
+                <Heading size="8" style={{ color: colorScale[`${color}11`], fontFamily: font }}>
                   Welcome to Your Brand
                 </Heading>
                 <Text size="3" color="gray">
                   This is your {mood} brand
                 </Text>
-                <Button size="3" style={{ ...buttonStyles[buttonStyle], color: colorScale[`${color}12`], backgroundColor: colorScale[`${color}3`] }}>
+                <Button size="3" style={{ ...buttonStyles[buttonStyle], fontFamily: font, color: colorScale[`${color}12`], backgroundColor: colorScale[`${color}3`] }}>
                   Call to Action
                 </Button>
               </Box>
@@ -112,21 +112,21 @@ export function LivePreview({ choices }) {
 
         {/* Card Section */}
         <Box style={{ marginBottom: "2rem" }}>
-          <Heading size="6" style={{ marginBottom: "1rem", color: colorScale[`${color}11`] }}>
+          <Heading size="6" style={{ marginBottom: "1rem", fontFamily: font, color: colorScale[`${color}11`] }}>
             Cards
           </Heading>
           <Flex gap="4">
-            <Card style={{ ...cardStyles[cardStyle], backgroundColor: colorScale[`${color}1`] }}>
+            <Card style={{ ...cardStyles[cardStyle], fontFamily: font, backgroundColor: colorScale[`${color}1`] }}>
               <Text size="3" style={{ color: colorScale[`${color}11`] }}>
                 Card 1
               </Text>
             </Card>
-            <Card style={{ ...cardStyles[cardStyle], backgroundColor: colorScale[`${color}2`] }}>
+            <Card style={{ ...cardStyles[cardStyle], fontFamily: font, backgroundColor: colorScale[`${color}2`] }}>
               <Text size="3" style={{ color: colorScale[`${color}11`] }}>
                 Card 2
               </Text>
             </Card>
-            <Card style={{ ...cardStyles[cardStyle], backgroundColor: colorScale[`${color}3`] }}>
+            <Card style={{ ...cardStyles[cardStyle], fontFamily: font, backgroundColor: colorScale[`${color}3`] }}>
               <Text size="3" style={{ color: colorScale[`${color}11`] }}>
                 Card 3
               </Text>
@@ -136,15 +136,15 @@ export function LivePreview({ choices }) {
 
         {/* Feature Section */}
         <Box style={{ marginBottom: "2rem" }}>
-          <Heading size="6" style={{ marginBottom: "1rem", color: colorScale[`${color}11`] }}>
+          <Heading size="6" style={{ marginBottom: "1rem", fontFamily: font, color: colorScale[`${color}11`] }}>
             Features
           </Heading>
           {featureLayout === "grid" && (
             <Flex wrap="wrap" gap="2">
               {[1, 2, 3, 4].map((i) => (
-                <Card key={i} style={{ ...cardStyles[cardStyle], width: "calc(50% - 0.5rem)" }}>
+                <Card key={i} style={{ ...cardStyles[cardStyle], fontFamily: font, width: "calc(50% - 0.5rem)" }}>
                   <Image src="/placeholder.svg" alt="Placeholder" width={50} height={50} />
-                  <Heading size="2" style={{ color: colorScale[`${color}11`] }}>
+                  <Heading size="2" style={{ color: colorScale[`${color}11`], fontFamily: font }}>
                     Feature {i}
                   </Heading>
                   <Text size="1">Description</Text>
@@ -159,7 +159,7 @@ export function LivePreview({ choices }) {
                   <Flex gap="2">
                     <Image src="/placeholder.svg" alt="Placeholder" width={50} height={50} />
                     <Box>
-                      <Heading size="2" style={{ color: colorScale[`${color}11`] }}>
+                      <Heading size="2" style={{ color: colorScale[`${color}11`], fontFamily: font }}>
                         Feature {i}
                       </Heading>
                       <Text size="1">Description</Text>
@@ -176,7 +176,7 @@ export function LivePreview({ choices }) {
                   <Flex gap="2" direction={i % 2 === 0 ? "row-reverse" : "row"}>
                     <Image src="/placeholder.svg" alt="Placeholder" width={100} height={100} />
                     <Box>
-                      <Heading size="2" style={{ color: colorScale[`${color}11`] }}>
+                      <Heading size="2" style={{ color: colorScale[`${color}11`], fontFamily: font }}>
                         Feature {i}
                       </Heading>
                       <Text size="1">Description</Text>
@@ -190,9 +190,9 @@ export function LivePreview({ choices }) {
 
         {/* Color Palette Preview */}
         <Flex direction="column" gap="2">
-          <Text size="2" weight="bold">
+            <Text size="2" weight="bold" style={{ fontFamily: font }}>
             Accessible Color Palette
-          </Text>
+            </Text>
           <Flex gap="1">
             {Object.keys(colorScale).map((key) => (
               <Box key={key} style={{ backgroundColor: colorScale[key], width: "2rem", height: "2rem", borderRadius: "4px" }} />
