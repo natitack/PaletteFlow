@@ -3,6 +3,7 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import * as lightColors from '../components/light';
 import * as darkColors from '../components/dark';
+import  { grayPairs } from '../components/gray';
 
 export function LivePreview({ choices }) {
   const {
@@ -18,13 +19,15 @@ export function LivePreview({ choices }) {
   const [mainColor, setMainColor] = useState(color)
   const [colorScale, setColorScale] = useState(lightColors[color])
   const [darkModeColorScale, setDarkModeColorScale] = useState(darkColors[`${color}Dark`])
+  const [grayColorScale, setGrayColorScale] = useState(lightColors[grayPairs[color] || "gray"])
 
   useEffect(() => {
     setMainColor(color)
     setColorScale(lightColors[color])
-  }, [color])
+    setGrayColorScale(lightColors[grayPairs[color] || "gray"])
+    setDarkModeColorScale(darkColors[`${color}Dark`])
+  }, [color, grayPairs])
 
-  // Rest of the component remains the same...
   const buttonStyles = {
     rounded: { borderRadius: "4px" },
     square: { borderRadius: "0" },
@@ -130,6 +133,17 @@ export function LivePreview({ choices }) {
             ))}
           </Flex>
         </Flex>
+
+        <Flex direction="column" gap="2">
+          <Text size="2" weight="bold">
+          </Text>
+          <Flex gap="1">
+            {Object.keys(grayColorScale).map((key) => (
+              <Box key={key} style={{ backgroundColor: grayColorScale[key], width: "2rem", height: "2rem", borderRadius: "4px" }} />
+            ))}
+          </Flex>
+        </Flex>
+
         
       </Box>
     </Flex>
