@@ -26,3 +26,55 @@ export function MoodStep({ value, onChange }) {
   )
 }
 
+MoodStep.getMoodValues = function(mood) {
+  switch (mood) {
+    case "modern":
+      return {
+        color: "blue",
+        font: "sans-serif",
+        buttonStyle: "square",
+        cardStyle: "raised",
+        heroLayout: "fullWidth",
+        featureLayout: "list",
+      }
+    case "classic":
+      return {
+        color: "red",
+        font: "serif",
+        buttonStyle: "rounded",
+        cardStyle: "flat",
+        heroLayout: "centered",
+        featureLayout: "grid",
+      }
+    case "playful":
+      return {
+        color: "yellow",
+        font: "cursive",
+        buttonStyle: "pill",
+        cardStyle: "shadow",
+        heroLayout: "split",
+        featureLayout: "alternating",
+      }
+    case "elegant":
+      return {
+        color: "purple",
+        font: "serif",
+        buttonStyle: "rounded",
+        cardStyle: "bordered",
+        heroLayout: "centered",
+        featureLayout: "grid",
+      }
+    case "minimalist":
+      return {
+        color: "gray",
+        font: "monospace",
+        buttonStyle: "square",
+        cardStyle: "split",
+        heroLayout: "fullWidth",
+        featureLayout: "list",
+      }
+    default:
+      return {}
+  }
+}
+

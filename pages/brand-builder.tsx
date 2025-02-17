@@ -20,12 +20,9 @@ import * as lightColors from '../components/light';
 import * as darkColors from '../components/dark';
 import  { grayPairs } from '../components/gray';
 
-
-
-
 const STEPS = [
-  { id: "color", component: ColorPickerStep, title: "Color Palette" },
   { id: "mood", component: MoodStep, title: "Brand Personality" },
+  { id: "color", component: ColorPickerStep, title: "Color Palette" },
   { id: "font", component: FontStep, title: "Font Style" },
   { id: "buttonStyle", component: ButtonStyleStep, title: "Button Style" },
   { id: "cardStyle", component: CardStyleStep, title: "Card Style" },
@@ -36,8 +33,6 @@ const STEPS = [
 export default function BrandBuilder() {
   const [currentStep, setCurrentStep] = useState(0)
   const router = useRouter()
-
-
 
   const [choices, setChoices] = useState({
     color: "indigo",
@@ -51,7 +46,12 @@ export default function BrandBuilder() {
 
   const updateChoice = useCallback((key: string, value: string) => {
     setChoices((prev) => {
-      const newChoices = { ...prev, [key]: value }
+      let newChoices = { ...prev, [key]: value }
+      if (key === "mood") {
+        // Assuming the MoodStep component provides the new values for other steps
+        const moodValues = MoodStep.getMoodValues(value)
+        newChoices = { ...newChoices, ...moodValues }
+      }
       localStorage.setItem("brandChoices", JSON.stringify(newChoices)); // Save to localStorage
       console.log("Updated choices:", newChoices) // Debug log
       return newChoices
