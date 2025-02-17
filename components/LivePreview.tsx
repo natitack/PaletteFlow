@@ -16,13 +16,11 @@ export function LivePreview({ choices }) {
     featureLayout = "grid",
   } = choices || {}
 
-  const [mainColor, setMainColor] = useState(color)
   const [colorScale, setColorScale] = useState(lightColors[color])
   const [darkModeColorScale, setDarkModeColorScale] = useState(darkColors[`${color}Dark`])
   const [grayColorScale, setGrayColorScale] = useState(lightColors[grayPairs[color] || "gray"])
 
   useEffect(() => {
-    setMainColor(color)
     setColorScale(lightColors[color])
     setGrayColorScale(lightColors[grayPairs[color] || "gray"])
     setDarkModeColorScale(darkColors[`${color}Dark`])
