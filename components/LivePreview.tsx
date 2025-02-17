@@ -2,6 +2,7 @@ import { Flex, Box, Text, Button, Card, Heading } from "@radix-ui/themes"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import * as lightColors from '../components/light';
+import * as darkColors from '../components/dark';
 
 export function LivePreview({ choices }) {
   const {
@@ -16,6 +17,7 @@ export function LivePreview({ choices }) {
 
   const [mainColor, setMainColor] = useState(color)
   const [colorScale, setColorScale] = useState(lightColors[color])
+  const [darkModeColorScale, setDarkModeColorScale] = useState(darkColors[`${color}Dark`])
 
   useEffect(() => {
     setMainColor(color)
@@ -111,17 +113,24 @@ export function LivePreview({ choices }) {
         {/* Color Palette Preview */}
         <Flex direction="column" gap="2">
           <Text size="2" weight="bold">
-            Color Palette
+            Accessible Color Palette
           </Text>
           <Flex gap="1">
             {Object.keys(colorScale).map((key) => (
               <Box key={key} style={{ backgroundColor: colorScale[key], width: "2rem", height: "2rem", borderRadius: "4px" }} />
             ))}
-
-
-
           </Flex>
         </Flex>
+        <Flex direction="column" gap="2">
+          <Text size="2" weight="bold">
+          </Text>
+          <Flex gap="1">
+            {Object.keys(darkModeColorScale).map((key) => (
+              <Box key={key} style={{ backgroundColor: darkModeColorScale[key], width: "2rem", height: "2rem", borderRadius: "4px" }} />
+            ))}
+          </Flex>
+        </Flex>
+        
       </Box>
     </Flex>
   )
