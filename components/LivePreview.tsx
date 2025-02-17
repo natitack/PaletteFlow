@@ -46,6 +46,7 @@ export function LivePreview({ choices }) {
         Live Preview
       </Text>
       <Box style={{ fontFamily: font }}>
+
         {/* Hero Section */}
         <Box style={{ marginBottom: "2rem" }}>
           {heroLayout === "centered" && (
@@ -105,12 +106,82 @@ export function LivePreview({ choices }) {
           )}
         </Box>
 
+        {/* Card Section */}
+        <Box style={{ marginBottom: "2rem" }}>
+          <Heading size="6" style={{ marginBottom: "1rem", color: colorScale[`${color}11`] }}>
+            Cards
+          </Heading>
+          <Flex gap="4">
+            <Card style={{ ...cardStyles[cardStyle], backgroundColor: colorScale[`${color}1`] }}>
+              <Text size="3" style={{ color: colorScale[`${color}11`] }}>
+                Card 1
+              </Text>
+            </Card>
+            <Card style={{ ...cardStyles[cardStyle], backgroundColor: colorScale[`${color}2`] }}>
+              <Text size="3" style={{ color: colorScale[`${color}11`] }}>
+                Card 2
+              </Text>
+            </Card>
+            <Card style={{ ...cardStyles[cardStyle], backgroundColor: colorScale[`${color}3`] }}>
+              <Text size="3" style={{ color: colorScale[`${color}11`] }}>
+                Card 3
+              </Text>
+            </Card>
+          </Flex>
+        </Box>
+
         {/* Feature Section */}
         <Box style={{ marginBottom: "2rem" }}>
           <Heading size="6" style={{ marginBottom: "1rem", color: colorScale[`${color}11`] }}>
             Features
           </Heading>
-          {/* ... feature layouts ... */}
+          {featureLayout === "grid" && (
+            <Flex wrap="wrap" gap="2">
+              {[1, 2, 3, 4].map((i) => (
+                <Card key={i} style={{ ...cardStyles[cardStyle], width: "calc(50% - 0.5rem)" }}>
+                  <Image src="../components/placeholder.svg" alt="Placeholder" width={50} height={50} />
+                  <Heading size="2" style={{ color: colorScale[`${color}11`] }}>
+                    Feature {i}
+                  </Heading>
+                  <Text size="1">Description</Text>
+                </Card>
+              ))}
+            </Flex>
+          )}
+          {featureLayout === "list" && (
+            <Flex direction="column" gap="2">
+              {[1, 2, 3].map((i) => (
+                <Card key={i} style={{ ...cardStyles[cardStyle] }}>
+                  <Flex gap="2">
+                    <Image src="../components/placeholder.svg" alt="Placeholder" width={50} height={50} />
+                    <Box>
+                      <Heading size="2" style={{ color: colorScale[`${color}11`] }}>
+                        Feature {i}
+                      </Heading>
+                      <Text size="1">Description</Text>
+                    </Box>
+                  </Flex>
+                </Card>
+              ))}
+            </Flex>
+          )}
+          {featureLayout === "alternating" && (
+            <Flex direction="column" gap="2">
+              {[1, 2].map((i) => (
+                <Card key={i} style={{ ...cardStyles[cardStyle] }}>
+                  <Flex gap="2" direction={i % 2 === 0 ? "row-reverse" : "row"}>
+                    <Image src="../components/placeholder.svg" alt="Placeholder" width={100} height={100} />
+                    <Box>
+                      <Heading size="2" style={{ color: colorScale[`${color}11`] }}>
+                        Feature {i}
+                      </Heading>
+                      <Text size="1">Description</Text>
+                    </Box>
+                  </Flex>
+                </Card>
+              ))}
+            </Flex>
+          )}
         </Box>
 
         {/* Color Palette Preview */}

@@ -28,7 +28,7 @@ export function FeatureLayoutStep({ value, onChange }) {
                 <Flex wrap="wrap" gap="2">
                   {[1, 2, 3, 4].map((i) => (
                     <Box key={i} style={{ width: "calc(50% - 0.5rem)" }}>
-                      <Image src="/placeholder.svg" alt="Placeholder" width={50} height={50} />
+                      <Image src="/components/steps/placeholder.svg" alt="Placeholder" width={50} height={50} />
                       <Heading size="2">Feature {i}</Heading>
                       <Text size="1">Description</Text>
                     </Box>
