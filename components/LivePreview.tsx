@@ -139,7 +139,7 @@ export function LivePreview({ choices }) {
             <Flex wrap="wrap" gap="2">
               {[1, 2, 3, 4].map((i) => (
                 <Card key={i} style={{ ...cardStyles[cardStyle], width: "calc(50% - 0.5rem)" }}>
-                  <Image src="../components/placeholder.svg" alt="Placeholder" width={50} height={50} />
+                  <Image src="/placeholder.svg" alt="Placeholder" width={50} height={50} />
                   <Heading size="2" style={{ color: colorScale[`${color}11`] }}>
                     Feature {i}
                   </Heading>
@@ -153,7 +153,7 @@ export function LivePreview({ choices }) {
               {[1, 2, 3].map((i) => (
                 <Card key={i} style={{ ...cardStyles[cardStyle] }}>
                   <Flex gap="2">
-                    <Image src="../components/placeholder.svg" alt="Placeholder" width={50} height={50} />
+                    <Image src="/placeholder.svg" alt="Placeholder" width={50} height={50} />
                     <Box>
                       <Heading size="2" style={{ color: colorScale[`${color}11`] }}>
                         Feature {i}
@@ -170,7 +170,7 @@ export function LivePreview({ choices }) {
               {[1, 2].map((i) => (
                 <Card key={i} style={{ ...cardStyles[cardStyle] }}>
                   <Flex gap="2" direction={i % 2 === 0 ? "row-reverse" : "row"}>
-                    <Image src="../components/placeholder.svg" alt="Placeholder" width={100} height={100} />
+                    <Image src="/placeholder.svg" alt="Placeholder" width={100} height={100} />
                     <Box>
                       <Heading size="2" style={{ color: colorScale[`${color}11`] }}>
                         Feature {i}
