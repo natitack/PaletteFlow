@@ -30,7 +30,6 @@ MoodStep.getMoodValues = function(mood) {
   switch (mood) {
     case "modern":
       return {
-        color: "blue",
         font: "sans-serif",
         buttonStyle: "square",
         cardStyle: "raised",
@@ -39,7 +38,6 @@ MoodStep.getMoodValues = function(mood) {
       }
     case "classic":
       return {
-        color: "red",
         font: "serif",
         buttonStyle: "rounded",
         cardStyle: "flat",
@@ -48,7 +46,6 @@ MoodStep.getMoodValues = function(mood) {
       }
     case "playful":
       return {
-        color: "yellow",
         font: "cursive",
         buttonStyle: "pill",
         cardStyle: "shadow",
@@ -57,7 +54,6 @@ MoodStep.getMoodValues = function(mood) {
       }
     case "elegant":
       return {
-        color: "purple",
         font: "serif",
         buttonStyle: "rounded",
         cardStyle: "bordered",
@@ -66,7 +62,6 @@ MoodStep.getMoodValues = function(mood) {
       }
     case "minimalist":
       return {
-        color: "gray",
         font: "monospace",
         buttonStyle: "square",
         cardStyle: "split",
