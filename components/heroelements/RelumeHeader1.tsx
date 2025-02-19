@@ -1,5 +1,4 @@
-import { Button } from "@relume_io/relume-ui";
-import type { ButtonProps } from "@relume_io/relume-ui";
+import { Button} from "@radix-ui/themes"
 
 type ImageProps = {
   src: string;
@@ -9,7 +8,7 @@ type ImageProps = {
 type Props = {
   heading: string;
   description: string;
-  buttons: ButtonProps[];
+  buttons: { title: string; variant?: "primary" | "secondary" }[];
   image: ImageProps;
 };
 
@@ -29,7 +28,7 @@ export const Header1 = (props: Header1Props) => {
             <p className="md:text-md">{description}</p>
             <div className="mt-6 flex flex-wrap gap-4 md:mt-8">
               {buttons.map((button, index) => (
-                <Button key={index} {...button}>
+                <Button key={index} variant={button.variant === "primary" ? "solid" : button.variant === "secondary" ? "outline" : undefined}>
                   {button.title}
                 </Button>
               ))}
