@@ -97,7 +97,7 @@ export default function BrandBuilder() {
           className="h-full transition-all duration-300 ease-in-out"
           style={{ 
         width: `${((currentStep + 1) / STEPS.length) * 100}%`,
-        backgroundColor: colorScale[`${choices.color}9`]
+        
           }}
         />
       </div>
@@ -127,21 +127,18 @@ export default function BrandBuilder() {
             <Button 
               onClick={handlePrevious} 
               disabled={currentStep === 0} 
-              style={{ backgroundColor: colorScale[`${choices.color}9`], color: grayColorScale[`${choices.color}11`] }}
             >
               Previous
             </Button>
             {currentStep === STEPS.length - 1 ? (
               <Button 
               onClick={handleFinish} 
-              style={{ backgroundColor: colorScale[`${choices.color}9`], color: grayColorScale[`${choices.color}11`] }}
               >
               Finish
               </Button>
             ) : (
               <Button 
               onClick={handleNext} 
-              style={{ backgroundColor: colorScale[`${choices.color}9`], color: grayColorScale[`${choices.color}11`] }}
               >
               Next
               </Button>
