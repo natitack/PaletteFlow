@@ -16,6 +16,8 @@ import { Button, Flex, Text } from "@radix-ui/themes"
 import { motion, AnimatePresence } from "framer-motion"
 
 import { useColorScales } from "../hooks/useColorScales";
+import themeManager from '../lib/themeManager';
+
 
 const STEPS = [
   { id: "mood", component: MoodStep, title: "Brand Personality" },
@@ -48,6 +50,10 @@ export default function BrandBuilder() {
         // Assuming the MoodStep component provides the new values for other steps
         const moodValues = MoodStep.getMoodValues(value)
         newChoices = { ...newChoices, ...moodValues }
+      }
+      if (key === "color") {
+        // Update the theme
+        themeManager.setTheme(value);
       }
       localStorage.setItem("brandChoices", JSON.stringify(newChoices)); // Save to localStorage
       console.log("Updated choices:", newChoices) // Debug log
