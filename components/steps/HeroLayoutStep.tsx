@@ -1,11 +1,14 @@
 import { Flex, Text, RadioGroup, Box, Heading, Button } from "@radix-ui/themes"
 import Image from "next/image"
 import { useState } from "react"
+import { Header1} from "../heroelements/RelumeHeader1"
 
 const heroLayouts = [
   { value: "centered", label: "Centered", component: heroCentered },
   { value: "split", label: "Split", component: heroSplit },
   { value: "fullWidth", label: "Full Width", component: heroFullwidth },
+  { value: "header1", label: "Header 1", component: () => <Header1 /> },
+
 ]
 
 function heroCentered() {

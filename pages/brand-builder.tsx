@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/router"
 
-//import { ColorPalette } from "../components/ColorPalette copy"
 import { ColorPickerStep } from "../components/steps/ColorPickerStep"
 import { MoodStep } from "../components/steps/MoodStep"
 import { FontStep } from "../components/steps/FontStep"
@@ -16,9 +15,7 @@ import { LivePreview } from "../components/LivePreview"
 import { Button, Flex, Text } from "@radix-ui/themes"
 import { motion, AnimatePresence } from "framer-motion"
 
-import * as lightColors from '../components/light';
-import * as darkColors from '../components/dark';
-import  { grayPairs } from '../components/gray';
+import { useColorScales } from "../hooks/useColorScales";
 
 const STEPS = [
   { id: "mood", component: MoodStep, title: "Brand Personality" },
@@ -58,17 +55,8 @@ export default function BrandBuilder() {
     })
   }, [])
 
-  const [colorScale, setColorScale] = useState(lightColors[choices.color])
-  const [darkModeColorScale, setDarkModeColorScale] = useState(darkColors[`${choices.color}Dark`])
-  const [grayColorScale, setGrayColorScale] = useState(lightColors[grayPairs[choices.color] || "gray"])
-  const [darkGrayColorScale, setDarkGrayColorScale] = useState(darkColors[`${grayPairs[choices.color]}Dark`]|| "grayDark")
+  const { colorScale, darkModeColorScale, grayColorScale, darkGrayColorScale } = useColorScales(choices.color);
 
-  useEffect(() => {
-    setColorScale(lightColors[choices.color])
-    setGrayColorScale(lightColors[grayPairs[choices.color] || "gray"])
-    setDarkGrayColorScale(darkColors[`${grayPairs[choices.color]}Dark`]|| "grayDark")
-    setDarkModeColorScale(darkColors[`${choices.color}Dark`])
-  }, [choices.color, grayPairs])
 
   const CurrentStepComponent = STEPS[currentStep].component
   const currentStepId = STEPS[currentStep].id

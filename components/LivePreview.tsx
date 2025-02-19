@@ -1,9 +1,9 @@
 import { Flex, Box, Text, Button, Card, Heading } from "@radix-ui/themes"
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import * as lightColors from '../components/light';
-import * as darkColors from '../components/dark';
-import  { grayPairs } from '../components/gray';
+import { useColorScales } from "../hooks/useColorScales";
+
+import { Header1 } from "../components/heroelements/RelumeHeader1"
 
 export function LivePreview({ choices }) {
   const {
@@ -15,18 +15,9 @@ export function LivePreview({ choices }) {
     heroLayout = "centered",
     featureLayout = "grid",
   } = choices || {}
+  
+  const { colorScale, darkModeColorScale, grayColorScale, darkGrayColorScale } = useColorScales(color);
 
-  const [colorScale, setColorScale] = useState(lightColors[color])
-  const [darkModeColorScale, setDarkModeColorScale] = useState(darkColors[`${color}Dark`])
-  const [grayColorScale, setGrayColorScale] = useState(lightColors[grayPairs[color] || "gray"])
-  const [darkGrayColorScale, setDarkGrayColorScale] = useState(darkColors[`${grayPairs[color]}Dark`]|| "grayDark")
-
-  useEffect(() => {
-    setColorScale(lightColors[color])
-    setGrayColorScale(lightColors[grayPairs[color] || "gray"])
-    setDarkGrayColorScale(darkColors[`${grayPairs[color]}Dark`]|| "grayDark")
-    setDarkModeColorScale(darkColors[`${color}Dark`])
-  }, [color, grayPairs])
 
   const buttonStyles = {
     rounded: { borderRadius: "4px" },
@@ -107,6 +98,9 @@ export function LivePreview({ choices }) {
                 </Button>
               </Box>
             </Box>
+          )}
+          {heroLayout === "header1" && (
+            <Header1 />
           )}
         </Box>
 
