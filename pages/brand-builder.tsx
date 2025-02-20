@@ -22,11 +22,11 @@ import themeManager from '../lib/themeManager';
 const STEPS = [
   { id: "mood", component: MoodStep, title: "Brand Personality" },
   { id: "color", component: ColorPickerStep, title: "Color Palette" },
+  { id: "heroLayout", component: HeroLayoutStep, title: "Hero Layout" },
+  { id: "featureLayout", component: FeatureLayoutStep, title: "Feature Layout" },
   { id: "font", component: FontStep, title: "Font Style" },
   { id: "buttonStyle", component: ButtonStyleStep, title: "Button Style" },
   { id: "cardStyle", component: CardStyleStep, title: "Card Style" },
-  { id: "heroLayout", component: HeroLayoutStep, title: "Hero Layout" },
-  { id: "featureLayout", component: FeatureLayoutStep, title: "Feature Layout" },
 ]
 
 export default function BrandBuilder() {

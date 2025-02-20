@@ -38,7 +38,7 @@ MoodStep.getMoodValues = function(mood) {
     case "modern":
       return {
         font: fontMap["Roboto"],
-        buttonStyle: "square",
+        buttonStyle: "medium",
         cardStyle: "raised",
         heroLayout: "fullWidth",
         featureLayout: "list",
@@ -46,7 +46,7 @@ MoodStep.getMoodValues = function(mood) {
     case "classic":
       return {
         font: fontMap["Source Serif 4"],
-        buttonStyle: "rounded",
+        buttonStyle: "none",
         cardStyle: "flat",
         heroLayout: "centered",
         featureLayout: "grid",
@@ -54,7 +54,7 @@ MoodStep.getMoodValues = function(mood) {
     case "playful":
       return {
         font: fontMap["Fredoka"],
-        buttonStyle: "pill",
+        buttonStyle: "full",
         cardStyle: "shadow",
         heroLayout: "split",
         featureLayout: "alternating",
@@ -62,7 +62,7 @@ MoodStep.getMoodValues = function(mood) {
     case "elegant":
       return {
         font: fontMap["Labrada"],
-        buttonStyle: "rounded",
+        buttonStyle: "medium",
         cardStyle: "bordered",
         heroLayout: "centered",
         featureLayout: "grid",
@@ -70,7 +70,7 @@ MoodStep.getMoodValues = function(mood) {
     case "minimalist":
       return {
         font: fontMap["Reddit Mono"],
-        buttonStyle: "square",
+        buttonStyle: "small",
         cardStyle: "split",
         heroLayout: "fullWidth",
         featureLayout: "list",

@@ -1,9 +1,11 @@
 import { Flex, Text, RadioGroup, Button } from "@radix-ui/themes"
 
 const buttonStyles = [
-  { value: "rounded", label: "Rounded" },
-  { value: "square", label: "Square" },
-  { value: "pill", label: "Pill" },
+  { value: "none", label: "none" },
+  { value: "small", label: "Small " },
+  { value: "medium", label: "Medium " },
+  { value: "large", label: "Large " },
+  { value: "full", label: "Full " },
 ]
 
 export function ButtonStyleStep({ value, onChange }) {
@@ -16,11 +18,7 @@ export function ButtonStyleStep({ value, onChange }) {
         {buttonStyles.map((style) => (
           <Flex key={style.value} align="center" gap="2">
             <RadioGroup.Item value={style.value} />
-            <Button
-              style={{
-                borderRadius: style.value === "rounded" ? "4px" : style.value === "square" ? "0" : "9999px",
-              }}
-            >
+            <Button radius={style.value as "none" | "small" | "medium" | "large" | "full"}>
               {style.label}
             </Button>
           </Flex>
@@ -29,4 +27,3 @@ export function ButtonStyleStep({ value, onChange }) {
     </Flex>
   )
 }
-
