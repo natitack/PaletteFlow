@@ -93,13 +93,13 @@ export default function BrandBuilder() {
   return (
     <Flex direction="column" gap="4" className="min-h-screen bg-gray-50 p-8">
       <div className="h-1 w-full bg-gray-200 rounded-full overflow-hidden">
-        <div
-          className="h-full transition-all duration-300 ease-in-out"
-          style={{ 
+      <div
+        className="h-full transition-all duration-300 ease-in-out"
+        style={{ 
+        backgroundColor: colorScale[`${choices.color}9`],
         width: `${((currentStep + 1) / STEPS.length) * 100}%`,
-        
-          }}
-        />
+        }}
+      />
       </div>
 
       <Text size="5" weight="bold">
