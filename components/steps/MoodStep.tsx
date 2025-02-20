@@ -1,4 +1,5 @@
 import { Flex, Text, RadioGroup } from "@radix-ui/themes"
+import { useFontOptions } from "../../hooks/useFontOptions"
 
 const moodOptions = [
   { value: "modern", label: "Modern" },
@@ -27,10 +28,16 @@ export function MoodStep({ value, onChange }) {
 }
 
 MoodStep.getMoodValues = function(mood) {
+  const fontOptions = useFontOptions()
+  const fontMap = fontOptions.reduce((acc, option) => {
+    acc[option.label] = option.value
+    return acc
+  }, {})
+
   switch (mood) {
     case "modern":
       return {
-        font: "sans-serif",
+        font: fontMap["Roboto"],
         buttonStyle: "square",
         cardStyle: "raised",
         heroLayout: "fullWidth",
@@ -38,7 +45,7 @@ MoodStep.getMoodValues = function(mood) {
       }
     case "classic":
       return {
-        font: "serif",
+        font: fontMap["Source Serif 4"],
         buttonStyle: "rounded",
         cardStyle: "flat",
         heroLayout: "centered",
@@ -46,7 +53,7 @@ MoodStep.getMoodValues = function(mood) {
       }
     case "playful":
       return {
-        font: "cursive",
+        font: fontMap["Fredoka"],
         buttonStyle: "pill",
         cardStyle: "shadow",
         heroLayout: "split",
@@ -54,7 +61,7 @@ MoodStep.getMoodValues = function(mood) {
       }
     case "elegant":
       return {
-        font: "serif",
+        font: fontMap["Labrada"],
         buttonStyle: "rounded",
         cardStyle: "bordered",
         heroLayout: "centered",
@@ -62,7 +69,7 @@ MoodStep.getMoodValues = function(mood) {
       }
     case "minimalist":
       return {
-        font: "monospace",
+        font: fontMap["Reddit Mono"],
         buttonStyle: "square",
         cardStyle: "split",
         heroLayout: "fullWidth",

@@ -5,6 +5,7 @@
 import Link from "next/link"
 import Button from '../components/Button'
 
+
 function throwError() {
   console.log(
     // The function body() is not defined

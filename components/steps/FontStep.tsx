@@ -1,16 +1,11 @@
 import { Flex, Text, Select } from "@radix-ui/themes"
-import { Author, Roboto, Open_Sans } from 'next/font/google'
+import { Work_Sans, Inclusive_Sans, Labrada, Fira_Code, Inria_Sans, Source_Serif_4, Fredoka, Roboto, Open_Sans, Reddit_Mono } from '@next/font/google'
+import { useFontOptions } from "../../hooks/useFontOptions"
 
-
-const fontOptions = [
-  { value: "system-ui", label: "System UI" },
-  { value: "serif", label: "Serif" },
-  { value: "sans-serif", label: "Sans Serif" },
-  { value: "monospace", label: "Monospace" },
-  { value: "cursive", label: "Cursive" },
-]
 
 export function FontStep({ value, onChange }) {
+  const fontOptions = useFontOptions()
+
   return (
     <Flex direction="column" gap="4">
       <Text size="5" weight="bold">
@@ -21,12 +16,12 @@ export function FontStep({ value, onChange }) {
         <Select.Content>
           {fontOptions.map((option) => (
             <Select.Item key={option.value} value={option.value}>
-              {option.label}
+              {option.value}
             </Select.Item>
           ))}
         </Select.Content>
       </Select.Root>
-      <Text size="3" style={{ fontFamily: value }}>
+      <Text size="3" className={value}>
         This is a sample text in the selected font.
       </Text>
     </Flex>

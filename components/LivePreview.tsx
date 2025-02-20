@@ -2,7 +2,6 @@ import { Flex, Box, Text, Button, Card, Heading } from "@radix-ui/themes"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import { useColorScales } from "../hooks/useColorScales";
-
 import { Header1 } from "../components/heroelements/RelumeHeader1"
 import { CenteredHero, SplitHero, FullWidthHero } from "../components/heroelements/OldHeaders"
 
@@ -38,7 +37,7 @@ export function LivePreview({ choices }) {
       <Text size="5" weight="bold">
         Live Preview
       </Text>
-      <Box style={{ fontFamily: font }}>
+      <Box className={font}>
 
         {/* Hero Section */}
         <Box style={{ marginBottom: "2rem" }}>
@@ -58,21 +57,21 @@ export function LivePreview({ choices }) {
 
         {/* Card Section */}
         <Box style={{ marginBottom: "2rem" }}>
-          <Heading size="6" style={{ marginBottom: "1rem", fontFamily: font }}>
+          <Heading size="6" style={{ marginBottom: "1rem" }} className={font}>
             Cards
           </Heading>
           <Flex gap="4">
-            <Card style={{ ...cardStyles[cardStyle], fontFamily: font}}>
+            <Card style={{ ...cardStyles[cardStyle] }} className={font}>
               <Text size="3" style={{ color: colorScale[`${color}11`] }}>
                 Card 1
               </Text>
             </Card>
-            <Card style={{ ...cardStyles[cardStyle], fontFamily: font}}>
+            <Card style={{ ...cardStyles[cardStyle] }} className={font}>
               <Text size="3" style={{ color: colorScale[`${color}11`] }}>
                 Card 2
               </Text>
             </Card>
-            <Card style={{ ...cardStyles[cardStyle], fontFamily: font}}>
+            <Card style={{ ...cardStyles[cardStyle] }} className={font}>
               <Text size="3" style={{ color: colorScale[`${color}11`] }}>
                 Card 3
               </Text>
@@ -82,15 +81,15 @@ export function LivePreview({ choices }) {
 
         {/* Feature Section */}
         <Box style={{ marginBottom: "2rem" }}>
-          <Heading size="6" style={{ marginBottom: "1rem", fontFamily: font }}>
+          <Heading size="6" style={{ marginBottom: "1rem" }} className={font}>
             Features
           </Heading>
           {featureLayout === "grid" && (
             <Flex wrap="wrap" gap="2">
               {[1, 2, 3, 4].map((i) => (
-                <Card key={i} style={{ ...cardStyles[cardStyle], fontFamily: font, width: "calc(50% - 0.5rem)" }}>
+                <Card key={i} style={{ ...cardStyles[cardStyle], width: "calc(50% - 0.5rem)" }} className={font}>
                   <Image src="/placeholder.svg" alt="Placeholder" width={50} height={50} />
-                  <Heading size="2" style={{  fontFamily: font }}>
+                  <Heading size="2" className={font}>
                     Feature {i}
                   </Heading>
                   <Text size="1">Description</Text>
@@ -101,11 +100,11 @@ export function LivePreview({ choices }) {
           {featureLayout === "list" && (
             <Flex direction="column" gap="2">
               {[1, 2, 3].map((i) => (
-                <Card key={i} style={{ ...cardStyles[cardStyle] }}>
+                <Card key={i} style={{ ...cardStyles[cardStyle] }} className={font}>
                   <Flex gap="2">
                     <Image src="/placeholder.svg" alt="Placeholder" width={50} height={50} />
                     <Box>
-                      <Heading size="2" style={{  fontFamily: font }}>
+                      <Heading size="2" className={font}>
                         Feature {i}
                       </Heading>
                       <Text size="1">Description</Text>
@@ -118,11 +117,11 @@ export function LivePreview({ choices }) {
           {featureLayout === "alternating" && (
             <Flex direction="column" gap="2">
               {[1, 2].map((i) => (
-                <Card key={i} style={{ ...cardStyles[cardStyle] }}>
+                <Card key={i} style={{ ...cardStyles[cardStyle] }} className={font}>
                   <Flex gap="2" direction={i % 2 === 0 ? "row-reverse" : "row"}>
                     <Image src="/placeholder.svg" alt="Placeholder" width={100} height={100} />
                     <Box>
-                      <Heading size="2" style={{  fontFamily: font }}>
+                      <Heading size="2" className={font}>
                         Feature {i}
                       </Heading>
                       <Text size="1">Description</Text>
@@ -136,7 +135,7 @@ export function LivePreview({ choices }) {
 
         {/* Color Palette Preview */}
         <Flex direction="column" gap="2">
-            <Text size="2" weight="bold" style={{ fontFamily: font }}>
+            <Text size="2" weight="bold" className={font}>
             Accessible Color Palette
             </Text>
           <Flex gap="1">
