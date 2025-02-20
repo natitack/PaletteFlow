@@ -11,7 +11,7 @@ export function LivePreview({ choices }) {
     color = "indigo", // Default indigo color
     mood = "modern",
     font = "system-ui",
-    buttonStyle = "rounded",
+    buttonStyle = "full",
     cardStyle = "flat",
     heroLayout = "centered",
     featureLayout = "grid",
@@ -19,12 +19,6 @@ export function LivePreview({ choices }) {
 
   const { colorScale, darkModeColorScale, grayColorScale, darkGrayColorScale } = useColorScales(color);
 
-
-  const buttonStyles = {
-    rounded: { borderRadius: "4px" },
-    square: { borderRadius: "0" },
-    pill: { borderRadius: "9999px" },
-  }
 
   const cardStyles = {
     flat: {},
@@ -37,7 +31,7 @@ export function LivePreview({ choices }) {
       <Text size="5" weight="bold">
         Live Preview
       </Text>
-      <Box className={font}>
+<Box className={font}>
 
         {/* Hero Section */}
         <Box style={{ marginBottom: "2rem" }}>

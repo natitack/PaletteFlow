@@ -1,4 +1,4 @@
-import { Work_Sans, Inclusive_Sans, Labrada, Fira_Code, Inria_Sans, Source_Serif_4, Fredoka, Roboto, Open_Sans, Reddit_Mono } from '@next/font/google'
+import { Work_Sans, Inclusive_Sans, Labrada, Fira_Code, Inria_Sans, Source_Serif_4, Fredoka, Roboto, Open_Sans, Reddit_Mono, } from '@next/font/google'
 
 const workSans = Work_Sans({ subsets: ['latin'] })
 const inclusiveSans = Inclusive_Sans({
@@ -19,7 +19,10 @@ const roboto = Roboto({
   weight: "400"
 })
 const openSans = Open_Sans({ subsets: ['latin'] })
-const redditMono = Reddit_Mono({ subsets: ['latin'] })
+const redditMono = Reddit_Mono({
+  subsets: ['latin'],
+  weight: "400"
+})
 
 const fontOptions = [
   { value: workSans.className, label: "Work Sans" },
