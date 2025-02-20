@@ -4,7 +4,7 @@ import "@radix-ui/themes/styles.css" // Ensure styles are imported
 import themeManager from '../lib/themeManager';
 import { useTheme } from '../lib/useTheme';
 import { useEffect } from 'react';
-import { Work_Sans, Inclusive_Sans, Labrada, Fira_Code, Inria_Sans, Source_Serif_4, Fredoka, Roboto, Open_Sans, Reddit_Mono } from '@next/font/google'
+import { Work_Sans, Inclusive_Sans, Labrada, Fira_Code, Inria_Sans, Source_Serif_4, Fredoka, Roboto, Open_Sans, Reddit_Mono } from "next/font/google"
 
 const workSans = Work_Sans({ subsets: ['latin'] })
 const inclusiveSans = Inclusive_Sans({ subsets: ['latin'], style: 'normal', weight: "400" })

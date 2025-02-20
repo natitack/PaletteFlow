@@ -1,4 +1,4 @@
-import { Work_Sans, Inclusive_Sans, Labrada, Fira_Code, Inria_Sans, Source_Serif_4, Fredoka, Roboto, Open_Sans, Reddit_Mono, } from '@next/font/google'
+import { Work_Sans, Inclusive_Sans, Labrada, Fira_Code, Inria_Sans, Source_Serif_4, Fredoka, Roboto, Open_Sans, Reddit_Mono, } from "next/font/google"
 
 const workSans = Work_Sans({ subsets: ['latin'] })
 const inclusiveSans = Inclusive_Sans({

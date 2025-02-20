@@ -1,5 +1,5 @@
 import { Flex, Text, Select } from "@radix-ui/themes"
-import { Work_Sans, Inclusive_Sans, Labrada, Fira_Code, Inria_Sans, Source_Serif_4, Fredoka, Roboto, Open_Sans, Reddit_Mono } from '@next/font/google'
+import { Work_Sans, Inclusive_Sans, Labrada, Fira_Code, Inria_Sans, Source_Serif_4, Fredoka, Roboto, Open_Sans, Reddit_Mono } from "next/font/google"
 import { useFontOptions } from "../../hooks/useFontOptions"
 
 
