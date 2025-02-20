@@ -16,7 +16,7 @@ export function FontStep({ value, onChange }) {
         <Select.Content>
           {fontOptions.map((option) => (
             <Select.Item key={option.value} value={option.value}>
-              {option.value}
+              {option.label}
             </Select.Item>
           ))}
         </Select.Content>
