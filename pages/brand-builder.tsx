@@ -107,7 +107,7 @@ export default function BrandBuilder() {
       </Text>
 
       <Flex gap="8">
-        <Flex direction="column" className="w-1/2">
+        <Flex direction="column" className="w-1/4">
             <AnimatePresence mode="wait">
             <motion.div
               key={currentStep}

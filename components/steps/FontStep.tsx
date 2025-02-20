@@ -1,4 +1,6 @@
 import { Flex, Text, Select } from "@radix-ui/themes"
+import { Author, Roboto, Open_Sans } from 'next/font/google'
+
 
 const fontOptions = [
   { value: "system-ui", label: "System UI" },
