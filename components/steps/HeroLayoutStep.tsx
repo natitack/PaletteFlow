@@ -2,60 +2,15 @@ import { Flex, Text, RadioGroup, Box, Heading, Button } from "@radix-ui/themes"
 import Image from "next/image"
 import { useState } from "react"
 import { Header1} from "../heroelements/RelumeHeader1"
+import { CenteredHero, SplitHero, FullWidthHero } from "../heroelements/OldHeaders"
 
 const heroLayouts = [
-  { value: "centered", label: "Centered", component: heroCentered },
-  { value: "split", label: "Split", component: heroSplit },
-  { value: "fullWidth", label: "Full Width", component: heroFullwidth },
-  { value: "header1", label: "Header 1", component: () => <Header1 /> },
+  { value: "centered", label: "Centered", component: CenteredHero },
+  { value: "split", label: "Split", component: SplitHero },
+  { value: "fullWidth", label: "Full Width", component: FullWidthHero },
+  { value: "header1", label: "Header 1", component: (props) => <Header1 {...props} /> },
 
 ]
-
-function heroCentered() {
-  return (
-    <Flex direction="column" align="center" gap="2">
-      <Heading size="4">Centered Hero</Heading>
-      <Text>Subtitle text goes here</Text>
-      <Button>Call to Action</Button>
-    </Flex>
-  )
-}
-
-function heroSplit() {
-  return (
-    <Flex>
-      <Box style={{ width: "50%" }}>
-        <Heading size="4">Split Hero</Heading>
-        <Text>Subtitle text goes here</Text>
-        <Button>Call to Action</Button>
-      </Box>
-      <Box style={{ width: "50%" }}>
-        <Image src="/placeholder.svg" alt="Placeholder" width={200} height={100} />
-      </Box>
-    </Flex>
-  )
-}
-
-function heroFullwidth() {
-  return (
-    <Box style={{ position: "relative", height: "150px" }}>
-      <Image src="/placeholder.svg" alt="Placeholder" layout="fill" objectFit="cover" />
-      <Box
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          textAlign: "center",
-        }}
-      >
-        <Heading size="4">Full Width Hero</Heading>
-        <Text>Subtitle text goes here</Text>
-        <Button>Call to Action</Button>
-      </Box>
-    </Box>
-  )
-}
 
 export function HeroLayoutStep({ value, onChange }) {
   const [selectedLayout, setSelectedLayout] = useState(value);
@@ -81,7 +36,7 @@ export function HeroLayoutStep({ value, onChange }) {
                 borderRadius: "4px",
               }}
             >
-              <layout.component/>               
+              <layout.component choices={[]} />                     
             </Box>
           </Flex>
         ))}

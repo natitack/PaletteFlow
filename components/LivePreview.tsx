@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import { useColorScales } from "../hooks/useColorScales";
 
 import { Header1 } from "../components/heroelements/RelumeHeader1"
+import { CenteredHero, SplitHero, FullWidthHero } from "../components/heroelements/OldHeaders"
+
 
 export function LivePreview({ choices }) {
   const {
@@ -41,63 +43,13 @@ export function LivePreview({ choices }) {
         {/* Hero Section */}
         <Box style={{ marginBottom: "2rem" }}>
           {heroLayout === "centered" && (
-            <Flex direction="column" align="center" gap="2">
-                <Heading size="8" style={{  fontFamily: font }}>
-                Welcome to Your Brand
-                </Heading>
-              <Text size="3" color="gray">
-                This is your {mood} brand
-              </Text>
-              <Button size="3" style={{ ...buttonStyles[buttonStyle], fontFamily: font}}>
-                Call to Action
-              </Button>
-            </Flex>
+            <CenteredHero choices={choices} />
           )}
-
           {heroLayout === "split" && (
-            <Flex>
-              <Box style={{ width: "50%" }}>
-                <Heading size="8" style={{ color: colorScale[`${color}11`] , fontFamily: font}}>
-                  Welcome to Your Brand
-                </Heading>
-                <Text size="3" color="gray">
-                  This is your {mood} brand
-                </Text>
-              </Box>
-              <Box style={{ width: "50%" }}>
-                <Button size="3" style={{ ...buttonStyles[buttonStyle], fontFamily: font}}>
-                  Call to Action
-                </Button>
-              </Box>
-              <Box style={{ width: "50%" }}>
-                <Image src="/placeholder.svg" alt="Placeholder" width={200} height={100} />
-              </Box>
-            </Flex>
+            <SplitHero choices={choices} />
           )}
-
           {heroLayout === "fullWidth" && (
-            <Box style={{ position: "relative", height: "200px" }}>
-            <Image src="/placeholder.svg" alt="Placeholder" layout="fill" objectFit="cover" />
-            <Box
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                textAlign: "center",
-              }}
-            >
-                <Heading size="8" style={{  fontFamily: font }}>
-                  Welcome to Your Brand
-                </Heading>
-                <Text size="3" color="gray">
-                  This is your {mood} brand
-                </Text>
-                <Button size="3" style={{ ...buttonStyles[buttonStyle], fontFamily: font}}>
-                  Call to Action
-                </Button>
-              </Box>
-            </Box>
+            <FullWidthHero choices={choices} />
           )}
           {heroLayout === "header1" && (
             <Header1 />
