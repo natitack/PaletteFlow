@@ -146,7 +146,7 @@ export default function BrandBuilder() {
             </Flex>
           </Flex>
 
-        <div className="w-1/2">
+        <div className="w-3/4">
           <LivePreview choices={choices} />
         </div>
       </Flex>
