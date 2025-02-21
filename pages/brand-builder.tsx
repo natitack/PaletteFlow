@@ -11,7 +11,7 @@ import { CardStyleStep } from "../components/steps/CardStyleStep"
 import { HeroLayoutStep } from "../components/steps/HeroLayoutStep"
 import { FeatureLayoutStep } from "../components/steps/FeatureLayoutStep"
 
-import { LivePreview } from "../components/LivePreview"
+import { LivePreview } from "../components/live-preview"
 import { Button, Flex, Text } from "@radix-ui/themes"
 import { motion, AnimatePresence } from "framer-motion"
 
