@@ -17,7 +17,7 @@ export default function Deliverable() {
     cardStyle: "flat",
     heroLayout: "centered",
     featureLayout: "grid"
-  }) // ✅ Default values prevent undefined errors
+  }) 
   const [darkMode, setDarkMode] = useState(false)
 
   useEffect(() => {
@@ -34,7 +34,6 @@ export default function Deliverable() {
     }
   }, [])
 
-  // ✅ Ensure `useColorScales` always returns an object
   const { colorScale = {}, darkModeColorScale = {} } = useColorScales(brandChoices.color) || {}
 
   if (!canAccess) return <p className="text-center mt-10">Redirecting...</p>
@@ -44,7 +43,7 @@ export default function Deliverable() {
       {/* Header */}
       <header className="p-6 border-b flex justify-between items-center">
         <Text size="6" weight="bold">Brand Style Guide</Text>
-        <Button onClick={() => setDarkMode(!darkMode)}>Toggle {darkMode ? "Light" : "Dark"} Mode</Button>
+        <Button onClick={() => setDarkMode(!darkMode)}>Try {darkMode ? "Light" : "Dark"} Mode</Button>
       </header>
 
       <main className="p-8 space-y-12">
@@ -100,6 +99,12 @@ export default function Deliverable() {
           </Flex>
         </section>
       </main>
+      {/* Sticky Export Button */}
+      <Box className="fixed bottom-4 right-4 p-4 bg-white shadow-lg rounded-lg">
+        <Button size="lg" onClick={() => console.log("Export to Figma")}>
+          Export to Figma
+        </Button>
+      </Box>
     </div>
   )
 }
