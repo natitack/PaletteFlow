@@ -45,9 +45,9 @@ export function HeroLayoutStep({ value, onChange }) {
 
       {/* Carousel Controls */}
       <Flex justify="between" className="w-full max-w-sm">
-        <Button onClick={handlePrev} variant="soft">← Previous</Button>
+        <Button onClick={handlePrev} variant="soft">←</Button>
         <Text size="4" weight="medium">{heroLayouts[currentIndex].label}</Text>
-        <Button onClick={handleNext} variant="soft">Next →</Button>
+        <Button onClick={handleNext} variant="soft">→</Button>
       </Flex>
     </Flex>
   )
