@@ -55,12 +55,6 @@ export default function Deliverable() {
           {brandChoices.heroLayout === "header1" && <Header1 />}
         </Box>
 
-        {/* Typography Section */}
-        <section className="p-6">
-          <Text size="6" weight="bold">Typography</Text>
-          <p style={{ fontFamily: brandChoices.font }}>This is a preview of your chosen font</p>
-        </section>
-
         {/* Color Palette */}
         <section className="p-6">
           <Text size="6" weight="bold">Color Palette</Text>
@@ -70,6 +64,57 @@ export default function Deliverable() {
                 <Box key={key} style={{ backgroundColor: colorScale[key], width: "3rem", height: "3rem", borderRadius: "4px" }} />
               ))
             }
+          </div>
+        </section>
+
+        {/* Typography Section */}
+        <section className="p-8 bg-gray-50 rounded-lg flex flex-col space-y-10">
+          {/* Section Title */}
+          <Text size="6" weight="bold">Typography</Text>
+
+          {/* Font Family Display */}
+          <div className="flex flex-col items-start gap-2 border-b pb-6">
+            <Text size="9" weight="bold" style={{ fontFamily: brandChoices.font }}>
+              Aa
+            </Text>
+            <Text size="5" style={{ fontFamily: brandChoices.font }}>
+              {brandChoices.font}
+            </Text>
+          </div>
+
+          {/* Headline Section */}
+          <div className="flex flex-col space-y-4 border-b pb-6">
+            <Text size="5" weight="bold">Headlines</Text>
+
+            <Text as="h1" size="9" weight="bold" style={{ fontFamily: brandChoices.font }}>
+              Display (72px, Bold)
+            </Text>
+
+            <Text as="h1" size="8" weight="bold" style={{ fontFamily: brandChoices.font }}>
+              H1 (48px, Bold)
+            </Text>
+
+            <Text as="h2" size="7" weight="medium" style={{ fontFamily: brandChoices.font }}>
+              H2 (36px, Medium)
+            </Text>
+
+            <Text as="h3" size="6" weight="medium" style={{ fontFamily: brandChoices.font }}>
+              H3 (28px, Medium)
+            </Text>
+          </div>
+
+          {/* Paragraph Section */}
+          <div className="flex flex-col space-y-4">
+            <Text size="5" weight="bold">Body Text</Text>
+
+            <Text size="4" style={{ fontFamily: brandChoices.font }}>
+              P1 (16px, Regular)
+            </Text>
+
+            {/* Example Paragraph */}
+            <Text size="4" style={{ fontFamily: brandChoices.font, lineHeight: "1.75" }}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.
+            </Text>
           </div>
         </section>
 
@@ -88,17 +133,8 @@ export default function Deliverable() {
             <p style={{ fontFamily: brandChoices.font }}>More about your brand</p>
           </div>
         </section>
-
-        {/* Card Style Section */}
-        <section className="p-6">
-          <Text size="6" weight="bold">Card Style</Text>
-          <Flex gap="4">
-            <Card style={{ ...{ flat: {}, shadow: { boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" }, outlined: { border: "1px solid #ccc" } }[brandChoices.cardStyle] }}>
-              <Text size="3" style={{ fontFamily: brandChoices.font }}>Example Card</Text>
-            </Card>
-          </Flex>
-        </section>
       </main>
+      
       {/* Sticky Export Button */}
       <Box className="fixed bottom-4 right-4 p-4 bg-white shadow-lg rounded-lg">
         <Button size="lg" onClick={() => console.log("Export to Figma")}>
