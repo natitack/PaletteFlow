@@ -4,6 +4,11 @@ body {
   font-family: var(--font-work-sans), Arial, Helvetica, sans-serif;
 }
 
+/* Improve spacing for flex containers containing cards */
+.flex {
+  gap: 2rem; /* Increase spacing between flex children */
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
