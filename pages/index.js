@@ -3,9 +3,7 @@
 // import styles from '../styles/home.module.css'
 // import ColorPalette from '../components/ColorPalette'
 import Link from "next/link"
-import Button from '../components/Button'
-
-
+import { Button} from "@radix-ui/themes"
 function throwError() {
   console.log(
     // The function body() is not defined
