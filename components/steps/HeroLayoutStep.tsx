@@ -2,7 +2,6 @@ import { useState } from "react"
 import { Flex, Text, Box, Button } from "@radix-ui/themes"
 import { Header1 } from "../heroelements/RelumeHeader1"
 import { CenteredHero, SplitHero, FullWidthHero } from "../heroelements/OldHeaders"
-import { motion } from "framer-motion"
 
 // Hero layout options
 const heroLayouts = [
