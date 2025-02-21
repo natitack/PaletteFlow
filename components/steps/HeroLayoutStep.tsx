@@ -1,46 +1,54 @@
-import { Flex, Text, RadioGroup, Box, Heading, Button } from "@radix-ui/themes"
-import Image from "next/image"
 import { useState } from "react"
-import { Header1} from "../heroelements/RelumeHeader1"
+import { Flex, Text, Box, Button } from "@radix-ui/themes"
+import { Header1 } from "../heroelements/RelumeHeader1"
 import { CenteredHero, SplitHero, FullWidthHero } from "../heroelements/OldHeaders"
+import { motion } from "framer-motion"
 
+// Hero layout options
 const heroLayouts = [
-  { value: "centered", label: "Centered", component: CenteredHero },
-  { value: "split", label: "Split", component: SplitHero },
-  { value: "fullWidth", label: "Full Width", component: FullWidthHero },
-  { value: "header1", label: "Header 1", component: (props) => <Header1 {...props} /> },
-
+  { value: "centered", label: "Centered Hero" },
+  { value: "split", label: "Split Hero" },
+  { value: "fullWidth", label: "Full Width Hero" },
+  { value: "header1", label: "Header 1" },
 ]
 
-export function HeroLayoutStep({ value, onChange }) {
-  const [selectedLayout, setSelectedLayout] = useState(value);
+const layoutComponents = {
+  centered: CenteredHero,
+  split: SplitHero,
+  fullWidth: FullWidthHero,
+  header1: Header1,
+}
 
-  const handleLayoutChange = (newLayout) => {
-    setSelectedLayout(newLayout);
-    onChange(newLayout);
-  };
-  
+export function HeroLayoutStep({ value, onChange }) {
+  const initialIndex = heroLayouts.findIndex((layout) => layout.value === value) || 0
+  const [currentIndex, setCurrentIndex] = useState(initialIndex)
+
+  const handleNext = () => {
+    const newIndex = (currentIndex + 1) % heroLayouts.length
+    setCurrentIndex(newIndex)
+    onChange(heroLayouts[newIndex].value) // Auto-select new layout
+  }
+
+  const handlePrev = () => {
+    const newIndex = (currentIndex - 1 + heroLayouts.length) % heroLayouts.length
+    setCurrentIndex(newIndex)
+    onChange(heroLayouts[newIndex].value) // Auto-select new layout
+  }
+
+  const CurrentHero = layoutComponents[heroLayouts[currentIndex].value]
+
   return (
-    <Flex direction="column" gap="4">
+    <Flex direction="column" gap="6" align="center">
       <Text size="5" weight="bold">
         Choose your hero layout
       </Text>
-      <RadioGroup.Root value={value} onValueChange={handleLayoutChange}>
-        {heroLayouts.map((layout) => (
-          <Flex key={layout.value} direction="column" gap="2">
-            <RadioGroup.Item value={layout.value}/>
-            <Box
-              style={{
-                border: "1px solid #ccc",
-                padding: "1rem",
-                borderRadius: "4px",
-              }}
-            >
-              <layout.component choices={[]} />                     
-            </Box>
-          </Flex>
-        ))}
-      </RadioGroup.Root>
+
+      {/* Carousel Controls */}
+      <Flex justify="between" className="w-full max-w-sm">
+        <Button onClick={handlePrev} variant="soft">← Previous</Button>
+        <Text size="4" weight="medium">{heroLayouts[currentIndex].label}</Text>
+        <Button onClick={handleNext} variant="soft">Next →</Button>
+      </Flex>
     </Flex>
   )
 }
