@@ -13,10 +13,10 @@ function throwError() {
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
-      <main className="text-center">
-        <h1 className="text-4xl font-bold text-white mb-4">Welcome to PaletteFlow</h1>
-        <p className="text-xl text-white mb-8">Streamline your website design process</p>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#161719]">
+      <main className="text-center text-[#f5f0ea]">
+        <h1 className="text-4xl font-bold mb-4">Welcome to PaletteFlow</h1>
+        <p className="text-xl mb-8">Streamline your website design process</p>
         <Link href="/brand-builder">
           <Button size="lg">Start Building Your Brand Identity</Button>
         </Link>
