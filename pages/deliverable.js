@@ -147,7 +147,7 @@ export default function Deliverable() {
       {/* Sticky Export Button */}
       <Box className="fixed bottom-4 right-4 p-4 bg-white shadow-lg rounded-lg">
         <Button size="lg" onClick={() => console.log("Export to Figma")}>
-          Export to Figma
+          Export PDF
         </Button>
       </Box>
     </div>
