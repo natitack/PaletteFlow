@@ -1,15 +1,15 @@
 import { Button} from "@radix-ui/themes"
 
 type ImageProps = {
-  src: string;
-  alt?: string;
+  src: string
+  alt?: string
 };
 
 type Props = {
-  heading: string;
-  description: string;
-  buttons: { title: string; variant?: "primary" | "secondary" }[];
-  image: ImageProps;
+  heading: string
+  description: string
+  buttons: { title: string; variant?: "primary" | "secondary" }[]
+  image: ImageProps
 };
 
 export type Header1Props = React.ComponentPropsWithoutRef<"section"> & Partial<Props>;
@@ -52,4 +52,4 @@ export const Header1Defaults: Props = {
     src: "https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg",
     alt: "Relume placeholder image",
   },
-};
+}
