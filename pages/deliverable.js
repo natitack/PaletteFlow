@@ -4,8 +4,7 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Button, Flex, Text, Box, Card, Heading } from "@radix-ui/themes"
 import { useColorScales } from "../hooks/useColorScales"
-import { CenteredHero, SplitHero, FullWidthHero } from "../components/heroelements/OldHeaders"
-import { Header1 } from "../components/heroelements/RelumeHeader"
+import { RelumeHeader } from "../components/heroelements/RelumeHeader"
 
 export default function Deliverable() {
   const router = useRouter()
@@ -15,7 +14,7 @@ export default function Deliverable() {
     font: "system-ui",
     buttonStyle: "rounded",
     cardStyle: "flat",
-    heroLayout: "centered",
+    heroLayout: "header1",
     featureLayout: "grid"
   }) 
   const [darkMode, setDarkMode] = useState(false)
@@ -49,13 +48,10 @@ export default function Deliverable() {
       </header>
 
       <main className="p-8 space-y-12">
-        {/* Hero Section */}
-        <Box style={{ marginBottom: "2rem" }}>
-          {brandChoices.heroLayout === "centered" && <CenteredHero choices={brandChoices} />}
-          {brandChoices.heroLayout === "split" && <SplitHero choices={brandChoices} />}
-          {brandChoices.heroLayout === "fullWidth" && <FullWidthHero choices={brandChoices} />}
-          {brandChoices.heroLayout === "header1" && <Header1 choices={brandChoices} />}
-        </Box>
+        {/* Hero Section - Now Uses RelumeHeader */}
+      <Box style={{ marginBottom: "2rem" }}>
+        <RelumeHeader choices={brandChoices} />
+      </Box>
 
         {/* Color Palette */}
         <section className="p-6">

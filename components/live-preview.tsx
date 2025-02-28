@@ -1,24 +1,20 @@
 import { Flex, Box, Text, Button, Card, Heading } from "@radix-ui/themes"
 import Image from "next/image"
-import { useEffect, useState } from "react"
 import { useColorScales } from "../hooks/useColorScales";
-import { Header1 } from "./heroelements/RelumeHeader"
-import { CenteredHero, SplitHero, FullWidthHero } from "./heroelements/OldHeaders"
+import { RelumeHeader } from "./heroelements/RelumeHeader"
 
 
 export function LivePreview({ choices }) {
   const {
-    color = "indigo", // Default indigo color
-    mood = "modern",
+    color = "indigo",
     font = "system-ui",
     buttonStyle = "full",
     cardStyle = "flat",
-    heroLayout = "centered",
+    heroLayout = "header1",
     featureLayout = "grid",
   } = choices || {}
 
   const { colorScale, darkModeColorScale, grayColorScale, darkGrayColorScale } = useColorScales(color);
-
 
   const cardStyles = {
     flat: {},
@@ -33,21 +29,10 @@ export function LivePreview({ choices }) {
       </Text>
       <Box className={font}>
 
-        {/* Hero Section */}
+        {/* Hero Section - Now Uses RelumeHeader */}
         <Box style={{ marginBottom: "2rem" }}>
-          {heroLayout === "centered" && (
-            <CenteredHero choices={choices} />
-          )}
-          {heroLayout === "split" && (
-            <SplitHero choices={choices} />
-          )}
-          {heroLayout === "fullWidth" && (
-            <FullWidthHero choices={choices} />
-          )}
-          {heroLayout === "header1" && (
-            <Header1 choices={choices} />
-          )}
-        </Box>
+          <RelumeHeader choices={choices} />
+        </Box>  
 
         {/* Card Section */}
         <Box style={{ marginBottom: "2rem" }}>
