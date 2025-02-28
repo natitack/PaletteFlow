@@ -1,71 +1,77 @@
-import { Flex, Text, RadioGroup, Box, Heading } from "@radix-ui/themes"
-import Image from "next/image"
+import { useState } from "react"
+import { Flex, Text, Box, Button } from "@radix-ui/themes"
+import { motion, AnimatePresence } from "framer-motion"
 
+// Feature layout options
 const featureLayouts = [
-  { value: "grid", label: "Grid" },
-  { value: "list", label: "List" },
-  { value: "alternating", label: "Alternating" },
+  { value: "grid", label: "Grid Layout" },
+  { value: "list", label: "List Layout" },
+  { value: "alternating", label: "Alternating Layout" },
 ]
 
-export function FeatureLayoutStep({ value, onChange }) {
+// Abstract representations of feature layouts
+const FeatureLayoutAbstract = ({ layout }) => {
   return (
-    <Flex direction="column" gap="4">
-      <Text size="5" weight="bold">
-        Choose your feature layout
-      </Text>
-      <RadioGroup.Root value={value} onValueChange={onChange}>
-        {featureLayouts.map((layout) => (
-          <Flex key={layout.value} direction="column" gap="2">
-            <RadioGroup.Item value={layout.value} />
-            <Box
-              style={{
-                border: "1px solid #ccc",
-                padding: "1rem",
-                borderRadius: "4px",
-              }}
-            >
-              {layout.value === "grid" && (
-                <Flex wrap="wrap" gap="2">
-                  {[1, 2, 3, 4].map((i) => (
-                    <Box key={i} style={{ width: "calc(50% - 0.5rem)" }}>
-                      <Image src="/placeholder.svg" alt="Placeholder" width={50} height={50} />
-                      <Heading size="2">Feature {i}</Heading>
-                      <Text size="1">Description</Text>
-                    </Box>
-                  ))}
-                </Flex>
-              )}
-              {layout.value === "list" && (
-                <Flex direction="column" gap="2">
-                  {[1, 2, 3].map((i) => (
-                    <Flex key={i} gap="2">
-                      <Image src="/placeholder.svg" alt="Placeholder" width={50} height={50} />
-                      <Box>
-                        <Heading size="2">Feature {i}</Heading>
-                        <Text size="1">Description</Text>
-                      </Box>
-                    </Flex>
-                  ))}
-                </Flex>
-              )}
-              {layout.value === "alternating" && (
-                <Flex direction="column" gap="2">
-                  {[1, 2].map((i) => (
-                    <Flex key={i} gap="2" direction={i % 2 === 0 ? "row-reverse" : "row"}>
-                      <Image src="/placeholder.svg" alt="Placeholder" width={100} height={100} />
-                      <Box>
-                        <Heading size="2">Feature {i}</Heading>
-                        <Text size="1">Description</Text>
-                      </Box>
-                    </Flex>
-                  ))}
-                </Flex>
-              )}
-            </Box>
-          </Flex>
-        ))}
-      </RadioGroup.Root>
-    </Flex>
+    <Box className="w-full h-40 bg-gray-200 rounded-lg flex flex-col justify-center items-center relative">
+      {/* Common Header Block */}
+      <Box className="w-3/4 h-6 bg-gray-400 rounded-md" />
+
+      {/* Different Layout Structures */}
+      {layout === "grid" && (
+        <Flex wrap="wrap" className="mt-4 gap-2">
+          <Box className="w-1/3 h-8 bg-gray-500 rounded-md" />
+          <Box className="w-1/3 h-8 bg-gray-400 rounded-md" />
+          <Box className="w-1/3 h-8 bg-gray-500 rounded-md" />
+          <Box className="w-1/3 h-8 bg-gray-400 rounded-md" />
+        </Flex>
+      )}
+
+      {layout === "list" && (
+        <Flex className="w-3/4 flex-col mt-4 gap-2">
+          <Box className="w-full h-6 bg-gray-500 rounded-md" />
+          <Box className="w-full h-6 bg-gray-400 rounded-md" />
+          <Box className="w-full h-6 bg-gray-500 rounded-md" />
+        </Flex>
+      )}
+
+      {layout === "alternating" && (
+        <Flex className="w-full mt-4 justify-between px-6">
+          <Box className="w-1/3 h-10 bg-gray-500 rounded-md" />
+          <Box className="w-1/3 h-10 bg-gray-300 rounded-md" />
+        </Flex>
+      )}
+    </Box>
   )
 }
 
+export function FeatureLayoutStep({ value, onChange }) {
+  const initialIndex = featureLayouts.findIndex((layout) => layout.value === value) || 0
+  const [currentIndex, setCurrentIndex] = useState(initialIndex)
+
+  const handleNext = () => {
+    const newIndex = (currentIndex + 1) % featureLayouts.length
+    setCurrentIndex(newIndex)
+    onChange(featureLayouts[newIndex].value) // Auto-select new layout
+  }
+
+  const handlePrev = () => {
+    const newIndex = (currentIndex - 1 + featureLayouts.length) % featureLayouts.length
+    setCurrentIndex(newIndex)
+    onChange(featureLayouts[newIndex].value) // Auto-select new layout
+  }
+
+  return (
+    <Flex direction="column" gap="6" align="center">
+      <Text size="5" weight="bold">
+        Choose your feature layout
+      </Text>
+
+      {/* Carousel Controls */}
+      <Flex justify="between" className="w-full max-w-sm">
+        <Button onClick={handlePrev} variant="soft">←</Button>
+        <Text size="4" weight="medium">{featureLayouts[currentIndex].label}</Text>
+        <Button onClick={handleNext} variant="soft">→</Button>
+      </Flex>
+    </Flex>
+  )
+}
