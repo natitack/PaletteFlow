@@ -31,7 +31,7 @@ export function LivePreview({ choices }) {
       <Text size="5" weight="bold">
         Live Preview
       </Text>
-<Box className={font}>
+      <Box className={font}>
 
         {/* Hero Section */}
         <Box style={{ marginBottom: "2rem" }}>
@@ -45,7 +45,7 @@ export function LivePreview({ choices }) {
             <FullWidthHero choices={choices} />
           )}
           {heroLayout === "header1" && (
-            <Header1 />
+            <Header1 choices={choices} />
           )}
         </Box>
 
