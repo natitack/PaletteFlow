@@ -86,9 +86,9 @@ export default function Deliverable() {
           <div className="flex flex-col space-y-4 border-b pb-6">
             <Text size="5" weight="bold">Headlines</Text>
 
-            <Text as="h1" size="9" weight="bold" style={{ fontFamily: brandChoices.font }}>
+            {/* <Text as="h1" size="9" weight="bold" style={{ fontFamily: brandChoices.font }}>
               Display (72px, Bold)
-            </Text>
+            </Text> */}
 
             <Text as="h1" size="8" weight="bold" style={{ fontFamily: brandChoices.font }}>
               H1 (48px, Bold)
