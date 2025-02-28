@@ -25,7 +25,7 @@ export default function Deliverable() {
     const choices = localStorage.getItem("brandChoices")
 
     if (!isComplete) {
-      router.push("/brand-builder") // Redirect if not completed
+      router.push("/brand-builder")
     } else {
       setCanAccess(true)
       if (choices) {
@@ -43,7 +43,9 @@ export default function Deliverable() {
       {/* Header */}
       <header className="p-6 border-b flex justify-between items-center">
         <Text size="6" weight="bold">Brand Style Guide</Text>
-        <Button onClick={() => setDarkMode(!darkMode)}>Try {darkMode ? "Light" : "Dark"} Mode</Button>
+        <Button onClick={() => setDarkMode(!darkMode)}>
+          Try {darkMode ? "Light" : "Dark"} Mode
+        </Button>
       </header>
 
       <main className="p-8 space-y-12">
@@ -52,7 +54,7 @@ export default function Deliverable() {
           {brandChoices.heroLayout === "centered" && <CenteredHero choices={brandChoices} />}
           {brandChoices.heroLayout === "split" && <SplitHero choices={brandChoices} />}
           {brandChoices.heroLayout === "fullWidth" && <FullWidthHero choices={brandChoices} />}
-          {brandChoices.heroLayout === "header1" && <Header1 />}
+          {brandChoices.heroLayout === "header1" && <Header1 choices={brandChoices} />}
         </Box>
 
         {/* Color Palette */}
@@ -61,15 +63,22 @@ export default function Deliverable() {
           <div className="flex space-x-4">
             {Object.keys(colorScale).length > 0 &&
               Object.keys(colorScale).map((key) => (
-                <Box key={key} style={{ backgroundColor: colorScale[key], width: "3rem", height: "3rem", borderRadius: "4px" }} />
+                <Box 
+                  key={key} 
+                  style={{ 
+                    backgroundColor: darkMode ? darkModeColorScale[key] : colorScale[key], 
+                    width: "3rem", 
+                    height: "3rem", 
+                    borderRadius: "4px" 
+                  }} 
+                />
               ))
             }
           </div>
         </section>
 
-        {/* Typography Section */}
-        <section className="p-8 bg-gray-50 rounded-lg flex flex-col space-y-10">
-          {/* Section Title */}
+        {/* Typography Section - Now Uses Dynamic Background */}
+        <section className={`p-8 rounded-lg flex flex-col space-y-10 ${darkMode ? "bg-gray-800" : "bg-gray-50"}`}>
           <Text size="6" weight="bold">Typography</Text>
 
           {/* Font Family Display */}
@@ -118,23 +127,23 @@ export default function Deliverable() {
           </div>
         </section>
 
-        {/* Feature Section */}
-        <section className="grid grid-cols-3 gap-6">
-          <div className={`p-6 border rounded-lg ${brandChoices.featureLayout === "grid" ? "bg-gray-100" : "bg-gray-200"}`}>
+        {/* Feature Section - Now Uses Dynamic Background */}
+        <section className={`grid grid-cols-3 gap-6 ${darkMode ? "bg-gray-800" : "bg-gray-100"}`}>
+          <div className="p-6 border rounded-lg">
             <Text size="5" weight="bold">Feature One</Text>
             <p style={{ fontFamily: brandChoices.font }}>A key highlight of your brand</p>
           </div>
-          <div className={`p-6 border rounded-lg ${brandChoices.featureLayout === "grid" ? "bg-gray-100" : "bg-gray-200"}`}>
+          <div className="p-6 border rounded-lg">
             <Text size="5" weight="bold">Feature Two</Text>
             <p style={{ fontFamily: brandChoices.font }}>Another important aspect</p>
           </div>
-          <div className={`p-6 border rounded-lg ${brandChoices.featureLayout === "grid" ? "bg-gray-100" : "bg-gray-200"}`}>
+          <div className="p-6 border rounded-lg">
             <Text size="5" weight="bold">Feature Three</Text>
             <p style={{ fontFamily: brandChoices.font }}>More about your brand</p>
           </div>
         </section>
       </main>
-      
+
       {/* Sticky Export Button */}
       <Box className="fixed bottom-4 right-4 p-4 bg-white shadow-lg rounded-lg">
         <Button size="lg" onClick={() => console.log("Export to Figma")}>
