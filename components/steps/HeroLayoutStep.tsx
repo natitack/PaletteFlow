@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Flex, Text, Box, Button } from "@radix-ui/themes"
-import { Header1 } from "../heroelements/RelumeHeader1"
+import { Header1 } from "../heroelements/RelumeHeader"
 import { CenteredHero, SplitHero, FullWidthHero } from "../heroelements/OldHeaders"
 
 // Hero layout options
