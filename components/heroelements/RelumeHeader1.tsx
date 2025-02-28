@@ -1,24 +1,26 @@
-import { Button} from "@radix-ui/themes"
+import { Button } from "@radix-ui/themes"
 
 type ImageProps = {
   src: string
   alt?: string
-};
+}
 
 type Props = {
   heading: string
   description: string
   buttons: { title: string; variant?: "primary" | "secondary" }[]
   image: ImageProps
-};
+  buttonStyle?: "none" | "small" | "medium" | "large" | "full" 
+}
 
-export type Header1Props = React.ComponentPropsWithoutRef<"section"> & Partial<Props>;
+export type Header1Props = React.ComponentPropsWithoutRef<"section"> & Partial<Props>
 
-export const Header1 = (props: Header1Props) => {
-  const { heading, description, buttons, image } = {
+export const Header1 = ({ choices }: { choices: Partial<Props> }) => {
+  const { heading, description, buttons, image, buttonStyle = "medium" } = {
     ...Header1Defaults,
-    ...props,
-  };
+    ...choices
+  }
+
   return (
     <section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
       <div className="container">
@@ -28,7 +30,11 @@ export const Header1 = (props: Header1Props) => {
             <p className="md:text-md">{description}</p>
             <div className="mt-6 flex flex-wrap gap-4 md:mt-8">
               {buttons.map((button, index) => (
-                <Button key={index} variant={button.variant === "primary" ? "solid" : button.variant === "secondary" ? "outline" : undefined}>
+                <Button 
+                  key={index} 
+                  variant={button.variant === "primary" ? "solid" : button.variant === "secondary" ? "outline" : undefined}
+                  radius={buttonStyle} 
+                >
                   {button.title}
                 </Button>
               ))}
@@ -40,16 +46,15 @@ export const Header1 = (props: Header1Props) => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
+// Default fallback values
 export const Header1Defaults: Props = {
   heading: "Hero 1",
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.",
+  description: "A branding experience tailored for you.",
   buttons: [{ title: "Button" }, { title: "Button", variant: "secondary" }],
-  image: {
-    src: "https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg",
-    alt: "Relume placeholder image",
-  },
+  image: { src: "https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg", alt: "Relume placeholder image" },
+  buttonStyle: "medium" 
 }
+
