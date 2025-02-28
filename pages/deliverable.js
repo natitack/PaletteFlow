@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { Button, Flex, Text, Box, Card, Heading } from "@radix-ui/themes"
 import { useColorScales } from "../hooks/useColorScales"
 import { CenteredHero, SplitHero, FullWidthHero } from "../components/heroelements/OldHeaders"
-import { Header1 } from "../components/heroelements/RelumeHeader1"
+import { Header1 } from "../components/heroelements/RelumeHeader"
 
 export default function Deliverable() {
   const router = useRouter()
