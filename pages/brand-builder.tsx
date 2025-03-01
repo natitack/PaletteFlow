@@ -39,7 +39,7 @@ export default function BrandBuilder() {
     font: "system-ui",
     buttonStyle: "rounded",
     cardStyle: "flat",
-    heroLayout: "centered",
+    heroLayout: "header1",
     featureLayout: "grid",
   })
 
