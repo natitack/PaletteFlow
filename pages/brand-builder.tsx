@@ -108,22 +108,8 @@ export default function BrandBuilder() {
 
       <Flex gap="8">
         <Flex direction="column" className="w-1/4">
-            <AnimatePresence mode="wait">
-            <motion.div
-              key={currentStep}
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 50 }}
-              transition={{ duration: 0.3 }}
-            >
-              <CurrentStepComponent
-              value={choices[currentStepId]}
-              onChange={(value: string) => updateChoice(currentStepId, value)}
-              />
-            </motion.div>
-            </AnimatePresence>
-
-            <Flex justify="between" mt="4">
+        <Flex gap = "4"></Flex>
+        <Flex justify="between" mt="4" mb="5">
             <Button 
               onClick={handlePrevious} 
               disabled={currentStep === 0} 
@@ -143,7 +129,24 @@ export default function BrandBuilder() {
               Next
               </Button>
             )}
-            </Flex>
+        </Flex>
+            
+            <AnimatePresence mode="wait">
+            <motion.div
+              key={currentStep}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 50 }}
+              transition={{ duration: 0.3 }}
+            >
+              <CurrentStepComponent
+              value={choices[currentStepId]}
+              onChange={(value: string) => updateChoice(currentStepId, value)}
+              />
+            </motion.div>
+            </AnimatePresence>
+
+            
           </Flex>
 
         <div className="w-3/4">
