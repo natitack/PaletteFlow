@@ -30,7 +30,7 @@ export function LivePreview({ choices }) {
         Live Preview
       </Text>
       <Box style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button size="small" onClick={() => themeManager.toggleDarkMode()}>Toggle Dark Mode</Button>
+        <Button size="2" onClick={() => themeManager.toggleDarkMode()}>Toggle Dark Mode</Button>
       </Box>
       <Box className={font}>
 
