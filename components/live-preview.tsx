@@ -2,6 +2,7 @@ import { Flex, Box, Text, Button, Card, Heading } from "@radix-ui/themes"
 import Image from "next/image"
 import { useColorScales } from "../hooks/useColorScales";
 import { RelumeHeader } from "./heroelements/RelumeHeader"
+import themeManager from "../lib/themeManager";
 
 
 export function LivePreview({ choices }) {
@@ -24,9 +25,13 @@ export function LivePreview({ choices }) {
 
   return (
     <Flex direction="column" gap="4">
+      
       <Text size="5" weight="bold">
         Live Preview
       </Text>
+      <Box style={{ display: "flex", justifyContent: "flex-end" }}>
+        <Button size="small" onClick={() => themeManager.toggleDarkMode()}>Toggle Dark Mode</Button>
+      </Box>
       <Box className={font}>
 
         {/* Hero Section - Now Uses RelumeHeader */}

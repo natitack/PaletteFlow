@@ -91,67 +91,62 @@ export default function BrandBuilder() {
   }
 
   return (
-    <Flex direction="column" gap="4" className="min-h-screen  p-8" style={{ backgroundColor: colorScale[`${choices.color}1`] }}>
-      <div className="h-1 w-full  rounded-full overflow-hidden">
+    <Flex direction="column" gap="4" className="min-h-screen p-8" style={{ backgroundColor: themeManager.getCurrentTheme().darkMode ? darkModeColorScale[`${choices.color}1`] : colorScale[`${choices.color}1`] }}>
+      <div className="h-1 w-full rounded-full overflow-hidden">
       <div
         className="h-full transition-all duration-300 ease-in-out"
         style={{ 
-        backgroundColor: colorScale[`${choices.color}9`],
+        backgroundColor: themeManager.getCurrentTheme().darkMode ? darkModeColorScale[`${choices.color}9`] : colorScale[`${choices.color}9`],
         width: `${((currentStep + 1) / STEPS.length) * 100}%`,
         }}
       />
       </div>
 
       <Text size="5" weight="bold">
-        Step {currentStep + 1}: {STEPS[currentStep].title}
+      Step {currentStep + 1}: {STEPS[currentStep].title}
       </Text>
 
+
       <Flex gap="8">
-        <Flex direction="column" className="w-1/4">
-        <Flex gap = "4"></Flex>
+      <Flex direction="column" className="w-1/4">
+        <Flex gap="4"></Flex>
         <Flex justify="between" mt="4" mb="5">
-            <Button 
-              onClick={handlePrevious} 
-              disabled={currentStep === 0} 
-            >
-              Previous
-            </Button>
-            {currentStep === STEPS.length - 1 ? (
-              <Button 
-              onClick={handleFinish} 
-              >
-              Finish
-              </Button>
-            ) : (
-              <Button 
-              onClick={handleNext} 
-              >
-              Next
-              </Button>
-            )}
+        <Button 
+          onClick={handlePrevious} 
+          disabled={currentStep === 0} 
+        >
+          Previous
+        </Button>
+        {currentStep === STEPS.length - 1 ? (
+          <Button onClick={handleFinish}>
+          Finish
+          </Button>
+        ) : (
+          <Button onClick={handleNext}>
+          Next
+          </Button>
+        )}
         </Flex>
-            
-            <AnimatePresence mode="wait">
-            <motion.div
-              key={currentStep}
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 50 }}
-              transition={{ duration: 0.3 }}
-            >
-              <CurrentStepComponent
-              value={choices[currentStepId]}
-              onChange={(value: string) => updateChoice(currentStepId, value)}
-              />
-            </motion.div>
-            </AnimatePresence>
+        
+        <AnimatePresence mode="wait">
+        <motion.div
+          key={currentStep}
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 50 }}
+          transition={{ duration: 0.3 }}
+        >
+          <CurrentStepComponent
+          value={choices[currentStepId]}
+          onChange={(value: string) => updateChoice(currentStepId, value)}
+          />
+        </motion.div>
+        </AnimatePresence>
+      </Flex>
 
-            
-          </Flex>
-
-        <div className="w-3/4">
-          <LivePreview choices={choices} />
-        </div>
+      <div className="w-3/4">
+        <LivePreview choices={choices} />
+      </div>
       </Flex>
     </Flex>
   )
