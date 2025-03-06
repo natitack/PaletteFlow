@@ -33,31 +33,6 @@ export function LivePreview({ choices }) {
         <Box style={{ marginBottom: "2rem" }}>
           <RelumeHeader choices={choices} />
         </Box>  
-
-        {/* Card Section */}
-        <Box style={{ marginBottom: "2rem" }}>
-          <Heading size="6" style={{ marginBottom: "1rem" }} className={font}>
-            Cards
-          </Heading>
-          <Flex gap="4">
-            <Card style={{ ...cardStyles[cardStyle] }} className={font}>
-              <Text size="3" style={{ color: colorScale[`${color}11`] }}>
-                Card 1
-              </Text>
-            </Card>
-            <Card style={{ ...cardStyles[cardStyle] }} className={font}>
-              <Text size="3" style={{ color: colorScale[`${color}11`] }}>
-                Card 2
-              </Text>
-            </Card>
-            <Card style={{ ...cardStyles[cardStyle] }} className={font}>
-              <Text size="3" style={{ color: colorScale[`${color}11`] }}>
-                Card 3
-              </Text>
-            </Card>
-          </Flex>
-        </Box>
-
         {/* Feature Section */}
         <Box style={{ marginBottom: "2rem" }}>
           <Heading size="6" style={{ marginBottom: "1rem" }} className={font}>
@@ -111,6 +86,31 @@ export function LivePreview({ choices }) {
             </Flex>
           )}
         </Box>
+
+        {/* Card Section */}
+        <Box style={{ marginBottom: "2rem" }}>
+          <Heading size="6" style={{ marginBottom: "1rem" }} className={font}>
+            Cards
+          </Heading>
+          <Flex gap="4">
+            <Card style={{ ...cardStyles[cardStyle] }} className={font}>
+              <Text size="3" style={{ color: colorScale[`${color}11`] }}>
+                Card 1
+              </Text>
+            </Card>
+            <Card style={{ ...cardStyles[cardStyle] }} className={font}>
+              <Text size="3" style={{ color: colorScale[`${color}11`] }}>
+                Card 2
+              </Text>
+            </Card>
+            <Card style={{ ...cardStyles[cardStyle] }} className={font}>
+              <Text size="3" style={{ color: colorScale[`${color}11`] }}>
+                Card 3
+              </Text>
+            </Card>
+          </Flex>
+        </Box>
+
 
         {/* Color Palette Preview */}
         <Flex direction="column" gap="2">

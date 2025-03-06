@@ -38,7 +38,10 @@ export const RelumeHeader = ({ choices }: { choices: Partial<Props> }) => {
 export const RelumeHeaderDefaults: Props = {
   heading: "Hero Section",
   description: "A branding experience tailored for you.",
-  buttons: [{ title: "Button" }, { title: "Button", variant: "secondary" }],
+  buttons: [
+    { title: "Primary Button", variant: "primary" },
+    { title: "Secondary Button", variant: "secondary" }
+  ],
   image: { src: "https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg", alt: "Relume placeholder image" },
   buttonStyle: "medium",
   heroLayout: "header1"
