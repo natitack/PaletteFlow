@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Card } from "@radix-ui/themes"
+import { Card, Text, Flex, Box } from "@radix-ui/themes"
 import * as lightColors from '../light';
+import { useColorScales } from '../../hooks/useColorScales';
+
+
 
 const hexToRgb = (hex) => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -42,6 +45,8 @@ const findClosestPalette = (color) => {
   return closestPaletteName;
 };
 
+
+
 const getPaletteColor = (paletteName: string): string => {
   if (!paletteName || !lightColors[paletteName]) return '#000000';
   const colors = Object.values(lightColors[paletteName]) as string[];
@@ -60,29 +65,65 @@ export function ColorPickerStep({ value, onChange }) {
     onChange(paletteName);
   };
 
+  const paletteName = findClosestPalette(currentColor);
+  const { colorScale, darkModeColorScale, grayColorScale, darkGrayColorScale } = useColorScales(paletteName);
+
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-2xl font-bold">
-        Choose your color
+      Choose your color
       </h2>
       
       <Card className="p-4 hover:bg-gray-50">
-        <div className="flex items-center gap-4">
-          <div className="relative">
-            <input
-              type="color"
-              value={currentColor}
-              onChange={(e) => handleColorChange(e.target.value)}
-              className="w-12 h-12 rounded cursor-pointer"
-            />
-          </div>
-          
-          <div className="flex flex-col gap-1">
-            <span className="font-medium">Selected Color</span>
-            <span className="text-sm text-gray-500 uppercase">{value}</span>
-          </div>
-        </div>
+      <div className="flex items-center gap-4">
+      <div className="relative">
+      <input
+        type="color"
+        value={currentColor}
+        onChange={(e) => handleColorChange(e.target.value)}
+        className="w-12 h-12 rounded cursor-pointer"
+      />
+      </div>
+      
+      <div className="flex flex-col gap-1">
+      <span className="font-medium">Selected Color</span>
+      <span className="text-sm text-gray-500 uppercase">{value}</span>
+      </div>
+      </div>
       </Card>
-    </div>
+      {/* Color Palette Preview */}
+      <Flex direction="column" gap="4" align="center">
+      <Text size="2" weight="bold">
+        Accessible Color Palette
+      </Text>
+      <Flex gap="1" justify="center">
+        <Flex direction="column" gap="3" align="center">
+      {Array.from({ length: 12 }, (_, i) => (
+        <Text key={i} size="3">{i + 1}</Text>
+      ))}
+        </Flex>
+        <Flex direction="column" gap="1" align="center">
+      {Object.keys(colorScale).map((key, index) => (
+        <Box key={key} style={{ backgroundColor: colorScale[key], width: "2rem", height: "2rem", borderRadius: "4px" }} />
+      ))}
+        </Flex>
+        <Flex direction="column" gap="1" align="center">
+      {Object.keys(darkModeColorScale).map((key, index) => (
+        <Box key={key} style={{ backgroundColor: darkModeColorScale[key], width: "2rem", height: "2rem", borderRadius: "4px" }} />
+      ))}
+        </Flex>
+        <Flex direction="column" gap="1" align="center">
+      {Object.keys(grayColorScale).map((key, index) => (
+        <Box key={key} style={{ backgroundColor: grayColorScale[key], width: "2rem", height: "2rem", borderRadius: "4px" }} />
+      ))}
+        </Flex>
+        <Flex direction="column" gap="1" align="center">
+      {Object.keys(darkGrayColorScale).map((key, index) => (
+        <Box key={key} style={{ backgroundColor: darkGrayColorScale[key], width: "2rem", height: "2rem", borderRadius: "4px" }} />
+      ))}
+        </Flex>
+      </Flex>
+      </Flex>
+      </div>
   );
 }

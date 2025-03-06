@@ -112,46 +112,7 @@ export function LivePreview({ choices }) {
         </Box>
 
 
-        {/* Color Palette Preview */}
-        <Flex direction="column" gap="2">
-            <Text size="2" weight="bold" className={font}>
-            Accessible Color Palette
-            </Text>
-          <Flex gap="1">
-            {Object.keys(colorScale).map((key) => (
-              <Box key={key} style={{ backgroundColor: colorScale[key], width: "2rem", height: "2rem", borderRadius: "4px" }} />
-            ))}
-          </Flex>
-        </Flex>
-        <Flex direction="column" gap="2">
-          <Text size="2" weight="bold">
-          </Text>
-          <Flex gap="1">
-            {Object.keys(darkModeColorScale).map((key) => (
-              <Box key={key} style={{ backgroundColor: darkModeColorScale[key], width: "2rem", height: "2rem", borderRadius: "4px" }} />
-            ))}
-          </Flex>
-        </Flex>
 
-        <Flex direction="column" gap="2">
-          <Text size="2" weight="bold">
-          </Text>
-          <Flex gap="1">
-            {Object.keys(grayColorScale).map((key) => (
-              <Box key={key} style={{ backgroundColor: grayColorScale[key], width: "2rem", height: "2rem", borderRadius: "4px" }} />
-            ))}
-          </Flex>
-        </Flex>
-
-        <Flex direction="column" gap="2">
-          <Text size="2" weight="bold">
-          </Text>
-          <Flex gap="1">
-            {Object.keys(darkGrayColorScale).map((key) => (
-              <Box key={key} style={{ backgroundColor: darkGrayColorScale[key], width: "2rem", height: "2rem", borderRadius: "4px" }} />
-            ))}
-          </Flex>
-        </Flex>
 
         
       </Box>
