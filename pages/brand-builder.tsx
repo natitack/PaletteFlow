@@ -91,8 +91,8 @@ export default function BrandBuilder() {
   }
 
   return (
-    <Flex direction="column" gap="4" className="min-h-screen bg-gray-50 p-8">
-      <div className="h-1 w-full bg-gray-200 rounded-full overflow-hidden">
+    <Flex direction="column" gap="4" className="min-h-screen  p-8" style={{ backgroundColor: colorScale[`${choices.color}1`] }}>
+      <div className="h-1 w-full  rounded-full overflow-hidden">
       <div
         className="h-full transition-all duration-300 ease-in-out"
         style={{ 
