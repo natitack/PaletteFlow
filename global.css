@@ -4,6 +4,26 @@ body {
   font-family: var(--font-work-sans), Arial, Helvetica, sans-serif;
 }
 
+/* Override global typography */
+h1 {
+  font-size: 2.5rem !important; /* Adjust to a reasonable size */
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 2rem !important;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 1.75rem !important;
+  font-weight: bold;
+}
+
+p, span, a {
+  font-size: 1rem !important;
+}
+
 /* Improve spacing for flex containers containing cards */
 .flex {
   gap: 2rem; /* Increase spacing between flex children */
