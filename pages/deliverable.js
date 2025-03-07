@@ -50,7 +50,7 @@ export default function Deliverable() {
       <main className="p-8 space-y-12">
         {/* Hero Section */}
         <Box style={{ marginBottom: "2rem" }}>
-          <RelumeHeroWrapper layout={brandChoices.heroLayout} choices={brandChoices} />
+        <RelumeHeroWrapper layout={brandChoices.heroLayout} choices={{ ...brandChoices, colorScale }} />
         </Box>
 
         {/* Color Palette */}

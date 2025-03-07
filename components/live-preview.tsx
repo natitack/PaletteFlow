@@ -34,7 +34,7 @@ export function LivePreview({ choices }) {
       <Box className={font}>
         {/* Hero Section - Now Uses RelumeHeroWrapper */}
         <Box style={{ marginBottom: "2rem" }}>
-          <RelumeHeroWrapper layout={heroLayout} choices={choices} />
+          <RelumeHeroWrapper layout={heroLayout} choices={{ ...choices, colorScale }} />
         </Box>
 
         {/* Feature Section */}
