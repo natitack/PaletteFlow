@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Button, Flex, Text, Box, Card, Heading } from "@radix-ui/themes"
 import { useColorScales } from "../hooks/useColorScales"
-import { RelumeHeader } from "../components/heroelements/RelumeHeader"
+import { RelumeHeroWrapper } from "../components/heroelements/RelumeHeroWrapper"
 
 export default function Deliverable() {
   const router = useRouter()
@@ -48,10 +48,10 @@ export default function Deliverable() {
       </header>
 
       <main className="p-8 space-y-12">
-        {/* Hero Section - Now Uses RelumeHeader */}
-      <Box style={{ marginBottom: "2rem" }}>
-        <RelumeHeader choices={brandChoices} />
-      </Box>
+        {/* Hero Section */}
+        <Box style={{ marginBottom: "2rem" }}>
+          <RelumeHeroWrapper layout={brandChoices.heroLayout} choices={brandChoices} />
+        </Box>
 
         {/* Color Palette */}
         <section className="p-6">

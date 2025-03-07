@@ -1,19 +1,23 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Flex, Text, Box, Button } from "@radix-ui/themes"
-import { RelumeHeader } from "../heroelements/RelumeHeader"
-import { CenteredHero, SplitHero, FullWidthHero } from "../heroelements/OldHeaders"
+import { RelumeHeroWrapper } from "../heroelements/RelumeHeroWrapper"
 
-// Hero layout options
+// Define hero layout options
 const heroLayouts = [
-  { value: "header1", label: "Hero Layout 1" },
-  { value: "header2", label: "Hero Layout 2" },
-  { value: "header3", label: "Hero Layout 3" },
-  { value: "header4", label: "Hero Layout 4" },
+  { value: "header1", label: "Header 1" },
+  { value: "header2", label: "Header 2" },
+  { value: "header5", label: "Header 5" },
+  { value: "header26", label: "Header 26" },
+  { value: "header11", label: "Header 11" },
 ]
 
 export function HeroLayoutStep({ value, onChange, choices }) {
-  const initialIndex = heroLayouts.findIndex((layout) => layout.value === value) || 0
-  const [currentIndex, setCurrentIndex] = useState(initialIndex)
+  const initialIndex = heroLayouts.findIndex((layout) => layout.value === value)
+  const [currentIndex, setCurrentIndex] = useState(initialIndex !== -1 ? initialIndex : 0)
+
+  useEffect(() => {
+    onChange(heroLayouts[currentIndex].value) // Ensure changes persist globally
+  }, [currentIndex])
 
   const handleNext = () => {
     const newIndex = (currentIndex + 1) % heroLayouts.length
