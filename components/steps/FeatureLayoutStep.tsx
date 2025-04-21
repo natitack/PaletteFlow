@@ -1,8 +1,7 @@
 import { useState } from "react"
 import { Flex, Text, Box, Button } from "@radix-ui/themes"
 import { motion, AnimatePresence } from "framer-motion"
-import { RelumeFeatureWrapper } from "../featureelements/RelumeFeatureWrapper"
-
+import { RelumeFeatureWrapper } from "../featureelelemts/RelumeFeatureWrapper"
 // Feature layout options
 const featureLayouts = [
   { value: "event2", label: "List Layout" },
