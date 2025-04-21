@@ -40,7 +40,7 @@ export default function BrandBuilder() {
     buttonStyle: "rounded",
     cardStyle: "flat",
     heroLayout: "header1",
-    featureLayout: "grid",
+    featureLayout: "event2",
   })
 
   const updateChoice = useCallback((key: string, value: string) => {

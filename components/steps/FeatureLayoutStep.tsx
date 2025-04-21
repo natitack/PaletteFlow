@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { Flex, Text, Box, Button } from "@radix-ui/themes"
 import { motion, AnimatePresence } from "framer-motion"
+import { RelumeFeatureWrapper } from "../featureelements/RelumeFeatureWrapper"
 
 // Feature layout options
 const featureLayouts = [
-  { value: "grid", label: "Grid Layout" },
-  { value: "list", label: "List Layout" },
-  { value: "alternating", label: "Alternating Layout" },
+  { value: "event2", label: "List Layout" },
+  { value: "layout396", label: "Row Layout" },
+  { value: "layout398", label: "Grid Layout" },
 ]
 
 // Abstract representations of feature layouts

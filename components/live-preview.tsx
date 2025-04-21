@@ -2,6 +2,7 @@ import { Flex, Box, Text, Button, Card, Heading } from "@radix-ui/themes"
 import Image from "next/image"
 import { useColorScales } from "../hooks/useColorScales"
 import { RelumeHeroWrapper } from "./heroelements/RelumeHeroWrapper"
+import { RelumeFeatureWrapper } from "./featureelelemts/RelumeFeatureWrapper"
 import themeManager from "../lib/themeManager"
 
 export function LivePreview({ choices }) {
@@ -11,7 +12,7 @@ export function LivePreview({ choices }) {
     buttonStyle = "full",
     cardStyle = "flat",
     heroLayout = "header1",
-    featureLayout = "grid",
+    featureLayout = "event2",
   } = choices || {}
 
   const { colorScale } = useColorScales(color)
@@ -37,8 +38,8 @@ export function LivePreview({ choices }) {
           <RelumeHeroWrapper layout={heroLayout} choices={{ ...choices, colorScale }} />
         </Box>
 
-        {/* Feature Section */}
-        <Box style={{ marginBottom: "2rem" }}>
+        {/* Old Feature Section */}
+        {/* <Box style={{ marginBottom: "2rem" }}>
           <Heading size="6" style={{ marginBottom: "1rem" }} className={font}>
             Features
           </Heading>
@@ -53,6 +54,11 @@ export function LivePreview({ choices }) {
               ))}
             </Flex>
           )}
+        </Box> */}
+
+        {/* Feature Section - now with relume */}
+        <Box style={{ marginBottom: "2rem" }}>
+          <RelumeFeatureWrapper layout={featureLayout} choices={{ ...choices, colorScale }} />
         </Box>
 
         {/* Card Section */}
