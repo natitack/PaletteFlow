@@ -2,11 +2,19 @@ import { Flex, Text, RadioGroup } from "@radix-ui/themes"
 import { useFontOptions } from "../../hooks/useFontOptions"
 
 const moodOptions = [
-  { value: "modern", label: "Modern" },
-  { value: "classic", label: "Classic" },
-  { value: "playful", label: "Playful" },
-  { value: "elegant", label: "Elegant" },
-  { value: "minimalist", label: "Minimalist" },
+  { value: "caregiver", label: "Caregiver" },
+  { value: "creator", label: "Creator" },
+  { value: "ruler", label: "Ruler" },
+  { value: "innocent", label: "Innocent" },
+  { value: "explorer", label: "Explorer" },
+  { value: "sage", label: "Sage" },
+  { value: "hero", label: "Hero" },
+  { value: "outlaw", label: "Outlaw" },
+  { value: "magician", label: "Magician" },
+  { value: "everyman", label: "Everyman" },
+  { value: "lover", label: "Lover" },
+  { value: "jester", label: "Jester" },
+
 ]
 
 export function MoodStep({ value, onChange }) {
@@ -27,7 +35,7 @@ export function MoodStep({ value, onChange }) {
   )
 }
 
-MoodStep.getMoodValues = function(mood) {
+MoodStep.getMoodValues = function (mood) {
   const fontOptions = useFontOptions()
   const fontMap = fontOptions.reduce((acc, option) => {
     acc[option.label] = option.value
@@ -35,31 +43,31 @@ MoodStep.getMoodValues = function(mood) {
   }, {})
 
   switch (mood) {
-    case "modern":
+    case "caregiver":
       return {
-        font: fontMap["Roboto"],
-        buttonStyle: "medium",
+        font: fontMap["Nunito"],
+        buttonStyle: "full",
         cardStyle: "raised",
         heroLayout: "header1",
         featureLayout: "list",
       }
-    case "classic":
-      return {
-        font: fontMap["Source Serif 4"],
-        buttonStyle: "none",
-        cardStyle: "flat",
-        heroLayout: "header2",
-        featureLayout: "grid",
-      }
-    case "playful":
+    case "creator":
       return {
         font: fontMap["Fredoka"],
-        buttonStyle: "full",
+        buttonStyle: "none",
+        cardStyle: "flat",
+        heroLayout: "header5",
+        featureLayout: "grid",
+      }
+    case "ruler":
+      return {
+        font: fontMap["Source Serif 4"],
+        buttonStyle: "small",
         cardStyle: "shadow",
         heroLayout: "header11",
         featureLayout: "alternating",
       }
-    case "elegant":
+    case "innocent":
       return {
         font: fontMap["Labrada"],
         buttonStyle: "medium",
@@ -67,10 +75,66 @@ MoodStep.getMoodValues = function(mood) {
         heroLayout: "header26",
         featureLayout: "grid",
       }
-    case "minimalist":
+    case "explorer":
       return {
         font: fontMap["Reddit Mono"],
-        buttonStyle: "small",
+        buttonStyle: "medium",
+        cardStyle: "split",
+        heroLayout: "header5",
+        featureLayout: "list",
+      }
+    case "sage":
+      return {
+        font: fontMap["Reddit Mono"],
+        buttonStyle: "medium",
+        cardStyle: "split",
+        heroLayout: "header5",
+        featureLayout: "list",
+      }
+    case "hero":
+      return {
+        font: fontMap["Reddit Mono"],
+        buttonStyle: "medium",
+        cardStyle: "split",
+        heroLayout: "header5",
+        featureLayout: "list",
+      }
+    case "outlaw":
+      return {
+        font: fontMap["Reddit Mono"],
+        buttonStyle: "medium",
+        cardStyle: "split",
+        heroLayout: "header5",
+        featureLayout: "list",
+      }
+    case "magician":
+      return {
+        font: fontMap["Reddit Mono"],
+        buttonStyle: "medium",
+        cardStyle: "split",
+        heroLayout: "header5",
+        featureLayout: "list",
+      }
+    case "everyman":
+      return {
+        font: fontMap["Reddit Mono"],
+        buttonStyle: "medium",
+        cardStyle: "split",
+        heroLayout: "header5",
+        featureLayout: "list",
+      }
+    case "lover":
+      return {
+        font: fontMap["Reddit Mono"],
+        buttonStyle: "medium",
+        cardStyle: "split",
+        heroLayout: "header5",
+        featureLayout: "list",
+      }
+    case "jester":
+      return {
+        font: fontMap["Reddit Mono"],
+        buttonStyle: "medium",
         cardStyle: "split",
         heroLayout: "header5",
         featureLayout: "list",

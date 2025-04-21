@@ -1,4 +1,4 @@
-import { Work_Sans, Inclusive_Sans, Labrada, Fira_Code, Inria_Sans, Source_Serif_4, Fredoka, Roboto, Open_Sans, Reddit_Mono, } from "next/font/google"
+import { Nunito, Work_Sans, Inclusive_Sans, Labrada, Fira_Code, Inria_Sans, Source_Serif_4, Fredoka, Roboto, Open_Sans, Reddit_Mono, } from "next/font/google"
 
 const workSans = Work_Sans({ subsets: ['latin'] })
 const inclusiveSans = Inclusive_Sans({
@@ -23,6 +23,10 @@ const redditMono = Reddit_Mono({
   subsets: ['latin'],
   weight: "400"
 })
+const nunito = Nunito({
+  subsets: ['latin'],
+  weight: "400"
+})
 
 const fontOptions = [
   { value: workSans.className, label: "Work Sans" },
@@ -35,6 +39,7 @@ const fontOptions = [
   { value: roboto.className, label: "Roboto" },
   { value: openSans.className, label: "Open Sans" },
   { value: redditMono.className, label: "Reddit Mono" },
+  { value: nunito.className, label: "Nunito" },
 ]
 
 export function useFontOptions() {
