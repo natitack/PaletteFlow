@@ -18,6 +18,26 @@ const moodOptions = [
   { value: "outlaw", label: "Outlaw" },
 ];
 
+const moodDescriptions: Record<string, string> = {
+  caregiver: "Caregiver brands provide support, care, and protection. They are compassionate, nurturing, and dedicated to helping others.",
+  creator: "Creator brands foster innovation, creativity, and expression. They are imaginative, artistic, and driven by the desire to create something new.",
+  ruler: "Ruler brands emphasize control, order, and leadership. They are authoritative, responsible, and driven by a desire to create stability and structure.",
+  innocent: "Innocent brands seek happiness, simplicity, and optimism. They are pure, optimistic, and believe in the goodness of people and life.",
+  explorer: "Explorer brands emphasize freedom, adventure, and self-discovery. They seek new experiences and are driven by a desire to explore uncharted territories.",
+  hero: "Hero brands strive for courage, achievement, and transformation. They are determined, brave, and driven to improve the world through their actions.",
+  outlaw: "Outlaw brands challenge the status quo and embrace rebellion. They are disruptive, revolutionary, and seek to change the world by breaking the rules.",
+  magician: "Magician brands create transformation and bring visions to life. They are visionary, charismatic, and skilled at making dreams a reality.",
+  everyman: "Everyman brands seek connection, belonging, and commonality. They are relatable, friendly, and aim to make everyone feel included.",
+  lover: "Lover brands value passion, intimacy, and emotional connection. They are driven by a desire to create relationships and experiences that are deeply meaningful.",
+  jester: "Jester brands bring joy, humor, and light-heartedness. They are playful, witty, and enjoy entertaining others.",
+};
+
+// Utility to pick correct article
+function getIndefiniteArticle(word: string): string {
+  const vowels = ["a", "e", "i", "o", "u"];
+  return vowels.includes(word[0].toLowerCase()) ? "an" : "a";
+}
+
 export default function Deliverable() {
   const router = useRouter();
   const [canAccess, setCanAccess] = useState(false);
@@ -35,7 +55,7 @@ export default function Deliverable() {
       if (choices) {
         const parsedChoices = JSON.parse(choices);
         if (!parsedChoices.mood) {
-          parsedChoices.mood = "caregiver"; // fallback
+          parsedChoices.mood = "caregiver";
         }
         setBrandChoices(parsedChoices);
       }
@@ -61,8 +81,11 @@ export default function Deliverable() {
 
   const moodLabel =
     moodOptions.find((option) => option.value === brandChoices.mood)?.label || "Caregiver";
-
-  // Optional: Override Layout381Defaults here with brandChoices if needed
+  const article = getIndefiniteArticle(moodLabel);
+  const heading = `You are ${article} ${moodLabel}`;
+  const description =
+    moodDescriptions[brandChoices.mood] ||
+    "This archetype reflects your brand's values, tone, and energy. Use this guide to build a consistent identity.";
 
   return (
     <div className="bg-white text-gray-900" ref={targetRef}>
@@ -76,7 +99,12 @@ export default function Deliverable() {
 
       {/* Deliverable Content */}
       <main className="p-8">
-        <Layout381 {...Layout381Defaults} />
+        <Layout381
+          {...Layout381Defaults}
+          tagline="Your brand embodies this archetype:"
+          heading={heading}
+          description={description}
+        />
       </main>
     </div>
   );
