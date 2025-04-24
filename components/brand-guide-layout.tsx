@@ -26,7 +26,7 @@ type SmallCard = BaseCard & {
 };
 
 type BigCard = BaseCard & {
-  buttons: ButtonProps[];
+  button: ButtonProps;
 };
 
 type Props = {
@@ -36,12 +36,13 @@ type Props = {
   bigCard: BigCard;
   featureSections: FeatureSection[];
   smallCard: SmallCard;
+  buttonStyle?: "none" | "small" | "medium" | "large" | "full";
 };
 
 export type Layout381Props = React.ComponentPropsWithoutRef<"section"> & Partial<Props>;
 
 export const Layout381 = (props: Layout381Props) => {
-  const { tagline, heading, description, smallCard, bigCard, featureSections } = {
+  const { tagline, heading, description, smallCard, bigCard, featureSections, buttonStyle } = {
     ...Layout381Defaults,
     ...props,
   };
@@ -85,11 +86,7 @@ const BigCard = (bigCard: BigCard) => {
           <p>{bigCard.description}</p>
         </div>
         <div className="mt-6 flex flex-wrap items-center gap-4 md:mt-8">
-          {bigCard.buttons.map((button, index) => (
-            <Button key={index} {...button}>
-              {button.title}
-            </Button>
-          ))}
+            <Button {...bigCard.button}>{bigCard.button.title}</Button>
         </div>
       </div>
     </div>
@@ -161,15 +158,12 @@ export const Layout381Defaults: Props = {
     heading: "Medium length section heading goes here",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
-    buttons: [
-      { title: "Button", variant: "secondary" },
-      {
+    button: {
         title: "Button",
         variant: "link",
         size: "link",
         iconRight: <RxChevronRight />,
-      },
-    ],
+    },
   },
   featureSections: [
     {

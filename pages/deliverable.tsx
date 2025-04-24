@@ -86,15 +86,18 @@ export default function Deliverable() {
   const description =
     moodDescriptions[brandChoices.mood] ||
     "This archetype reflects your brand's values, tone, and energy. Use this guide to build a consistent identity.";
+  const buttonRadius = brandChoices.buttonStyle || "medium"
 
   return (
-    <div className="bg-white text-gray-900" ref={targetRef}>
+    <div className={`bg-white text-gray-900 ${brandChoices.font || ''}`} ref={targetRef}>
       {/* Header */}
       <header className="p-6 border-b flex justify-between items-center">
         <Text size="6" weight="bold">
           Brand Style Guide
         </Text>
-        <Button onClick={exportPDF}>Export PDF</Button>
+        <Button onClick={exportPDF} radius={buttonRadius} className={brandChoices.font}>
+          Export PDF
+        </Button>
       </header>
 
       {/* Deliverable Content */}
@@ -104,6 +107,7 @@ export default function Deliverable() {
           tagline="Your brand embodies this archetype:"
           heading={heading}
           description={description}
+          buttonStyle={buttonRadius}
         />
       </main>
     </div>
