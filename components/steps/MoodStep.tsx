@@ -49,7 +49,7 @@ MoodStep.getMoodValues = function (mood) {
         buttonStyle: "full",
         cardStyle: "raised",
         heroLayout: "header1",
-        featureLayout: "list",
+        featureLayout: "event2",
       }
     case "creator":
       return {
@@ -57,7 +57,7 @@ MoodStep.getMoodValues = function (mood) {
         buttonStyle: "none",
         cardStyle: "flat",
         heroLayout: "header5",
-        featureLayout: "grid",
+        featureLayout: "layout396",
       }
     case "ruler":
       return {
@@ -65,7 +65,7 @@ MoodStep.getMoodValues = function (mood) {
         buttonStyle: "small",
         cardStyle: "shadow",
         heroLayout: "header11",
-        featureLayout: "alternating",
+        featureLayout: "layout398",
       }
     case "innocent":
       return {
@@ -73,7 +73,7 @@ MoodStep.getMoodValues = function (mood) {
         buttonStyle: "medium",
         cardStyle: "bordered",
         heroLayout: "header26",
-        featureLayout: "grid",
+        featureLayout: "event2",
       }
     case "explorer":
       return {
@@ -81,7 +81,7 @@ MoodStep.getMoodValues = function (mood) {
         buttonStyle: "medium",
         cardStyle: "split",
         heroLayout: "header5",
-        featureLayout: "list",
+        featureLayout: "layout396",
       }
     case "sage":
       return {
@@ -89,7 +89,7 @@ MoodStep.getMoodValues = function (mood) {
         buttonStyle: "medium",
         cardStyle: "split",
         heroLayout: "header5",
-        featureLayout: "list",
+        featureLayout: "event2",
       }
     case "hero":
       return {
@@ -97,7 +97,7 @@ MoodStep.getMoodValues = function (mood) {
         buttonStyle: "medium",
         cardStyle: "split",
         heroLayout: "header5",
-        featureLayout: "list",
+        featureLayout: "layout398",
       }
     case "outlaw":
       return {
@@ -105,7 +105,7 @@ MoodStep.getMoodValues = function (mood) {
         buttonStyle: "medium",
         cardStyle: "split",
         heroLayout: "header5",
-        featureLayout: "list",
+        featureLayout: "layout396",
       }
     case "magician":
       return {
@@ -113,7 +113,7 @@ MoodStep.getMoodValues = function (mood) {
         buttonStyle: "medium",
         cardStyle: "split",
         heroLayout: "header5",
-        featureLayout: "list",
+        featureLayout: "layout398",
       }
     case "everyman":
       return {
@@ -121,7 +121,7 @@ MoodStep.getMoodValues = function (mood) {
         buttonStyle: "medium",
         cardStyle: "split",
         heroLayout: "header5",
-        featureLayout: "list",
+        featureLayout: "layout396",
       }
     case "lover":
       return {
@@ -129,7 +129,7 @@ MoodStep.getMoodValues = function (mood) {
         buttonStyle: "medium",
         cardStyle: "split",
         heroLayout: "header5",
-        featureLayout: "list",
+        featureLayout: "layout398",
       }
     case "jester":
       return {
@@ -137,7 +137,7 @@ MoodStep.getMoodValues = function (mood) {
         buttonStyle: "medium",
         cardStyle: "split",
         heroLayout: "header5",
-        featureLayout: "list",
+        featureLayout: "event2",
       }
     default:
       return {}

@@ -12,7 +12,7 @@ export function LivePreview({ choices }) {
     buttonStyle = "full",
     cardStyle = "flat",
     heroLayout = "header1",
-    featureLayout = "event2",
+    featureLayout = "layout396",
   } = choices || {}
 
   const { colorScale } = useColorScales(color)
@@ -34,27 +34,9 @@ export function LivePreview({ choices }) {
 
       <Box className={font}>
         {/* Hero Section - Now Uses RelumeHeroWrapper */}
-        <Box style={{ marginBottom: "2rem" }}>
+        <Box >
           <RelumeHeroWrapper layout={heroLayout} choices={{ ...choices, colorScale }} />
         </Box>
-
-        {/* Old Feature Section */}
-        {/* <Box style={{ marginBottom: "2rem" }}>
-          <Heading size="6" style={{ marginBottom: "1rem" }} className={font}>
-            Features
-          </Heading>
-          {featureLayout === "grid" && (
-            <Flex wrap="wrap" gap="2">
-              {[1, 2, 3, 4].map((i) => (
-                <Card key={i} style={{ ...cardStyles[cardStyle], width: "calc(50% - 0.5rem)" }} className={font}>
-                  <Image src="/placeholder.svg" alt="Placeholder" width={50} height={50} />
-                  <Heading size="2" className={font}>Feature {i}</Heading>
-                  <Text size="1">Description</Text>
-                </Card>
-              ))}
-            </Flex>
-          )}
-        </Box> */}
 
         {/* Feature Section - now with relume */}
         <Box style={{ marginBottom: "2rem" }}>
