@@ -35,12 +35,35 @@ export function HeroLayoutStep({ value, onChange, choices }) {
     <Flex direction="column" gap="6" align="center">
       <Text size="5" weight="bold">Choose your hero layout</Text>
 
-      {/* Carousel Controls */}
-      <Flex justify="between" className="w-full max-w-sm">
-        <Button onClick={handlePrev} variant="soft">←</Button>
-        <Text size="4" weight="medium">{heroLayouts[currentIndex].label}</Text>
-        <Button onClick={handleNext} variant="soft">→</Button>
-      </Flex>
+      <Box className="w-full overflow-y-auto border rounded" style={{ maxHeight: "80vh" }}>
+        {heroLayouts.map((layout, index) => (
+          <Flex
+        key={layout.value}
+        direction="column"
+        align="center"
+        gap="2"
+        className={`cursor-pointer ${
+          currentIndex === index ? "bg-blue-100" : "hover:bg-gray-100"
+        }`}
+        onClick={() => setCurrentIndex(index)}
+          >
+        <Box
+          className={` border rounded p-3 ${
+          currentIndex === index ? "border-blue-500" : "border-gray-300"
+          }`}
+        >
+          <img
+          src={`/images/previews/hero/${layout.value}.png`}
+          alt={`${layout.label} preview`}
+          className="w-full h-full object-cover"
+          />
+        </Box>
+        <Text size="4" weight="medium" align="center">
+          {layout.label}
+        </Text>
+          </Flex>
+        ))}
+      </Box>
     </Flex>
   )
 }
