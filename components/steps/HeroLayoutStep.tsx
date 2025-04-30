@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react"
-import { Flex, Text, Box, Button } from "@radix-ui/themes"
+import { Flex, Text, Box, Button, Card } from "@radix-ui/themes"
 import { RelumeHeroWrapper } from "../heroelements/RelumeHeroWrapper"
+
+
+
 
 // Define hero layout options
 const heroLayouts = [
@@ -35,35 +38,52 @@ export function HeroLayoutStep({ value, onChange, choices }) {
     <Flex direction="column" gap="6" align="center">
       <Text size="5" weight="bold">Choose your hero layout</Text>
 
-      <Box className="w-full overflow-y-auto border rounded" style={{ maxHeight: "80vh" }}>
+      <Card
+        className="p-4"
+        style={{
+          maxHeight: "80vh",
+          overflowY: "auto", // Enable vertical scrolling
+          scrollbarWidth: "thin", // Thin scrollbar for better aesthetics
+        }}
+      >
         {heroLayouts.map((layout, index) => (
-          <Flex
+          <Button
         key={layout.value}
-        direction="column"
-        align="center"
-        gap="2"
-        className={`cursor-pointer ${
-          currentIndex === index ? "bg-blue-100" : "hover:bg-gray-100"
-        }`}
+        variant={currentIndex === index ? "soft" : "outline"}
+        style={{
+          display: "grid",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "0.5rem",
+          padding: "12px",
+          cursor: "pointer",
+          marginBottom: "1rem",
+          transition: "transform 0.2s ease, background-color 0.2s ease",
+          width: "fit-content", // Ensure consistent width
+          height: "fit-content", // Set a minimum height for consistency
+        }}
         onClick={() => setCurrentIndex(index)}
           >
         <Box
-          className={` border rounded p-3 ${
-          currentIndex === index ? "border-blue-500" : "border-gray-300"
-          }`}
+          style={{
+            border: "1px solid",
+            width: "100%", // Ensure consistent width
+            height: "100%", // Ensure consistent height
+          }}
         >
           <img
-          src={`/images/previews/hero/${layout.value}.png`}
-          alt={`${layout.label} preview`}
-          className="w-full h-full object-cover"
+            src={`/images/previews/hero/${layout.value}.png`}
+            alt={`${layout.label} preview`}
+            
           />
         </Box>
         <Text size="4" weight="medium" align="center">
           {layout.label}
         </Text>
-          </Flex>
+          </Button>
         ))}
-      </Box>
+      </Card>
     </Flex>
   )
 }

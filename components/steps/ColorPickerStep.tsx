@@ -74,7 +74,7 @@ export function ColorPickerStep({ value, onChange }) {
       Choose your color
       </h2>
       
-      <Card className="p-4 hover:bg-gray-50">
+      <Card className="p-4">
       <div className="flex items-center gap-4">
       <div className="relative">
       <input
