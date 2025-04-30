@@ -1,7 +1,6 @@
-import { useState } from "react"
-import { Flex, Text, Box, Button } from "@radix-ui/themes"
-import { motion, AnimatePresence } from "framer-motion"
-import { RelumeFeatureWrapper } from "../featureelelemts/RelumeFeatureWrapper"
+import { useState, useEffect } from "react"
+import { Flex, Text, Box, Button, Card } from "@radix-ui/themes"
+
 // Feature layout options
 const featureLayouts = [
   { value: "event2", label: "List Layout" },
@@ -9,69 +8,66 @@ const featureLayouts = [
   { value: "layout398", label: "Grid Layout" },
 ]
 
-// Abstract representations of feature layouts
-const FeatureLayoutAbstract = ({ layout }) => {
-  return (
-    <Box className="w-full h-40 bg-gray-200 rounded-lg flex flex-col justify-center items-center relative">
-      {/* Common Header Block */}
-      <Box className="w-3/4 h-6 bg-gray-400 rounded-md" />
-
-      {/* Different Layout Structures */}
-      {layout === "grid" && (
-        <Flex wrap="wrap" className="mt-4 gap-2">
-          <Box className="w-1/3 h-8 bg-gray-500 rounded-md" />
-          <Box className="w-1/3 h-8 bg-gray-400 rounded-md" />
-          <Box className="w-1/3 h-8 bg-gray-500 rounded-md" />
-          <Box className="w-1/3 h-8 bg-gray-400 rounded-md" />
-        </Flex>
-      )}
-
-      {layout === "list" && (
-        <Flex className="w-3/4 flex-col mt-4 gap-2">
-          <Box className="w-full h-6 bg-gray-500 rounded-md" />
-          <Box className="w-full h-6 bg-gray-400 rounded-md" />
-          <Box className="w-full h-6 bg-gray-500 rounded-md" />
-        </Flex>
-      )}
-
-      {layout === "alternating" && (
-        <Flex className="w-full mt-4 justify-between px-6">
-          <Box className="w-1/3 h-10 bg-gray-500 rounded-md" />
-          <Box className="w-1/3 h-10 bg-gray-300 rounded-md" />
-        </Flex>
-      )}
-    </Box>
-  )
-}
 
 export function FeatureLayoutStep({ value, onChange }) {
   const initialIndex = featureLayouts.findIndex((layout) => layout.value === value) || 0
   const [currentIndex, setCurrentIndex] = useState(initialIndex)
 
-  const handleNext = () => {
-    const newIndex = (currentIndex + 1) % featureLayouts.length
-    setCurrentIndex(newIndex)
-    onChange(featureLayouts[newIndex].value) // Auto-select new layout
-  }
+  useEffect(() => {
+    onChange(featureLayouts[currentIndex].value) // Ensure changes persist globally
+  }, [currentIndex])
 
-  const handlePrev = () => {
-    const newIndex = (currentIndex - 1 + featureLayouts.length) % featureLayouts.length
-    setCurrentIndex(newIndex)
-    onChange(featureLayouts[newIndex].value) // Auto-select new layout
-  }
 
   return (
     <Flex direction="column" gap="6" align="center">
-      <Text size="5" weight="bold">
-        Choose your feature layout
-      </Text>
+      <Text size="5" weight="bold">Choose your feature layout</Text>
 
-      {/* Carousel Controls */}
-      <Flex justify="between" className="w-full max-w-sm">
-        <Button onClick={handlePrev} variant="soft">←</Button>
-        <Text size="4" weight="medium">{featureLayouts[currentIndex].label}</Text>
-        <Button onClick={handleNext} variant="soft">→</Button>
-      </Flex>
+      <Card
+        className="p-4"
+        style={{
+          maxHeight: "80vh",
+          overflowY: "auto", // Enable vertical scrolling
+          scrollbarWidth: "thin", // Thin scrollbar for better aesthetics
+        }}
+      >
+        {featureLayouts.map((layout, index) => (
+          <Button
+            key={layout.value}
+            variant={currentIndex === index ? "soft" : "outline"}
+            style={{
+              display: "grid",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "0.5rem",
+              padding: "12px",
+              cursor: "pointer",
+              marginBottom: "1rem",
+              transition: "transform 0.2s ease, background-color 0.2s ease",
+              width: "fit-content", // Ensure consistent width
+              height: "fit-content", // Set a minimum height for consistency
+            }}
+            onClick={() => setCurrentIndex(index)}
+          >
+            <Box
+              style={{
+                border: "1px solid",
+                width: "100%", // Ensure consistent width
+                height: "100%", // Ensure consistent height
+              }}
+            >
+              <img
+                src={`/images/previews/feature/${layout.value}.png`}
+                alt={`${layout.label} preview`}
+
+              />
+            </Box>
+            <Text size="4" weight="medium" align="center">
+              {layout.label}
+            </Text>
+          </Button>
+        ))}
+      </Card>
     </Flex>
   )
 }
