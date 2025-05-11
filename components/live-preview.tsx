@@ -4,18 +4,13 @@ import { useColorScales } from "../hooks/useColorScales"
 import { RelumeHeroWrapper } from "./heroelements/RelumeHeroWrapper"
 import { RelumeFeatureWrapper } from "./featureelelemts/RelumeFeatureWrapper"
 import themeManager from "../lib/themeManager"
+import { useChoices } from "../context/ChoicesContext";
 
-export function LivePreview({ choices }) {
-  const {
-    color = "indigo",
-    font = "system-ui",
-    buttonStyle = "full",
-    cardStyle = "flat",
-    heroLayout = "header1",
-    featureLayout = "layout396",
-  } = choices || {}
 
-  const { colorScale } = useColorScales(color)
+export function LivePreview() {
+   const { choices, updateChoice } = useChoices();
+
+  const { colorScale } = useColorScales(choices.color)
 
   const cardStyles = {
     flat: {},
@@ -32,31 +27,31 @@ export function LivePreview({ choices }) {
         <Button size="2" onClick={() => themeManager.toggleDarkMode()}>Toggle Dark Mode</Button>
       </Box>
 
-      <Box className={font}>
+      <Box className={choices.font}>
         {/* Hero Section - Now Uses RelumeHeroWrapper */}
         <Box >
-          <RelumeHeroWrapper layout={heroLayout} choices={{ ...choices, colorScale }} />
+          <RelumeHeroWrapper layout={choices.heroLayout} choices={{ ...choices, colorScale }} />
         </Box>
 
         {/* Feature Section - now with relume */}
         <Box style={{ marginBottom: "2rem" }}>
-          <RelumeFeatureWrapper layout={featureLayout} choices={{ ...choices, colorScale }} />
+          <RelumeFeatureWrapper layout={choices.featureLayout} choices={{ ...choices, colorScale }} />
         </Box>
 
         {/* Card Section */}
         <Box style={{ marginBottom: "2rem" }}>
-          <Heading size="6" style={{ marginBottom: "1rem" }} className={font}>
+          <Heading size="6" style={{ marginBottom: "1rem" }} className={choices.font}>
             Cards
           </Heading>
           <Flex gap="4">
-            <Card style={{ ...cardStyles[cardStyle] }} className={font}>
-              <Text size="3" style={{ color: colorScale[`${color}11`] }}>Card 1</Text>
+            <Card style={{ ...cardStyles[choices.cardStyle] }} className={choices.font}>
+              <Text size="3" style={{ color: colorScale[`${choices.color}11`] }}>Card 1</Text>
             </Card>
-            <Card style={{ ...cardStyles[cardStyle] }} className={font}>
-              <Text size="3" style={{ color: colorScale[`${color}11`] }}>Card 2</Text>
+            <Card style={{ ...cardStyles[choices.cardStyle] }} className={choices.font}>
+              <Text size="3" style={{ color: colorScale[`${choices.color}11`] }}>Card 2</Text>
             </Card>
-            <Card style={{ ...cardStyles[cardStyle] }} className={font}>
-              <Text size="3" style={{ color: colorScale[`${color}11`] }}>Card 3</Text>
+            <Card style={{ ...cardStyles[choices.cardStyle] }} className={choices.font}>
+              <Text size="3" style={{ color: colorScale[`${choices.color}11`] }}>Card 3</Text>
             </Card>
           </Flex>
         </Box>

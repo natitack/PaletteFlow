@@ -17,6 +17,7 @@ import { motion, AnimatePresence } from "framer-motion"
 
 import { useColorScales } from "../hooks/useColorScales";
 import themeManager from '../lib/themeManager';
+import { useChoices } from "../context/ChoicesContext";
 
 
 const STEPS = [
@@ -30,39 +31,11 @@ const STEPS = [
 ]
 
 export default function BrandBuilder() {
+  const { choices, updateChoice } = useChoices();
   const [currentStep, setCurrentStep] = useState(0)
   const router = useRouter()
 
-  const [choices, setChoices] = useState({
-    color: "indigo",
-    mood: "modern",
-    font: "system-ui",
-    buttonStyle: "rounded",
-    cardStyle: "flat",
-    heroLayout: "header1",
-    featureLayout: "event2",
-  })
-
-  const updateChoice = useCallback((key: string, value: string) => {
-    setChoices((prev) => {
-      let newChoices = { ...prev, [key]: value }
-      if (key === "mood") {
-        // Assuming the MoodStep component provides the new values for other steps
-        const moodValues = MoodStep.getMoodValues(value)
-        newChoices = { ...newChoices, ...moodValues }
-      }
-      if (key === "color") {
-        // Update the theme
-        themeManager.setTheme(value);
-      }
-      localStorage.setItem("brandChoices", JSON.stringify(newChoices)); // Save to localStorage
-      console.log("Updated choices:", newChoices) // Debug log
-      return newChoices
-    })
-  }, [])
-
   const { colorScale, darkModeColorScale, grayColorScale, darkGrayColorScale } = useColorScales(choices.color);
-
 
   const CurrentStepComponent = STEPS[currentStep].component
   const currentStepId = STEPS[currentStep].id
@@ -145,7 +118,7 @@ export default function BrandBuilder() {
       </Flex>
 
       <div className="w-3/4">
-        <LivePreview choices={choices} />
+        <LivePreview />
       </div>
       </Flex>
     </Flex>
