@@ -1,5 +1,6 @@
-import { Flex, Text, RadioGroup } from "@radix-ui/themes"
-import { useFontOptions } from "../../hooks/useFontOptions"
+import { Flex, Text, RadioGroup } from "@radix-ui/themes";
+import { useChoices } from "../../context/ChoicesContext";
+import { useFontOptions } from "../../hooks/useFontOptions";
 
 const moodOptions = [
   { value: "caregiver", label: "Caregiver" },
@@ -14,16 +15,22 @@ const moodOptions = [
   { value: "everyman", label: "Everyman" },
   { value: "lover", label: "Lover" },
   { value: "jester", label: "Jester" },
-
-]
+];
 
 export function MoodStep({ value, onChange }) {
+  const { updateChoice } = useChoices(); // Use the correct function name
+
+  const handleChange = (newValue) => {
+    const moodValues = MoodStep.getMoodValues(newValue);
+    updateChoice("mood", newValue); // Update the mood in the context
+    Object.entries(moodValues).forEach(([key, val]) => updateChoice(key, val)); // Update other related values
+    onChange(newValue);
+  };
+
   return (
     <Flex direction="column" gap="4">
-      <Text size="5" weight="bold">
-        Select your brand personality
-      </Text>
-      <RadioGroup.Root defaultValue={value} onValueChange={onChange}>
+      <Text size="5" weight="bold">Select your brand personality</Text>
+      <RadioGroup.Root defaultValue={value} onValueChange={handleChange}>
         {moodOptions.map((option) => (
           <Flex key={option.value} align="center" gap="2">
             <RadioGroup.Item value={option.value} />
@@ -32,15 +39,15 @@ export function MoodStep({ value, onChange }) {
         ))}
       </RadioGroup.Root>
     </Flex>
-  )
+  );
 }
 
 MoodStep.getMoodValues = function (mood) {
-  const fontOptions = useFontOptions()
+  const fontOptions = useFontOptions();
   const fontMap = fontOptions.reduce((acc, option) => {
-    acc[option.label] = option.value
-    return acc
-  }, {})
+    acc[option.label] = option.value;
+    return acc;
+  }, {});
 
   switch (mood) {
     case "caregiver":
@@ -50,7 +57,7 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "raised",
         heroLayout: "header1",
         featureLayout: "event2",
-      }
+      };
     case "creator":
       return {
         font: fontMap["Fredoka"],
@@ -58,7 +65,7 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "flat",
         heroLayout: "header5",
         featureLayout: "layout396",
-      }
+      };
     case "ruler":
       return {
         font: fontMap["Source Serif 4"],
@@ -66,7 +73,7 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "shadow",
         heroLayout: "header11",
         featureLayout: "layout398",
-      }
+      };
     case "innocent":
       return {
         font: fontMap["Labrada"],
@@ -74,7 +81,7 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "bordered",
         heroLayout: "header26",
         featureLayout: "event2",
-      }
+      };
     case "explorer":
       return {
         font: fontMap["Reddit Mono"],
@@ -82,7 +89,7 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header5",
         featureLayout: "layout396",
-      }
+      };
     case "sage":
       return {
         font: fontMap["Reddit Mono"],
@@ -90,7 +97,7 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header5",
         featureLayout: "event2",
-      }
+      };
     case "hero":
       return {
         font: fontMap["Reddit Mono"],
@@ -98,7 +105,7 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header5",
         featureLayout: "layout398",
-      }
+      };
     case "outlaw":
       return {
         font: fontMap["Reddit Mono"],
@@ -106,7 +113,7 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header5",
         featureLayout: "layout396",
-      }
+      };
     case "magician":
       return {
         font: fontMap["Reddit Mono"],
@@ -114,7 +121,7 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header5",
         featureLayout: "layout398",
-      }
+      };
     case "everyman":
       return {
         font: fontMap["Reddit Mono"],
@@ -122,7 +129,7 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header5",
         featureLayout: "layout396",
-      }
+      };
     case "lover":
       return {
         font: fontMap["Reddit Mono"],
@@ -130,7 +137,7 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header5",
         featureLayout: "layout398",
-      }
+      };
     case "jester":
       return {
         font: fontMap["Reddit Mono"],
@@ -138,9 +145,9 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header5",
         featureLayout: "event2",
-      }
+      };
     default:
-      return {}
+      return {};
   }
-}
+};
 

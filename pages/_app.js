@@ -5,6 +5,7 @@ import themeManager from '../lib/themeManager';
 import { useTheme } from '../lib/useTheme';
 import { useEffect } from 'react';
 import { Work_Sans, Inclusive_Sans, Labrada, Fira_Code, Inria_Sans, Source_Serif_4, Fredoka, Roboto, Open_Sans, Reddit_Mono } from "next/font/google"
+import { ChoicesProvider } from "../context/ChoicesContext";
 
 const workSans = Work_Sans({ subsets: ['latin'] })
 const inclusiveSans = Inclusive_Sans({ subsets: ['latin'], style: 'normal', weight: "400" })
@@ -25,7 +26,7 @@ export default function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <Theme 
+    <Theme
       accentColor={accentColor}
       appearance={darkMode ? 'dark' : 'light'}
       radius="medium"
@@ -48,8 +49,10 @@ export default function MyApp({ Component, pageProps }) {
           font-family: var(--font-work-sans), Arial, Helvetica, sans-serif;
         }
       `}</style>
-      
-      <Component {...pageProps} />
+
+      <ChoicesProvider>
+        <Component {...pageProps} />
+      </ChoicesProvider>
     </Theme>
   );
 }

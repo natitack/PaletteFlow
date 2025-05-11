@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Card, Text, Flex, Box } from "@radix-ui/themes"
 import * as lightColors from '../light';
 import { useColorScales } from '../../hooks/useColorScales';
+import themeManager from '../../lib/themeManager';
+
 
 
 
@@ -62,6 +64,7 @@ export function ColorPickerStep({ value, onChange }) {
 
   const handleColorChange = (hexColor) => {
     const paletteName = findClosestPalette(hexColor);
+    themeManager.setTheme(paletteName);
     onChange(paletteName);
   };
 
