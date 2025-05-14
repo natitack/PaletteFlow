@@ -2,14 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
-import { Button, Text } from "@radix-ui/themes";
+import { Button, Text, Box  } from "@radix-ui/themes";
 import html2canvas from "html2canvas-pro";
 import jsPDF from "jspdf";
-import { Layout381, Layout381Defaults } from "../components/brand-guide-layout";
-
-// Import modifications
 import { useChoices } from "../context/ChoicesContext";
-import { Box } from "@radix-ui/themes"
 import { RelumeHeroWrapper } from "../components/heroelements/RelumeHeroWrapper"
 import { RelumeFeatureWrapper } from "../components/featureelelemts/RelumeFeatureWrapper"
 import { useColorScales } from "../hooks/useColorScales"
@@ -52,7 +48,7 @@ function getIndefiniteArticle(word: string): string {
 export default function Deliverable() {
   const router = useRouter();
   const [canAccess, setCanAccess] = useState(false);
-  var [choices, setChoices] = useState<any>({});
+  const { choices, updateChoice } = useChoices();
   const targetRef = useRef<HTMLDivElement>(null);
 
   // Modified Const  
@@ -71,7 +67,7 @@ export default function Deliverable() {
         if (!parsedChoices.mood) {
           parsedChoices.mood = "caregiver";
         }
-        setChoices(parsedChoices);
+        updateChoice(parsedChoices);
       }
     }
   }, [router]);
@@ -126,7 +122,7 @@ export default function Deliverable() {
 
         {/* Feature Section */}
         <Box style={{ marginBottom: "2rem" }}>
-          <RelumeFeatureWrapper layout={choices.featureLayout} choices={{ ...choices, colorScale, heading, description }} />
+          <RelumeFeatureWrapper layout={choices.featureLayout} choices={{ ...choices, colorScale }} />
         </Box>
       </main>
     </div>
