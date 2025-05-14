@@ -7,6 +7,14 @@ import html2canvas from "html2canvas-pro";
 import jsPDF from "jspdf";
 import { Layout381, Layout381Defaults } from "../components/brand-guide-layout";
 
+// Import modifications
+import { useChoices } from "../context/ChoicesContext";
+import { Box } from "@radix-ui/themes"
+import { RelumeHeroWrapper } from "../components/heroelements/RelumeHeroWrapper"
+import { RelumeFeatureWrapper } from "../components/featureelelemts/RelumeFeatureWrapper"
+import { useColorScales } from "../hooks/useColorScales"
+
+// Mood options
 const moodOptions = [
   { value: "caregiver", label: "Caregiver" },
   { value: "creator", label: "Creator" },
@@ -18,11 +26,13 @@ const moodOptions = [
   { value: "outlaw", label: "Outlaw" },
 ];
 
+// Mood descriptions
 const moodDescriptions: Record<string, string> = {
   caregiver: "Caregiver brands provide support, care, and protection. They are compassionate, nurturing, and dedicated to helping others.",
   creator: "Creator brands foster innovation, creativity, and expression. They are imaginative, artistic, and driven by the desire to create something new.",
   ruler: "Ruler brands emphasize control, order, and leadership. They are authoritative, responsible, and driven by a desire to create stability and structure.",
   innocent: "Innocent brands seek happiness, simplicity, and optimism. They are pure, optimistic, and believe in the goodness of people and life.",
+  sage: "TODO",
   explorer: "Explorer brands emphasize freedom, adventure, and self-discovery. They seek new experiences and are driven by a desire to explore uncharted territories.",
   hero: "Hero brands strive for courage, achievement, and transformation. They are determined, brave, and driven to improve the world through their actions.",
   outlaw: "Outlaw brands challenge the status quo and embrace rebellion. They are disruptive, revolutionary, and seek to change the world by breaking the rules.",
@@ -38,11 +48,15 @@ function getIndefiniteArticle(word: string): string {
   return vowels.includes(word[0].toLowerCase()) ? "an" : "a";
 }
 
+// Deliverable
 export default function Deliverable() {
   const router = useRouter();
   const [canAccess, setCanAccess] = useState(false);
   const [brandChoices, setBrandChoices] = useState<any>({});
   const targetRef = useRef<HTMLDivElement>(null);
+
+  // Modified Const  
+  const { colorScale } = useColorScales(brandChoices.color)
 
   useEffect(() => {
     const isComplete = localStorage.getItem("brandBuilderComplete");
@@ -102,13 +116,26 @@ export default function Deliverable() {
 
       {/* Deliverable Content */}
       <main className="p-8">
-        <Layout381
+        {/* <Layout381
           {...Layout381Defaults}
           tagline="Your brand embodies this archetype:"
           heading={heading}
           description={description}
           buttonStyle={buttonRadius}
-        />
+        /> */}
+
+        <Box>
+          <RelumeHeroWrapper
+          layout={brandChoices.heroLayout}
+          choices={{ ...brandChoices, colorScale }}
+          // heading={heading}
+          // description={description}
+          />
+        </Box>
+
+        <Box style={{ marginBottom: "2rem" }}>
+          <RelumeFeatureWrapper layout={brandChoices.featureLayout} choices={{ ...brandChoices, colorScale }} />
+        </Box>
       </main>
     </div>
   );
