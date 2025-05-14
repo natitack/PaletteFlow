@@ -52,7 +52,7 @@ function getIndefiniteArticle(word: string): string {
 export default function Deliverable() {
   const router = useRouter();
   const [canAccess, setCanAccess] = useState(false);
-  const [brandChoices, setBrandChoices] = useState<any>({});
+  var [brandChoices, setBrandChoices] = useState<any>({});
   const targetRef = useRef<HTMLDivElement>(null);
 
   // Modified Const  
@@ -97,8 +97,7 @@ export default function Deliverable() {
     moodOptions.find((option) => option.value === brandChoices.mood)?.label || "Caregiver";
   const article = getIndefiniteArticle(moodLabel);
   const heading = `You are ${article} ${moodLabel}`;
-  const description =
-    moodDescriptions[brandChoices.mood] ||
+  const description = moodDescriptions[brandChoices.mood] ||
     "This archetype reflects your brand's values, tone, and energy. Use this guide to build a consistent identity.";
   const buttonRadius = brandChoices.buttonStyle || "medium"
 
@@ -127,14 +126,14 @@ export default function Deliverable() {
         <Box>
           <RelumeHeroWrapper
           layout={brandChoices.heroLayout}
-          choices={{ ...brandChoices, colorScale }}
+          choices={{ ...brandChoices, colorScale, heading, description }}
           // heading={heading}
           // description={description}
           />
         </Box>
 
         <Box style={{ marginBottom: "2rem" }}>
-          <RelumeFeatureWrapper layout={brandChoices.featureLayout} choices={{ ...brandChoices, colorScale }} />
+          <RelumeFeatureWrapper layout={brandChoices.featureLayout} choices={{ ...brandChoices, colorScale, heading, description }} />
         </Box>
       </main>
     </div>

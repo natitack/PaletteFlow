@@ -5,7 +5,7 @@ const ChoicesContext = createContext(null);
 export const ChoicesProvider = ({ children }) => {
   const [choices, setChoices] = useState({
     color: "indigo",
-    mood: "modern",
+    mood: "caregiver",
     font: "system-ui",
     buttonStyle: "rounded",
     cardStyle: "flat",

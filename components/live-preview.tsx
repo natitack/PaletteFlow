@@ -8,7 +8,7 @@ import { useChoices } from "../context/ChoicesContext";
 
 
 export function LivePreview() {
-   const { choices, updateChoice } = useChoices();
+  const { choices, updateChoice } = useChoices();
 
   const { colorScale } = useColorScales(choices.color)
 
