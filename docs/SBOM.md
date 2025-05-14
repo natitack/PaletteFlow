@@ -2,9 +2,9 @@
 # Software Bill of Materials (SBOM)
 
 **Project Name:** PaletteFlow  
-**Team:** Nathan Nelson, Kameron Beamer, Bennett Hamilton 
-**Client:** farewell
-**Last Updated:** 05-14-2025 
+**Team:** Nathan Nelson, Kameron Beamer, Bennett Hamilton  
+**Client:** farewell  
+**Last Updated:** 05-14-2025  
 
 ## Overview
 
@@ -31,6 +31,12 @@ This SBOM documents all 3rd-party software packages, libraries, tools, and depen
 | @types/node | 22.13.1 | MIT | Dev Types | Type definitions for Node.js | MIT-compliant |
 | @types/react | 19.0.8 | MIT | Dev Types | Type definitions for React | MIT-compliant |
 
+## Hosting & Infrastructure
+
+| Service | Use | License/Terms | Cost | Compliance |
+|---------|-----|----------------|------|------------|
+| Vercel | Hosting the production build of the Next.js app with GitHub CI/CD integration | Proprietary | Free Tier | Compliant with Vercel’s terms of use |
+
 ## Noteworthy Considerations
 
 - html2canvas-pro uses the GPL-3.0 license, which may introduce legal obligations if you distribute the software commercially. Consider replacing it with an MIT-licensed alternative like `html2canvas` if necessary.
@@ -54,7 +60,7 @@ All components have been vetted for license compatibility with commercial and ed
 
 The client has reviewed and approved the SBOM via Slack. A screenshot of their approval is stored in the repository.
 
-**Approval Screenshot:** [Screenshot Link] 
+**Approval Screenshot:** [Screenshot Link]  
 **Date of Approval:** [Date]  
 **Client Name:** [Client Name]  
 **Statement:** "I, [Client Name], approve the SBOM for the PaletteFlow project on [Date]."
