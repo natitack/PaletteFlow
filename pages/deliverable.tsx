@@ -52,15 +52,15 @@ function getIndefiniteArticle(word: string): string {
 export default function Deliverable() {
   const router = useRouter();
   const [canAccess, setCanAccess] = useState(false);
-  var [brandChoices, setBrandChoices] = useState<any>({});
+  var [choices, setChoices] = useState<any>({});
   const targetRef = useRef<HTMLDivElement>(null);
 
   // Modified Const  
-  const { colorScale } = useColorScales(brandChoices.color)
+  const { colorScale } = useColorScales(choices.color)
 
   useEffect(() => {
     const isComplete = localStorage.getItem("brandBuilderComplete");
-    const choices = localStorage.getItem("brandChoices");
+    const choices = localStorage.getItem("choices");
 
     if (!isComplete) {
       router.push("/brand-builder");
@@ -71,7 +71,7 @@ export default function Deliverable() {
         if (!parsedChoices.mood) {
           parsedChoices.mood = "caregiver";
         }
-        setBrandChoices(parsedChoices);
+        setChoices(parsedChoices);
       }
     }
   }, [router]);
@@ -94,46 +94,39 @@ export default function Deliverable() {
   }
 
   const moodLabel =
-    moodOptions.find((option) => option.value === brandChoices.mood)?.label || "Caregiver";
+    moodOptions.find((option) => option.value === choices.mood)?.label || "Caregiver";
   const article = getIndefiniteArticle(moodLabel);
   const heading = `You are ${article} ${moodLabel}`;
-  const description = moodDescriptions[brandChoices.mood] ||
+  const description = moodDescriptions[choices.mood] ||
     "This archetype reflects your brand's values, tone, and energy. Use this guide to build a consistent identity.";
-  const buttonRadius = brandChoices.buttonStyle || "medium"
+  const buttonRadius = choices.buttonStyle || "medium"
 
   return (
-    <div className={`bg-white text-gray-900 ${brandChoices.font || ''}`} ref={targetRef}>
+    <div className={`bg-white text-gray-900 ${choices.font || ''}`} ref={targetRef}>
       {/* Header */}
       <header className="p-6 border-b flex justify-between items-center">
         <Text size="6" weight="bold">
           Brand Style Guide
         </Text>
-        <Button onClick={exportPDF} radius={buttonRadius} className={brandChoices.font}>
+        <Button onClick={exportPDF} radius={buttonRadius} className={choices.font}>
           Export PDF
         </Button>
       </header>
 
       {/* Deliverable Content */}
       <main className="p-8">
-        {/* <Layout381
-          {...Layout381Defaults}
-          tagline="Your brand embodies this archetype:"
-          heading={heading}
-          description={description}
-          buttonStyle={buttonRadius}
-        /> */}
 
+        {/* Hero Section */}
         <Box>
           <RelumeHeroWrapper
-          layout={brandChoices.heroLayout}
-          choices={{ ...brandChoices, colorScale, heading, description }}
-          // heading={heading}
-          // description={description}
+          layout={choices.heroLayout}
+          choices={{ ...choices, colorScale, heading, description }}
           />
         </Box>
 
+        {/* Feature Section */}
         <Box style={{ marginBottom: "2rem" }}>
-          <RelumeFeatureWrapper layout={brandChoices.featureLayout} choices={{ ...brandChoices, colorScale, heading, description }} />
+          <RelumeFeatureWrapper layout={choices.featureLayout} choices={{ ...choices, colorScale, heading, description }} />
         </Box>
       </main>
     </div>
