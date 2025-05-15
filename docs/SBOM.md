@@ -60,10 +60,10 @@ All components have been vetted for license compatibility with commercial and ed
 
 The client has reviewed and approved the SBOM via Slack. A screenshot of their approval is stored in the repository.
 
-**Approval Screenshot:** [Screenshot Link]  
-**Date of Approval:** [Date]  
-**Client Name:** [Client Name]  
-**Statement:** "I, [Client Name], approve the SBOM for the PaletteFlow project on [Date]."
+**Approval Screenshot:** [docs/signoff-screenshot.png](./signoff-screenshot.png)  
+**Date of Approval:** 05-15-25  
+**Client Name:** Kevin  
+**Statement:** "I, Kevin, approve the SBOM for the PaletteFlow project on 05-15-25."
 
 ## Repository
 
