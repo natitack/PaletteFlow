@@ -4,7 +4,12 @@ const ChoicesContext = createContext(null);
 
 export const ChoicesProvider = ({ children }) => {
   const [choices, setChoices] = useState({
-    color: "indigo",
+    color: "indigo", //radix theme color
+    tailwindColor: "indigo",
+    originalHex: "#4f46e5", //original hex color
+    brandNumber: "500",
+    chroma: ".5",
+    lightness: ".50",
     mood: "modern",
     font: "system-ui",
     buttonStyle: "rounded",

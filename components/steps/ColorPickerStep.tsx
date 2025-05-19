@@ -3,59 +3,13 @@ import { Card, Text, Flex, Box } from "@radix-ui/themes"
 import * as lightColors from '../light';
 import { useColorScales } from '../../hooks/useColorScales';
 import themeManager from '../../lib/themeManager';
-
-
-
-
-const hexToRgb = (hex) => {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : null;
-};
-
-const getColorDistance = (color1, color2) => {
-  const rgb1 = hexToRgb(color1);
-  const rgb2 = hexToRgb(color2);
-  if (!rgb1 || !rgb2) return Infinity;
-  
-  return Math.sqrt(
-    Math.pow(rgb2.r - rgb1.r, 2) +
-    Math.pow(rgb2.g - rgb1.g, 2) +
-    Math.pow(rgb2.b - rgb1.b, 2)
-  );
-};
-
-const findClosestPalette = (color) => {
-  let closestDistance = Infinity;
-  let closestPaletteName = '';
-
-  Object.entries(lightColors).forEach(([name, palette]) => {
-    if (name.includes('A') || name.includes('P3')) return;
-
-    Object.entries(palette).forEach(([_, paletteColor]) => {
-      const distance = getColorDistance(color, paletteColor);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestPaletteName = name;
-      }
-    });
-  });
-
-  return closestPaletteName;
-};
-
-
-
-const getPaletteColor = (paletteName: string): string => {
-  if (!paletteName || !lightColors[paletteName]) return '#000000';
-  const colors = Object.values(lightColors[paletteName]) as string[];
-  return colors[Math.floor(colors.length / 2)] || colors[0] || '#000000';
-};
+import { themeColors } from '../tailwindcolors';
+import { useChoices } from "../../context/ChoicesContext";
+import { findClosestRadixPalette, getPaletteColor } from '../utils/colorutils';
+import { hexToOklch, adjustOklch, formatOklch, findClosestTailwindColor } from '../utils/oklch-color-utils';
 
 export function ColorPickerStep({ value, onChange }) {
+  const { choices, updateChoice } = useChoices();
   const [currentColor, setCurrentColor] = useState<string>(getPaletteColor(value));
 
   useEffect(() => {
@@ -63,12 +17,55 @@ export function ColorPickerStep({ value, onChange }) {
   }, [value]);
 
   const handleColorChange = (hexColor) => {
-    const paletteName = findClosestPalette(hexColor);
+    // Store the original hex color
+    updateChoice("originalHex", hexColor);
+    
+    // Find the closest Radix UI palette for color previews
+    const paletteName = findClosestRadixPalette(hexColor);
     themeManager.setTheme(paletteName);
     onChange(paletteName);
+    
+    // Process the color transformation based on the current mood settings
+    if (choices.mood && choices.chroma && choices.lightness) {
+      processColorTransformation(hexColor, choices.chroma, choices.lightness);
+    } else {
+      // If mood settings aren't available yet, just set the tailwind color
+      // based on the closest match to the original hex
+      const oklchColor = hexToOklch(hexColor);
+      if (oklchColor) {
+        const numericOklch = {
+          l: Number(oklchColor.l),
+          c: Number(oklchColor.c),
+          h: Number(oklchColor.h),
+        };
+        const closestTailwind = findClosestTailwindColor(numericOklch);
+        updateChoice("tailwindColor", closestTailwind.colorName);
+        updateChoice("brandNumber", closestTailwind.shade);
+      }
+    }
+  };
+  
+  const processColorTransformation = (hexColor, chroma, lightness) => {
+    // Convert hex to OKLCH
+    const oklchColor = hexToOklch(hexColor);
+    
+    if (oklchColor) {
+      // Adjust OKLCH values based on mood
+      const adjustedOklch = adjustOklch(oklchColor, chroma, lightness);
+      
+      // Format the new OKLCH color
+      const newOklchStr = formatOklch(adjustedOklch.l, adjustedOklch.c, adjustedOklch.h);
+      
+      // Find the closest Tailwind color
+      const closestTailwind = findClosestTailwindColor(adjustedOklch);
+      
+      // Update the context with the new values
+      updateChoice("tailwindColor", closestTailwind.colorName);
+      updateChoice("brandNumber", closestTailwind.shade);
+    }
   };
 
-  const paletteName = findClosestPalette(currentColor);
+  const paletteName = findClosestRadixPalette(currentColor);
   const { colorScale, darkModeColorScale, grayColorScale, darkGrayColorScale } = useColorScales(paletteName);
 
   return (
@@ -91,9 +88,45 @@ export function ColorPickerStep({ value, onChange }) {
       <div className="flex flex-col gap-1">
       <span className="font-medium">Selected Color</span>
       <span className="text-sm text-gray-500 uppercase">{value}</span>
+      <span className="text-sm text-gray-500 uppercase">{choices.originalHex}</span>
+      <span className="text-sm text-gray-500">Tailwind: {choices.tailwindColor}-{choices.brandNumber}</span>
       </div>
       </div>
       </Card>
+      
+      {/* Color Transformation Preview
+      // <Card className="p-4">
+      //   <Text size="2" weight="bold" className="mb-2">Color Transformations</Text>
+      //   <Flex gap="3">
+      //     <div className="flex flex-col items-center">
+      //       <div 
+      //         className="w-10 h-10 rounded mb-1" 
+      //         style={{ backgroundColor: choices.originalHex }} 
+      //       />
+      //       <Text size="1">Original</Text>
+      //     </div>
+          
+      //     <div className="flex items-center">
+      //       <div className="text-gray-400">→</div>
+      //     </div>
+          
+      //     <div className="flex flex-col items-center">
+      //       <div 
+      //         className="w-10 h-10 rounded mb-1" 
+      //         style={{ 
+      //           backgroundColor: themeColors[choices.tailwindColor]?.[choices.brandNumber] || "#cccccc"
+      //         }} 
+      //       />
+      //       <Text size="1">Transformed</Text>
+      //     </div>
+          
+      //     <div className="ml-2">
+      //       <Text size="1">Chroma: {choices.chroma}</Text>
+      //       <Text size="1">Lightness: {choices.lightness}</Text>
+      //     </div>
+      //   </Flex>
+      </Card> */}
+      
       {/* Color Palette Preview */}
       <Flex direction="column" gap="4" align="center">
       <Text size="2" weight="bold">
