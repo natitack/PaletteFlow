@@ -1,66 +1,42 @@
+
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState, useRef } from "react";
-import { Button, Text } from "@radix-ui/themes";
 import html2canvas from "html2canvas-pro";
 import jsPDF from "jspdf";
-import { Layout381, Layout381Defaults } from "../components/brand-guide-layout";
+import { useChoices } from "../context/ChoicesContext";
+import React, { useRef, useEffect, useState } from "react";
+import { Button } from "@radix-ui/themes";
+import { themeColors } from "../components/tailwindcolors";
 
-const moodOptions = [
-  { value: "caregiver", label: "Caregiver" },
-  { value: "creator", label: "Creator" },
-  { value: "ruler", label: "Ruler" },
-  { value: "innocent", label: "Innocent" },
-  { value: "explorer", label: "Explorer" },
-  { value: "sage", label: "Sage" },
-  { value: "hero", label: "Hero" },
-  { value: "outlaw", label: "Outlaw" },
-];
+const Deliverable = () => {
+  const targetRef = useRef(null);
+  const { choices, setAllChoices } = useChoices();
+  const [hydrated, setHydrated] = useState(false);
 
-const moodDescriptions: Record<string, string> = {
-  caregiver: "Caregiver brands provide support, care, and protection. They are compassionate, nurturing, and dedicated to helping others.",
-  creator: "Creator brands foster innovation, creativity, and expression. They are imaginative, artistic, and driven by the desire to create something new.",
-  ruler: "Ruler brands emphasize control, order, and leadership. They are authoritative, responsible, and driven by a desire to create stability and structure.",
-  innocent: "Innocent brands seek happiness, simplicity, and optimism. They are pure, optimistic, and believe in the goodness of people and life.",
-  explorer: "Explorer brands emphasize freedom, adventure, and self-discovery. They seek new experiences and are driven by a desire to explore uncharted territories.",
-  hero: "Hero brands strive for courage, achievement, and transformation. They are determined, brave, and driven to improve the world through their actions.",
-  outlaw: "Outlaw brands challenge the status quo and embrace rebellion. They are disruptive, revolutionary, and seek to change the world by breaking the rules.",
-  magician: "Magician brands create transformation and bring visions to life. They are visionary, charismatic, and skilled at making dreams a reality.",
-  everyman: "Everyman brands seek connection, belonging, and commonality. They are relatable, friendly, and aim to make everyone feel included.",
-  lover: "Lover brands value passion, intimacy, and emotional connection. They are driven by a desire to create relationships and experiences that are deeply meaningful.",
-  jester: "Jester brands bring joy, humor, and light-heartedness. They are playful, witty, and enjoy entertaining others.",
-};
-
-// Utility to pick correct article
-function getIndefiniteArticle(word: string): string {
-  const vowels = ["a", "e", "i", "o", "u"];
-  return vowels.includes(word[0].toLowerCase()) ? "an" : "a";
-}
-
-export default function Deliverable() {
-  const router = useRouter();
-  const [canAccess, setCanAccess] = useState(false);
-  const [brandChoices, setBrandChoices] = useState<any>({});
-  const targetRef = useRef<HTMLDivElement>(null);
-
+  // Sync choices from localStorage on mount
   useEffect(() => {
-    const isComplete = localStorage.getItem("brandBuilderComplete");
-    const choices = localStorage.getItem("brandChoices");
-
-    if (!isComplete) {
-      router.push("/brand-builder");
-    } else {
-      setCanAccess(true);
-      if (choices) {
-        const parsedChoices = JSON.parse(choices);
-        if (!parsedChoices.mood) {
-          parsedChoices.mood = "caregiver";
-        }
-        setBrandChoices(parsedChoices);
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("brandChoices");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        setAllChoices(parsed);
       }
+      setHydrated(true);
     }
-  }, [router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // For debugging - this will help you see what's actually in the choices object
+  useEffect(() => {
+    if (hydrated) {
+      console.log("Current choices:", choices);
+    }
+  }, [choices, hydrated]);
+
+  if (!hydrated) {
+    // Optionally, show a loading spinner here
+    return <div>Loading...</div>;
+  }
 
   const exportPDF = async () => {
     const element = targetRef.current;
@@ -75,41 +51,336 @@ export default function Deliverable() {
     pdf.save("paletteflow-deliverable.pdf");
   };
 
-  if (!canAccess) {
-    return <p className="text-center mt-10">Redirecting...</p>;
-  }
+  // Get the proper colors from the Tailwind theme
+  const getTailwindColor = (colorName, shade) => {
+    if (!colorName || !themeColors[colorName] || !themeColors[colorName][shade]) {
+      return "#000000"; // Default fallback
+    }
+    return themeColors[colorName][shade];
+  };
 
-  const moodLabel =
-    moodOptions.find((option) => option.value === brandChoices.mood)?.label || "Caregiver";
-  const article = getIndefiniteArticle(moodLabel);
-  const heading = `You are ${article} ${moodLabel}`;
-  const description =
-    moodDescriptions[brandChoices.mood] ||
-    "This archetype reflects your brand's values, tone, and energy. Use this guide to build a consistent identity.";
-  const buttonRadius = brandChoices.buttonStyle || "medium"
+  // Generate color shades using the tailwind color system
+  const generateTailwindShades = (colorName, labelPrefix = "Shade") => {
+    if (!colorName || !themeColors[colorName]) {
+      return [{ value: "#000000", label: "Default" }];
+    }
+    
+    // Use standard tailwind shade values
+    const shades = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
+    
+    return shades.map((shade) => {
+      return {
+        value: getTailwindColor(colorName, shade),
+        label: `${labelPrefix} ${shade}`
+      };
+    });
+  };
+
+  // Use choices from context for colors
+  const tailwindColor = choices.tailwindColor || "indigo";
+  const brandNumber = choices.brandNumber || "500";
+  const primaryColorValue = getTailwindColor(tailwindColor, brandNumber);
+
+  // Create shade palettes using tailwind color system
+  const primaryColorShades = generateTailwindShades(tailwindColor, "Primary");
+  const secondaryColorShades = generateTailwindShades(choices.secondaryColorName || "slate", "Secondary");
+
+  // Font should be derived from choices
+  const fontChoice = choices.font || "system-ui";
 
   return (
-    <div className={`bg-white text-gray-900 ${brandChoices.font || ''}`} ref={targetRef}>
-      {/* Header */}
+    <div
+      className={`bg-white text-gray-900 min-h-screen ${fontChoice}`}
+      ref={targetRef}
+    >
+      {/* Header with export button */}
       <header className="p-6 border-b flex justify-between items-center">
-        <Text size="6" weight="bold">
-          Brand Style Guide
-        </Text>
-        <Button onClick={exportPDF} radius={buttonRadius} className={brandChoices.font}>
+        <div className="flex items-center">
+          <div
+            className="w-10 h-10 rounded-full mr-3"
+            style={{ backgroundColor: primaryColorValue }}
+          ></div>
+          <h1 className="text-3xl font-bold">Brand Style Guide</h1>
+        </div>
+        <Button
+          onClick={exportPDF}
+          radius={choices.buttonStyle}
+          className={fontChoice}
+        >
           Export PDF
         </Button>
       </header>
 
-      {/* Deliverable Content */}
-      <main className="p-8">
-        <Layout381
-          {...Layout381Defaults}
-          tagline="Your brand embodies this archetype:"
-          heading={heading}
-          description={description}
-          buttonStyle={buttonRadius}
-        />
+      <main className="p-8 max-w-6xl mx-auto">
+        {/* Main Colors section */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6">Logo</h2>
+          <div className="flex gap-4">
+            <div
+              className="w-48 h-32 flex items-center justify-center rounded-md"
+              style={{ backgroundColor: primaryColorValue }}
+            >
+              <span className="text-white font-bold text-xl">
+                {tailwindColor} {brandNumber}
+              </span>
+            </div>
+            <div className="w-48 h-32 flex items-center justify-center rounded-md bg-gray-900">
+              <span className="text-white font-bold text-xl">
+                {tailwindColor} {brandNumber}
+              </span>
+            </div>
+            <div className="w-48 h-32 flex items-center justify-center rounded-md bg-gray-100 border">
+              <span className="text-gray-900 font-bold text-xl">
+                {tailwindColor} {brandNumber}
+              </span>
+            </div>
+          </div>
+        </section>
       </main>
+
+        {/* Typography section */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6">Typography</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="p-4 bg-gray-100 rounded-md">
+              <h3 className="text-lg font-medium mb-2">{fontChoice}</h3>
+              <p className="text-sm text-gray-600 mb-4">Primary Font</p>
+              <div className="text-5xl mb-4">AaBbCcDdEe</div>
+            </div>
+
+            <div className="bg-gray-900 text-white p-4 rounded-md">
+              <h3 className="text-lg font-medium mb-2">{fontChoice}</h3>
+              <p className="text-sm text-gray-400 mb-4">Secondary Font</p>
+              <div className="text-6xl">Aa</div>
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <h3 className="text-xl font-bold mb-4">Font Weights</h3>
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <h4 className="text-lg mb-2">{fontChoice}</h4>
+                <ul className="space-y-2">
+                  <li>Extra Light</li>
+                  <li>Light</li>
+                  <li>Regular</li>
+                  <li>Medium</li>
+                  <li>Semi Bold</li>
+                  <li>Bold</li>
+                  <li>Extra Bold</li>
+                  <li>Black</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-lg mb-2">{fontChoice}</h4>
+                <ul className="space-y-2">
+                  <li>Thin</li>
+                  <li>ExtraLight</li>
+                  <li>Light</li>
+                  <li>Regular</li>
+                  <li>Medium</li>
+                  <li>Semi Bold</li>
+                  <li className="font-bold">Bold</li>
+                  <li className="font-bold">Extra Bold</li>
+                  <li className="font-black">Black</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Color Palette section */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6">Color Palette</h2>
+
+          {/* Primary color palette */}
+          <div className="mb-6">
+            <h3 className="text-lg font-medium mb-4">Primary Colors</h3>
+            <div className="flex flex-wrap gap-1">
+              {primaryColorShades.map((shade, index) => (
+                <div key={`primary-${index}`} className="flex flex-col items-center">
+                  <div
+                    className="w-12 h-12 rounded-md border border-gray-200"
+                    style={{
+                      backgroundColor: shade.value,
+                    }}
+                  ></div>
+                  <span className="text-xs mt-1">{shade.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Secondary color palette */}
+          <div>
+            <h3 className="text-lg font-medium mb-4">Secondary Colors</h3>
+            <div className="flex flex-wrap gap-1">
+              {secondaryColorShades.map((shade, index) => (
+                <div key={`secondary-${index}`} className="flex flex-col items-center">
+                  <div
+                    className="w-12 h-12 rounded-md border border-gray-200"
+                    style={{
+                      backgroundColor: shade.value,
+                    }}
+                  ></div>
+                  <span className="text-xs mt-1">{shade.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Brand Attributes section */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6">Brand Attributes</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="text-xl font-bold mb-4">Brand Mood</h3>
+              <p className="text-lg">{choices.mood || "Adventurous & Welcoming"}</p>
+              <p className="mt-2 text-gray-600">
+                The brand conveys a sense of exploration while maintaining a
+                friendly, approachable stance. It balances bold visuals with
+                trustworthy messaging.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-bold mb-4">Brand Values</h3>
+              <ul className="space-y-2">
+                <li>• Innovation without compromising tradition</li>
+                <li>• Environmental stewardship</li>
+                <li>• Community-focused development</li>
+                <li>• Authentic storytelling</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* UI Elements section */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6">UI Elements</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="text-xl font-bold mb-4">Button Style</h3>
+              <p className="mb-4">Style: {choices.buttonStyle || "Rounded"}</p>
+
+              <div className="space-y-3">
+                <button 
+                  className="px-4 py-2 text-white rounded-md w-32"
+                  style={{ backgroundColor: primaryColorValue }}
+                >
+                  Primary
+                </button>
+                <button 
+                  className="px-4 py-2 border rounded-md w-32"
+                  style={{ 
+                    borderColor: primaryColorValue,
+                    color: primaryColorValue
+                  }}
+                >
+                  Secondary
+                </button>
+                <button 
+                  className="px-4 py-2 underline w-32"
+                  style={{ color: primaryColorValue }}
+                >
+                  Tertiary
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-bold mb-4">Card Style</h3>
+              <p className="mb-4">Style: {choices.cardStyle || "Rounded with subtle shadow"}</p>
+
+              <div className="bg-white border rounded-md shadow-sm p-4">
+                <h4 className="font-bold mb-2">Sample Card</h4>
+                <p className="text-sm text-gray-600">
+                  This card demonstrates the standard styling for content
+                  containers across the brand's digital products.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Layouts section */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6">Layouts</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="text-xl font-bold mb-4">Hero Layout</h3>
+              <p className="mb-2">{choices.heroLayout || "Centered with overlay text"}</p>
+
+              <div className="relative h-48 rounded-md overflow-hidden bg-gray-200">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center">
+                    <h3 className="text-2xl font-bold">Hero Title</h3>
+                    <p className="text-sm">Supporting headline text</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-bold mb-4">Feature Layout</h3>
+              <p className="mb-2">{choices.featureLayout || "Grid with 3-column layout"}</p>
+
+              <div className="grid grid-cols-3 gap-2">
+                <div className="bg-gray-100 p-2 rounded-md aspect-square flex items-center justify-center">
+                  1
+                </div>
+                <div className="bg-gray-200 p-2 rounded-md aspect-square flex items-center justify-center">
+                  2
+                </div>
+                <div className="bg-gray-300 p-2 rounded-md aspect-square flex items-center justify-center">
+                  3
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Color Information Section */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6">Color Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="text-xl font-bold mb-4">Primary Color</h3>
+              <p className="text-lg">Name: {choices.color || tailwindColor}</p>
+              <p className="text-lg">Shade: {brandNumber}</p>
+              <p className="text-lg">Value: {primaryColorValue}</p>
+              <div
+                className="h-24 w-48 mt-2 rounded-md"
+                style={{ backgroundColor: primaryColorValue }}
+              ></div>
+              <p className="mt-2 text-gray-600">
+                This color represents the brand's connection to nature and
+                stability.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-bold mb-4">Secondary Color</h3>
+              <p className="text-lg">Name: {choices.secondaryColorName || "Slate"}</p>
+              <p className="text-lg">Value: {getTailwindColor(choices.secondaryColorName || "slate", "500")}</p>
+              <div
+                className="h-24 w-48 mt-2 rounded-md"
+                style={{ backgroundColor: getTailwindColor(choices.secondaryColorName || "slate", "500") }}
+              ></div>
+              <p className="mt-2 text-gray-600">
+                This color complements the primary color and is used for
+                supporting elements.
+              </p>
+            </div>
+          </div>
+        </section>
     </div>
   );
-}
+};
+
+export default Deliverable;
