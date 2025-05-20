@@ -3,15 +3,28 @@ import React, { createContext, useContext, useState, useCallback } from "react";
 const ChoicesContext = createContext(null);
 
 export const ChoicesProvider = ({ children }) => {
-  const [choices, setChoices] = useState({
-    color: "indigo",
-    mood: "caregiver",
-    font: "system-ui",
-    buttonStyle: "rounded",
-    cardStyle: "flat",
-    heroLayout: "header1",
-    featureLayout: "event2",
-  });
+  const getInitialChoices = () => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("brandChoices");
+      if (stored) return JSON.parse(stored);
+    }
+    return {
+      color: "indigo",
+      tailwindColor: "indigo",
+      originalHex: "#4f46e5",
+      brandNumber: "500",
+      chroma: ".5",
+      lightness: ".50",
+      mood: "modern",
+      font: "system-ui",
+      buttonStyle: "rounded",
+      cardStyle: "flat",
+      heroLayout: "header1",
+      featureLayout: "event2",
+    };
+  };
+
+  const [choices, setChoices] = useState(getInitialChoices);
 
   const updateChoice = useCallback((key: string, value: string) => {
     setChoices((prev) => {
@@ -21,8 +34,13 @@ export const ChoicesProvider = ({ children }) => {
     });
   }, []);
 
+  const setAllChoices = useCallback((newChoices) => {
+    setChoices(newChoices);
+    localStorage.setItem("brandChoices", JSON.stringify(newChoices));
+  }, []);
+
   return (
-    <ChoicesContext.Provider value={{ choices, updateChoice }}>
+    <ChoicesContext.Provider value={{ choices, updateChoice, setAllChoices }}>
       {children}
     </ChoicesContext.Provider>
   );

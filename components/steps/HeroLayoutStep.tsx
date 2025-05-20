@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { Flex, Text, Box, Button, Card } from "@radix-ui/themes"
+import { useChoices } from "../../context/ChoicesContext";
 
 
 
@@ -12,7 +13,9 @@ const heroLayouts = [
   { value: "header11", label: "Header 11" },
 ]
 
-export function HeroLayoutStep({ value, onChange, choices }) {
+export function HeroLayoutStep({ value, onChange }) {
+  const { updateChoice, choices } = useChoices();
+  
   const initialIndex = heroLayouts.findIndex((layout) => layout.value === value)
   const [currentIndex, setCurrentIndex] = useState(initialIndex !== -1 ? initialIndex : 0)
 
