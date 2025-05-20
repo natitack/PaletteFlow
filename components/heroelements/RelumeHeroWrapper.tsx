@@ -6,6 +6,8 @@ import { Header11 } from "./Header11";
 import { useChoices } from "../../context/ChoicesContext";
 import { getRadixColor } from '../utils/radix-color-utils';
 import themeManager from '../../lib/themeManager';
+import { useColorScales } from "../../hooks/useColorScales";
+
 
 // Map of available Relume header components
 const heroLayouts = {
@@ -19,6 +21,8 @@ const heroLayouts = {
 export function RelumeHeroWrapper() {
     const { updateChoice, choices } = useChoices();
     const isDarkMode = themeManager.getCurrentTheme().darkMode;
+      const { colorScale, darkModeColorScale, grayColorScale, darkGrayColorScale } = useColorScales(choices.color);
+    
 
     const SelectedHero = heroLayouts[choices.heroLayout as keyof typeof heroLayouts] || Header1;
 
@@ -42,49 +46,25 @@ export function RelumeHeroWrapper() {
       full: "rounded-full",
     };
 
-    // Get primary color from Radix palettes
-    const getPrimaryColor = () => {
-      return getRadixColor(color, shade, isDarkMode);
-    };
-
-    // Get accent color (darker shade for borders, etc.)
-    const getAccentColor = () => {
-      // Try to get a deeper shade for accent
-      const accentShade = Math.min(parseInt(shade) + 1, 12).toString();
-      return getRadixColor(color, accentShade, isDarkMode);
-    };
-
-    // Get text color for buttons (white for dark backgrounds, color for light backgrounds)
-    const getButtonTextColor = () => {
-      // For Radix colors, generally shades 9+ are dark enough for white text
-      // Shades 1-8 typically need dark text
-      const shadeNum = parseInt(shade);
-      return shadeNum >= 9 ? "white" : getRadixColor(color, "12", isDarkMode);
-    };
-
-    // Get primary and accent colors
-    const primaryColor = getPrimaryColor();
-    const accentColor = getAccentColor();
-    const buttonTextColor = getButtonTextColor();
 
     // Ensure buttons array is valid and apply dynamic color styles
-    const updatedButtons = buttons.length
+ const updatedButtons = buttons.length
         ? buttons.map((button) => ({
             ...button,
             ...(button.variant === "primary"
                 ? {
                     style: {
-                      backgroundColor: primaryColor,
-                      color: buttonTextColor,
-                      border: `2px solid ${accentColor}`,
+                      backgroundColor: colorScale[`${color}9`] || "#6366f1", // Default to Indigo-600
+                      color: "white",
+                      border: `2px solid ${colorScale[`${color}11`] || "#4f46e5"}`,
                     },
                     className: `${buttonRadiusClasses[buttonStyle] || "rounded-md"} px-4 py-2 font-semibold shadow`,
                 }
                 : {
                     style: {
                       backgroundColor: "transparent",
-                      color: primaryColor,
-                      border: `2px solid ${primaryColor}`,
+                      color: colorScale[`${color}11`] || "#4f46e5",
+                      border: `2px solid ${colorScale[`${color}11`] || "#4f46e5"}`,
                     },
                     className: `${buttonRadiusClasses[buttonStyle] || "rounded-md"} px-4 py-2 font-semibold shadow`,
                 }), 
@@ -94,9 +74,9 @@ export function RelumeHeroWrapper() {
                 title: "Primary",
                 variant: "primary",
                 style: {
-                  backgroundColor: primaryColor,
-                  color: buttonTextColor,
-                  border: `2px solid ${accentColor}`,
+                  backgroundColor: colorScale[`${color}9`] || "#6366f1",
+                  color: "white",
+                  border: `2px solid ${colorScale[`${color}11`] || "#4f46e5"}`,
                 },
                 className: `${buttonRadiusClasses[buttonStyle] || "rounded-md"} px-4 py-2 font-semibold shadow`,
             },
@@ -105,8 +85,8 @@ export function RelumeHeroWrapper() {
                 variant: "secondary", 
                 style: {
                   backgroundColor: "transparent",
-                  color: primaryColor,
-                  border: `2px solid ${primaryColor}`,
+                  color: colorScale[`${color}11`] || "#4f46e5",
+                  border: `2px solid ${colorScale[`${color}11`] || "#4f46e5"}`,
                 },
                 className: `${buttonRadiusClasses[buttonStyle] || "rounded-md"} px-4 py-2 font-semibold shadow`,
             },

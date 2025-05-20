@@ -5,6 +5,7 @@ import { RelumeHeroWrapper } from "./heroelements/RelumeHeroWrapper"
 import { RelumeFeatureWrapper } from "./featureelelemts/RelumeFeatureWrapper"
 import themeManager from "../lib/themeManager"
 import { useChoices } from "../context/ChoicesContext";
+import { getRadixColor, getGrayPair } from '../components/utils/radix-color-utils';
 
 
 export function LivePreview() {
@@ -20,11 +21,38 @@ export function LivePreview() {
 
   return (
     <Flex direction="column" gap="4">
-      <Text size="5" weight="bold">
-        Live Preview
-      </Text>
-      <Box style={{ display: "flex", justifyContent: "flex-end" }}>
+      
+      {/* <Box style={{ display: "flex", justifyContent: "flex-end" }}>
         <Button size="2" onClick={() => themeManager.toggleDarkMode()}>Toggle Dark Mode</Button>
+      </Box> */}
+      <Box
+        style={{
+          width: "100%",
+          height: "64px",
+          borderRadius: "12px",
+          background: getRadixColor(choices.color, choices.shade) || "#f3f3f3",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+          paddingRight: "1rem", // Added internal right padding
+        }}
+      >
+        <Text
+          size="6"
+          weight="bold"
+          style={{
+        color: "#fff",
+        letterSpacing: "0.5px",
+        textShadow: "0 0 0 2px #000, 0 1px 4px rgba(0,0,0,0.25)",
+        padding: "0.25em 0.75em",
+        borderRadius: "8px",
+        background: "rgba(0,0,0,0.2)",
+        boxSizing: "border-box",
+          }}
+        >
+          Live Preview
+        </Text>
       </Box>
 
       <Box className={choices.font}>

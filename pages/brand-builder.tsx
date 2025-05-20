@@ -41,23 +41,7 @@ export default function BrandBuilder() {
   const currentStepId = STEPS[currentStep].id
   const isDarkMode = themeManager.getCurrentTheme().darkMode;
 
-  // Get the brand color from Radix palette based on the selected color and shade
-  const getBrandColor = (shadeOffset = 0) => {
-    const { color = "indigo", shade = "9" } = choices;
-    
-    // Calculate the shade with offset, ensuring it stays within 1-12 range
-    const targetShade = Math.max(1, Math.min(12, parseInt(shade) + shadeOffset));
-    
-    // Get the color from Radix palette
-    return getRadixColor(color, targetShade.toString(), isDarkMode);
-  };
-
-  // Get the appropriate background color
-  const getBackgroundColor = () => {
-    return themeManager.getCurrentTheme().darkMode
-      ? darkModeColorScale[`${choices.color}1`] || "#111111"
-      : colorScale[`${choices.color}1`] || "#ffffff";
-  };
+ 
 
   const getProgressBarColor = () => {
     return themeManager.getCurrentTheme().darkMode
@@ -84,20 +68,10 @@ export default function BrandBuilder() {
     
     if (isPrimary) {
       return {
-        style: {
-          backgroundColor: getBrandColor(0),  // Primary color
-          color: "white",
-          border: `2px solid ${getBrandColor(1)}`, // Slightly darker for border
-        },
         className: `${radiusClass} px-4 py-2 font-semibold shadow`
       };
     } else {
       return {
-        style: {
-          backgroundColor: "transparent",
-          color: getBrandColor(0),
-          border: `2px solid ${getBrandColor(0)}`,
-        },
         className: `${radiusClass} px-4 py-2 font-semibold`
       };
     }
@@ -135,7 +109,7 @@ export default function BrandBuilder() {
       direction="column" 
       gap="4" 
       className="min-h-screen p-8" 
-      style={{ backgroundColor: getBackgroundColor() }}
+    
     >
       <div className="h-1 w-full rounded-full overflow-hidden bg-gray-200">
         <div
