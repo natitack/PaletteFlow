@@ -241,7 +241,7 @@ export function MoodStep({ value, onChange }) {
 MoodStep.getMoodValues = function (mood) {
   const fontOptions = useFontOptions();
   const fontMap = fontOptions.reduce((acc, option) => {
-    acc[option.label] = option.value;
+    acc[option.label] = option;
     return acc;
   }, {});
 
