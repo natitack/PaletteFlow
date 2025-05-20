@@ -4,7 +4,8 @@ import { Header5 } from "./Header5";
 import { Header26 } from "./Header26";
 import { Header11 } from "./Header11";
 import { useChoices } from "../../context/ChoicesContext";
-import { themeColors } from '../tailwindcolors';
+import { getRadixColor } from '../utils/radix-color-utils';
+import themeManager from '../../lib/themeManager';
 
 // Map of available Relume header components
 const heroLayouts = {
@@ -17,17 +18,20 @@ const heroLayouts = {
 
 export function RelumeHeroWrapper() {
     const { updateChoice, choices } = useChoices();
+    const isDarkMode = themeManager.getCurrentTheme().darkMode;
 
     const SelectedHero = heroLayouts[choices.heroLayout as keyof typeof heroLayouts] || Header1;
 
     const {
       color = "indigo",
       buttonStyle = "full",
-      buttons = [],
-      colorScale = {},
-      tailwindColor = "indigo",
-      brandNumber = "500",
+      shade = "9",
     } = choices || {};
+
+    // Safely get buttons array from choices, fallback to empty array if not present
+    const buttons = (choices && 'buttons' in choices && Array.isArray((choices as any).buttons))
+      ? (choices as any).buttons
+      : [];
 
     // Define Tailwind classes for button radius
     const buttonRadiusClasses = {
@@ -38,34 +42,24 @@ export function RelumeHeroWrapper() {
       full: "rounded-full",
     };
 
-    // Get colors from tailwind theme based on the selected tailwindColor and brandNumber
+    // Get primary color from Radix palettes
     const getPrimaryColor = () => {
-      // Try to get the selected tailwind color and shade
-      if (tailwindColor && brandNumber && themeColors[tailwindColor]?.[brandNumber]) {
-        return themeColors[tailwindColor][brandNumber];
-      }
-      // Fallback to indigo-600 if the selected color is not available
-      return themeColors.indigo["600"];
+      return getRadixColor(color, shade, isDarkMode);
     };
 
     // Get accent color (darker shade for borders, etc.)
     const getAccentColor = () => {
-      // Try to get a darker shade (700) of the selected tailwind color
-      const accentShade = parseInt(brandNumber) < 700 ? "700" : brandNumber;
-      if (tailwindColor && themeColors[tailwindColor]?.[accentShade]) {
-        return themeColors[tailwindColor][accentShade];
-      }
-      // Fallback to indigo-700
-      return themeColors.indigo["700"];
+      // Try to get a deeper shade for accent
+      const accentShade = Math.min(parseInt(shade) + 1, 12).toString();
+      return getRadixColor(color, accentShade, isDarkMode);
     };
 
     // Get text color for buttons (white for dark backgrounds, color for light backgrounds)
     const getButtonTextColor = () => {
-      // Determine if the background is dark (lower lightness in OKLCH)
-      // This is a simplification - for a complete solution, 
-      // you'd want to extract the lightness from OKLCH and compare
-      const shade = parseInt(brandNumber);
-      return shade >= 500 ? "white" : themeColors[tailwindColor]["900"] || "#1e1b4b";
+      // For Radix colors, generally shades 9+ are dark enough for white text
+      // Shades 1-8 typically need dark text
+      const shadeNum = parseInt(shade);
+      return shadeNum >= 9 ? "white" : getRadixColor(color, "12", isDarkMode);
     };
 
     // Get primary and accent colors

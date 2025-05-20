@@ -18,9 +18,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useColorScales } from "../hooks/useColorScales";
 import themeManager from '../lib/themeManager';
 import { useChoices } from "../context/ChoicesContext";
-
-
-import { themeColors } from '../components/tailwindcolors';
+import { getRadixColor } from '../components/utils/radix-color-utils';
 
 const STEPS = [
   { id: "color", component: ColorPickerStep, title: "Color Palette" },
@@ -41,44 +39,39 @@ export default function BrandBuilder() {
 
   const CurrentStepComponent = STEPS[currentStep].component
   const currentStepId = STEPS[currentStep].id
+  const isDarkMode = themeManager.getCurrentTheme().darkMode;
 
-  // Get colors from tailwind theme based on the selected tailwindColor and brandNumber
-  const getTailwindColor = (shade) => {
-    const { tailwindColor = "indigo", brandNumber = "500" } = choices;
+  // Get the brand color from Radix palette based on the selected color and shade
+  const getBrandColor = (shadeOffset = 0) => {
+    const { color = "indigo", shade = "9" } = choices;
     
-    // Try to get the selected tailwind color and the requested shade
-    if (tailwindColor && themeColors[tailwindColor]?.[shade]) {
-      return themeColors[tailwindColor][shade];
-    }
+    // Calculate the shade with offset, ensuring it stays within 1-12 range
+    const targetShade = Math.max(1, Math.min(12, parseInt(shade) + shadeOffset));
     
-    // Fallback to the same color family but with default shade if the specific shade doesn't exist
-    if (tailwindColor && themeColors[tailwindColor]?.[brandNumber]) {
-      return themeColors[tailwindColor][brandNumber];
-    }
-    
-    // Final fallback to indigo
-    return themeColors.indigo[shade] || themeColors.indigo["500"];
+    // Get the color from Radix palette
+    return getRadixColor(color, targetShade.toString(), isDarkMode);
   };
 
-  // Get the appropriate background color using tailwind colors
+  // Get the appropriate background color
   const getBackgroundColor = () => {
-    // Use a very light shade (50 or 100) for the background
-    const bgShade = themeManager.getCurrentTheme().darkMode ? "900" : "50";
-    return getTailwindColor(bgShade);
+    return themeManager.getCurrentTheme().darkMode
+      ? darkModeColorScale[`${choices.color}1`] || "#111111"
+      : colorScale[`${choices.color}1`] || "#ffffff";
   };
 
-  // Get the appropriate progress bar color
   const getProgressBarColor = () => {
-    // Use a medium-bright shade for the progress bar
-    const barShade = themeManager.getCurrentTheme().darkMode ? "400" : "600";
-    return getTailwindColor(barShade);
+    return themeManager.getCurrentTheme().darkMode
+      ? darkModeColorScale[`${choices.color}9`] || "#444444"
+      : colorScale[`${choices.color}9`] || "#888888";
   };
 
-  // Handle button styling with tailwind colors
+
+
+  // Handle button styling with Radix colors
   const getButtonStyle = (isPrimary) => {
     const { buttonStyle = "full" } = choices;
     
-    // Define Tailwind classes for button radius
+    // Define button radius classes
     const buttonRadiusClasses = {
       none: "rounded-none",
       small: "rounded-sm",
@@ -92,9 +85,9 @@ export default function BrandBuilder() {
     if (isPrimary) {
       return {
         style: {
-          backgroundColor: getTailwindColor("600"),
+          backgroundColor: getBrandColor(0),  // Primary color
           color: "white",
-          border: `2px solid ${getTailwindColor("700")}`,
+          border: `2px solid ${getBrandColor(1)}`, // Slightly darker for border
         },
         className: `${radiusClass} px-4 py-2 font-semibold shadow`
       };
@@ -102,8 +95,8 @@ export default function BrandBuilder() {
       return {
         style: {
           backgroundColor: "transparent",
-          color: getTailwindColor("600"),
-          border: `2px solid ${getTailwindColor("600")}`,
+          color: getBrandColor(0),
+          border: `2px solid ${getBrandColor(0)}`,
         },
         className: `${radiusClass} px-4 py-2 font-semibold`
       };
@@ -157,7 +150,7 @@ export default function BrandBuilder() {
       <Text 
         size="5" 
         weight="bold"
-        style={{ color: themeManager.getCurrentTheme().darkMode ? "#ffffff" : getTailwindColor("900") }}
+        style={{ color: isDarkMode ? "#ffffff" : getRadixColor(choices.color, "12", false) }}
       >
         Step {currentStep + 1}: {STEPS[currentStep].title}
       </Text>
@@ -217,6 +210,3 @@ export default function BrandBuilder() {
     </Flex>
   )
 }
-
-
-

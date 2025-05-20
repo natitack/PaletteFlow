@@ -1,9 +1,10 @@
 import { Flex, Text, Box } from "@radix-ui/themes";
 import { useChoices } from "../../context/ChoicesContext";
 import { useFontOptions } from "../../hooks/useFontOptions";
-import { hexToOklch, adjustOklch, formatOklch, findClosestTailwindColor } from "../utils/oklch-color-utils";
+import {  transformColorByMood, getRadixColor } from "../utils/radix-color-utils";
+import { hexToRgb, hexToOklch, parseOklch, formatOklch, adjustOklch, oklchDistance } from '../utils/oklch-color-utils';
 import { useState, useEffect } from "react";
-import { themeColors } from '../tailwindcolors';
+import themeManager from '../../lib/themeManager';
 
 // Mapping of moods to their visual characteristics
 const moodVisuals = {
@@ -76,7 +77,8 @@ export function MoodStep({ value, onChange }) {
   const { updateChoice, choices } = useChoices();
   const [selectedMood, setSelectedMood] = useState(value || "");
   const [moodColors, setMoodColors] = useState({});
-  const [tailwindInfo, setTailwindInfo] = useState({});
+  const [radixInfo, setRadixInfo] = useState({});
+  const isDarkMode = themeManager.getCurrentTheme().darkMode;
 
   useEffect(() => {
     // Generate color variations for each mood based on originalHex when available
@@ -91,29 +93,30 @@ export function MoodStep({ value, onChange }) {
     if (!oklchColor) return;
 
     const newMoodColors = {};
-    const newTailwindInfo = {};
+    const newRadixInfo = {};
     
     // Generate a color for each mood based on its chroma and lightness values
     moodOptions.forEach(option => {
       const moodValue = MoodStep.getMoodValues(option.value);
-      const adjustedOklch = adjustOklch(oklchColor, moodValue.chroma, moodValue.lightness);
+      const { paletteName, shade } = transformColorByMood(
+        hexColor,
+        moodValue.chroma,
+        moodValue.lightness
+      );
       
-      // Find the closest Tailwind color for this mood's values
-      const closestTailwind = findClosestTailwindColor(adjustedOklch);
-      
-      // Store the tailwind color information
-      newTailwindInfo[option.value] = {
-        colorName: closestTailwind.colorName,
-        shade: closestTailwind.shade
+      // Store the radix color information
+      newRadixInfo[option.value] = {
+        paletteName,
+        shade
       };
       
-      // Format the OKLCH color to get its hex representation
-      const formattedColor = formatOklch(adjustedOklch.l, adjustedOklch.c, adjustedOklch.h);
-      newMoodColors[option.value] = formattedColor;
+      // Get the actual color from the Radix palette
+      const radixColor = getRadixColor(paletteName, shade, isDarkMode);
+      newMoodColors[option.value] = radixColor;
     });
     
     setMoodColors(newMoodColors);
-    setTailwindInfo(newTailwindInfo);
+    setRadixInfo(newRadixInfo);
   };
 
   const handleChange = (newValue) => {
@@ -126,22 +129,18 @@ export function MoodStep({ value, onChange }) {
     
     // Process the color transformation based on the new mood
     if (choices.originalHex) {
-      // Convert hex to OKLCH
-      const oklchColor = hexToOklch(choices.originalHex);
+      // Transform the color according to the mood values
+      const { paletteName, shade } = transformColorByMood(
+        choices.originalHex,
+        moodValues.chroma,
+        moodValues.lightness
+      );
       
-      if (oklchColor) {
-        // Adjust OKLCH values based on mood
-        const adjustedOklch = adjustOklch(oklchColor, moodValues.chroma, moodValues.lightness);
-        
-        // Find the closest Tailwind color
-        const closestTailwind = findClosestTailwindColor(adjustedOklch);
-        
-        // Update the context with the new values
-        updateChoice("tailwindColor", closestTailwind.colorName);
-        updateChoice("brandNumber", closestTailwind.shade);
-        updateChoice("chroma", moodValues.chroma.toString());
-        updateChoice("lightness", moodValues.lightness.toString());
-      }
+      // Update the context with the new values
+      updateChoice("color", paletteName);
+      updateChoice("shade", shade);
+      updateChoice("chroma", moodValues.chroma.toString());
+      updateChoice("lightness", moodValues.lightness.toString());
     }
     
     onChange(newValue);
@@ -154,13 +153,14 @@ export function MoodStep({ value, onChange }) {
         {moodOptions.map((option) => {
           const isSelected = selectedMood === option.value;
           const visualInfo = moodVisuals[option.value];
-          const twInfo = tailwindInfo[option.value];
+          const moodInfo = radixInfo[option.value];
 
           // Consistent background for all options
           const consistentBg = "#f8f8f8";
           let swatchColor = "#e0e0e0";
-          if (choices.originalHex && twInfo && twInfo.colorName && twInfo.shade && themeColors[twInfo.colorName]?.[twInfo.shade]) {
-            swatchColor = themeColors[twInfo.colorName][twInfo.shade];
+          
+          if (choices.originalHex && moodInfo && moodColors[option.value]) {
+            swatchColor = moodColors[option.value];
           }
 
           return (
@@ -209,6 +209,11 @@ export function MoodStep({ value, onChange }) {
                   <Text size="2" style={{ color: "#111" }}>
                     {visualInfo.description}
                   </Text>
+                  {isSelected && moodInfo && (
+                    <Text size="1" style={{ color: "#555", marginTop: "4px" }}>
+                      {moodInfo.paletteName} {moodInfo.shade}
+                    </Text>
+                  )}
                 </Flex>
                 {isSelected && (
                   <Box style={{ marginLeft: "8px" }}>

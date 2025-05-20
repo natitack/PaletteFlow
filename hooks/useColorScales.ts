@@ -1,20 +1,43 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import * as lightColors from '../components/light';
 import * as darkColors from '../components/dark';
 import { grayPairs } from '../components/gray';
+import { buildColorScale, getGrayPair } from '../components/utils/radix-color-utils';
 
-export function useColorScales(color: string) {
-  const [colorScale, setColorScale] = useState(lightColors[color]);
-  const [darkModeColorScale, setDarkModeColorScale] = useState(darkColors[`${color}Dark`]);
-  const [grayColorScale, setGrayColorScale] = useState(lightColors[grayPairs[color] || "gray"]);
-  const [darkGrayColorScale, setDarkGrayColorScale] = useState(darkColors[`${grayPairs[color]}Dark`] || "grayDark");
+export const useColorScales = (colorPalette: string) => {
+  const [colorScale, setColorScale] = useState({});
+  const [darkModeColorScale, setDarkModeColorScale] = useState({});
+  const [grayColorScale, setGrayColorScale] = useState({});
+  const [darkGrayColorScale, setDarkGrayColorScale] = useState({});
 
   useEffect(() => {
-    setColorScale(lightColors[color]);
-    setGrayColorScale(lightColors[grayPairs[color] || "gray"]);
-    setDarkGrayColorScale(darkColors[`${grayPairs[color]}Dark`] || "grayDark");
-    setDarkModeColorScale(darkColors[`${color}Dark`]);
-  }, [color]);
+    if (!colorPalette) return;
+    
+    // Build light mode color scale for the selected palette
+    const lightScale = buildColorScale(colorPalette, false);
+    setColorScale(lightScale);
+    
+    // Build dark mode color scale for the selected palette
+    const darkScale = buildColorScale(colorPalette, true);
+    setDarkModeColorScale(darkScale);
+    
+    // Get the paired gray scale
+    const grayPalette = getGrayPair(colorPalette);
+    
+    // Build light mode gray scale
+    const lightGrayScale = buildColorScale(grayPalette, false);
+    setGrayColorScale(lightGrayScale);
+    
+    // Build dark mode gray scale
+    const darkGrayScale = buildColorScale(grayPalette, true);
+    setDarkGrayColorScale(darkGrayScale);
+    
+  }, [colorPalette]);
 
-  return { colorScale, darkModeColorScale, grayColorScale, darkGrayColorScale };
-}
+  return {
+    colorScale,
+    darkModeColorScale,
+    grayColorScale,
+    darkGrayColorScale
+  };
+};
