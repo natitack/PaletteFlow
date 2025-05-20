@@ -11,7 +11,13 @@ export function FontStep({ value, onChange }) {
       <Text size="5" weight="bold">
         Choose your typography
       </Text>
-      <Select.Root value={value} onValueChange={onChange}>
+      <Select.Root
+        value={value?.value}
+        onValueChange={(val) => {
+          const selectedFont = fontOptions.find((option) => option.value === val);
+          onChange(selectedFont);
+        }}
+      >
         <Select.Trigger />
         <Select.Content>
           {fontOptions.map((option) => (

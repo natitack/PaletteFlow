@@ -1,5 +1,10 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 
+interface FontChoice {
+  label: string;
+  value: string; // typically the className (e.g., "__className_xyz")
+}
+
 interface ChoicesState {
   color: string;               // Radix palette name (e.g., 'indigo')
   originalHex: string;         // Original picked hex color
@@ -7,7 +12,7 @@ interface ChoicesState {
   chroma: string;              // OKLCH chroma value as string
   lightness: string;           // OKLCH lightness value as string
   mood: string;                // Selected mood
-  font: string;                // Selected font
+  font: FontChoice,            // Selected font
   buttonStyle: string;         // Button style choice
   cardStyle: string;           // Card style choice
   heroLayout: string;          // Hero layout choice
@@ -26,7 +31,21 @@ export const ChoicesProvider = ({ children }) => {
   const getInitialChoices = () => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("brandChoices");
-      if (stored) return JSON.parse(stored);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+
+        // Migrate old string-based font to object-based font
+        if (typeof parsed.font === "string") {
+          parsed.font = {
+            label: parsed.font
+              .replace(/-/g, " ")
+              .replace(/\b\w/g, (l: string) => l.toUpperCase()),
+            value: parsed.font,
+          };
+        }
+
+        return parsed;
+      }
     }
     return {
       color: "indigo",         // Radix palette name
@@ -35,7 +54,7 @@ export const ChoicesProvider = ({ children }) => {
       chroma: ".5",            // OKLCH chroma value
       lightness: ".50",        // OKLCH lightness value
       mood: "modern",          // Selected mood
-      font: "system-ui",       // Selected font
+      font: { label: "System UI", value: "system-ui" }, // Selected font
       buttonStyle: "rounded",  // Button style choice
       cardStyle: "flat",       // Card style choice
       heroLayout: "header1",   // Hero layout choice
