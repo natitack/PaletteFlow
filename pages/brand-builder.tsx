@@ -27,7 +27,7 @@ const STEPS = [
   { id: "featureLayout", component: FeatureLayoutStep, title: "Feature Layout" },
   { id: "font", component: FontStep, title: "Font Style" },
   { id: "buttonStyle", component: ButtonStyleStep, title: "Button Style" },
-  { id: "cardStyle", component: CardStyleStep, title: "Card Style" },
+  // { id: "cardStyle", component: CardStyleStep, title: "Card Style" },
 ]
 
 export default function BrandBuilder() {

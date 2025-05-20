@@ -66,7 +66,7 @@ export function LivePreview() {
           <RelumeFeatureWrapper layout={choices.featureLayout} choices={{ ...choices, colorScale }} />
         </Box>
 
-        {/* Card Section */}
+        {/* Card Section
         <Box style={{ marginBottom: "2rem" }}>
           <Heading size="6" style={{ marginBottom: "1rem" }} className={choices.font}>
             Cards
@@ -82,7 +82,7 @@ export function LivePreview() {
               <Text size="3" style={{ color: colorScale[`${choices.color}11`] }}>Card 3</Text>
             </Card>
           </Flex>
-        </Box>
+        </Box> */}
       </Box>
     </Flex>
   )

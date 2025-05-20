@@ -1,4 +1,4 @@
-import { Flex, Text, Box } from "@radix-ui/themes";
+import { Flex, Text, Box, Card } from "@radix-ui/themes";
 import { useChoices } from "../../context/ChoicesContext";
 import { useFontOptions } from "../../hooks/useFontOptions";
 import {  transformColorByMood, getRadixColor } from "../utils/radix-color-utils";
@@ -149,7 +149,15 @@ export function MoodStep({ value, onChange }) {
   return (
     <Flex direction="column" gap="6">
       <Text size="5" weight="bold" style={{ color: "#111" }}>Select your brand personality</Text>
-      <Flex direction="column" gap="4">
+      <Card
+                    className="p-4"
+                    style={{
+                      maxHeight: "70vh",
+                      overflowY: "auto", // Enable vertical scrolling
+                      scrollbarWidth: "thin", // Thin scrollbar for better aesthetics
+                    }}
+                  >
+                     <Flex direction="column" gap="4">
         {moodOptions.map((option) => {
           const isSelected = selectedMood === option.value;
           const visualInfo = moodVisuals[option.value];
@@ -164,6 +172,7 @@ export function MoodStep({ value, onChange }) {
           }
 
           return (
+           
             <Box
               key={option.value}
               onClick={() => handleChange(option.value)}
@@ -224,7 +233,7 @@ export function MoodStep({ value, onChange }) {
             </Box>
           );
         })}
-      </Flex>
+      </Flex></Card>
     </Flex>
   );
 }

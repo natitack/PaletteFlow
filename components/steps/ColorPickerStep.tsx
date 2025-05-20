@@ -74,9 +74,9 @@ export function ColorPickerStep({ value, onChange }) {
           
           <div className="flex flex-col gap-1">
         <span className="font-medium">Selected Color</span>
-        <span className="text-sm text-gray-500 uppercase">{value}</span>
+        {/* <span className="text-sm text-gray-500 uppercase">{value}</span> */}
         <span className="text-sm text-gray-500 uppercase">{choices.originalHex}</span>
-        <span className="text-sm text-gray-500">Radix: {choices.color} shade {choices.shade}</span>
+        {/* <span className="text-sm text-gray-500">Radix: {choices.color} shade {choices.shade}</span> */}
           </div>
         </div>
       </Card>

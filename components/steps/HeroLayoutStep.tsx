@@ -31,7 +31,7 @@ export function HeroLayoutStep({ value, onChange }) {
       <Card
         className="p-4"
         style={{
-          maxHeight: "80vh",
+          maxHeight: "70vh",
           overflowY: "auto", // Enable vertical scrolling
           scrollbarWidth: "thin", // Thin scrollbar for better aesthetics
         }}
