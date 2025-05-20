@@ -100,7 +100,9 @@ const Deliverable = () => {
   const secondaryColorShades = generateColorShades(grayPalette, "Secondary");
 
   // Font should be derived from choices
-  const fontChoice = choices.font || "system-ui";
+  const fontClass = choices.font?.value || "system-ui";
+  const fontLabel = choices.font?.label || "System UI";
+
 
   // Map buttonStyle string to allowed radius values
   const buttonRadiusMap: { [key: string]: "small" | "none" | "medium" | "large" | "full" } = {
@@ -117,7 +119,7 @@ const Deliverable = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div
-        className={`bg-white text-gray-900 min-h-screen ${fontChoice} m-4`}
+        className={`bg-white text-gray-900 min-h-screen ${fontClass} m-4`}
         ref={targetRef}
         style={{ width: "816px" }} // 8.5in * 96dpi = 816px (letter paper width)
       >
@@ -133,7 +135,7 @@ const Deliverable = () => {
           <Button
             onClick={exportPDF}
             radius={buttonRadius}
-            className={fontChoice}
+            className={fontClass}
           >
             Export PDF
           </Button>
@@ -172,13 +174,13 @@ const Deliverable = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="p-4 bg-gray-100 rounded-md">
-              <h3 className="text-lg font-medium mb-2">{fontChoice}</h3>
+              <h3 className="text-lg font-medium mb-2">{fontLabel}</h3>
               <p className="text-sm text-gray-600 mb-4">Primary Font</p>
               <div className="text-5xl mb-4">AaBbCcDdEe</div>
             </div>
 
             <div className="bg-gray-900 text-white p-4 rounded-md">
-              <h3 className="text-lg font-medium mb-2">{fontChoice}</h3>
+              <h3 className="text-lg font-medium mb-2">{fontLabel}</h3>
               <p className="text-sm text-gray-400 mb-4">Secondary Font</p>
               <div className="text-6xl">Aa</div>
             </div>
@@ -188,7 +190,7 @@ const Deliverable = () => {
             <h3 className="text-xl font-bold mb-4">Font Weights</h3>
             <div className="grid grid-cols-2 gap-8">
               <div>
-                <h4 className="text-lg mb-2">{fontChoice}</h4>
+                <h4 className="text-lg mb-2">{fontLabel}</h4>
                 <ul className="space-y-2">
                   <li>Extra Light</li>
                   <li>Light</li>
@@ -201,7 +203,7 @@ const Deliverable = () => {
                 </ul>
               </div>
               <div>
-                <h4 className="text-lg mb-2">{fontChoice}</h4>
+                <h4 className="text-lg mb-2">{fontLabel}</h4>
                 <ul className="space-y-2">
                   <li>Thin</li>
                   <li>ExtraLight</li>
