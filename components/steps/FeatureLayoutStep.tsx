@@ -10,11 +10,13 @@ const featureLayouts = [
 
 
 export function FeatureLayoutStep({ value, onChange }) {
-  const initialIndex = featureLayouts.findIndex((layout) => layout.value === value) || 0
-  const [currentIndex, setCurrentIndex] = useState(initialIndex)
+  const initialIndex = featureLayouts.findIndex((layout) => layout.value === value)
+  const [currentIndex, setCurrentIndex] = useState(initialIndex === -1 ? 0 : initialIndex)
 
   useEffect(() => {
-    onChange(featureLayouts[currentIndex].value) // Ensure changes persist globally
+    if (featureLayouts[currentIndex]) {
+      onChange(featureLayouts[currentIndex].value) // Ensure changes persist globally
+    }
   }, [currentIndex])
 
 
