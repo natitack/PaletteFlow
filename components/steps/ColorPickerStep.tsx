@@ -97,22 +97,22 @@ export function ColorPickerStep({ value, onChange }) {
           </Flex>
           <Flex direction="column" gap="1" align="center">
             {Object.values(colorScale).map((color, index) => (
-              <Box key={index} style={{ backgroundColor: color, width: "2rem", height: "2rem", borderRadius: "4px" }} />
+              <Box key={index} style={{ backgroundColor: color as string, width: "2rem", height: "2rem", borderRadius: "4px" }} />
             ))}
           </Flex>
           <Flex direction="column" gap="1" align="center">
             {Object.values(darkModeColorScale).map((color, index) => (
-              <Box key={index} style={{ backgroundColor: color, width: "2rem", height: "2rem", borderRadius: "4px" }} />
+              <Box key={index} style={{ backgroundColor: color as string, width: "2rem", height: "2rem", borderRadius: "4px" }} />
             ))}
           </Flex>
           <Flex direction="column" gap="1" align="center">
             {Object.values(grayColorScale).map((color, index) => (
-              <Box key={index} style={{ backgroundColor: color, width: "2rem", height: "2rem", borderRadius: "4px" }} />
+              <Box key={index} style={{ backgroundColor: color as string, width: "2rem", height: "2rem", borderRadius: "4px" }} />
             ))}
           </Flex>
           <Flex direction="column" gap="1" align="center">
             {Object.values(darkGrayColorScale).map((color, index) => (
-              <Box key={index} style={{ backgroundColor: color, width: "2rem", height: "2rem", borderRadius: "4px" }} />
+              <Box key={index} style={{ backgroundColor: color as string, width: "2rem", height: "2rem", borderRadius: "4px" }} />
             ))}
           </Flex>
         </Flex>
