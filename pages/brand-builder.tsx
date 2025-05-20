@@ -43,7 +43,7 @@ export default function BrandBuilder() {
 
  
 
-  const getProgressBarColor = () => {
+  const getCurrentPrimaryColor = () => {
     return themeManager.getCurrentTheme().darkMode
       ? darkModeColorScale[`${choices.color}9`] || "#444444"
       : colorScale[`${choices.color}9`] || "#888888";
@@ -115,7 +115,7 @@ export default function BrandBuilder() {
         <div
           className="h-full transition-all duration-300 ease-in-out"
           style={{ 
-            backgroundColor: getProgressBarColor(),
+            backgroundColor: getCurrentPrimaryColor(),
             width: `${((currentStep + 1) / STEPS.length) * 100}%`,
           }}
         />
@@ -136,8 +136,10 @@ export default function BrandBuilder() {
             <Button 
               onClick={handlePrevious} 
               disabled={currentStep === 0}
-              style={prevButtonStyle.style}
               className={prevButtonStyle.className}
+              style={{
+                backgroundColor: getCurrentPrimaryColor(),
+              }}
             >
               Previous
             </Button>
@@ -145,16 +147,20 @@ export default function BrandBuilder() {
             {currentStep === STEPS.length - 1 ? (
               <Button 
                 onClick={handleFinish}
-                style={nextButtonStyle.style}
                 className={nextButtonStyle.className}
+                              style={{
+                backgroundColor: getCurrentPrimaryColor(),
+              }}
               >
                 Finish
               </Button>
             ) : (
               <Button 
                 onClick={handleNext}
-                style={nextButtonStyle.style}
                 className={nextButtonStyle.className}
+                style={{
+                  backgroundColor: getCurrentPrimaryColor(),
+              }}
               >
                 Next
               </Button>
