@@ -111,7 +111,7 @@ export function MoodStep({ value, onChange }) {
       };
       
       // Get the actual color from the Radix palette
-      const radixColor = getRadixColor(paletteName, shade, isDarkMode);
+      const radixColor = getRadixColor(paletteName, shade, false);
       newMoodColors[option.value] = radixColor;
     });
     
@@ -244,8 +244,8 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "raised",
         heroLayout: "header1",
         featureLayout: "layout398",
-        chroma: 0.4,    
-        lightness: 0.75  
+        chroma: 0.30,    // softer, less saturated
+        lightness: 0.90  // much lighter
       };
     case "creator":
       return {
@@ -254,8 +254,8 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "flat",
         heroLayout: "header1",
         featureLayout: "layout398",
-        chroma: 0.7,    
-        lightness: 0.50 
+        chroma: 0.95,    // very saturated
+        lightness: 0.40  // much darker
       };
     case "ruler":
       return {
@@ -264,8 +264,8 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "shadow",
         heroLayout: "header1",
         featureLayout: "layout398",
-        chroma: 0.60,    
-        lightness: 0.40  
+        chroma: 0.80,    // strong, rich color
+        lightness: 0.25  // much darker
       };
     case "innocent":
       return {
@@ -274,8 +274,8 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "bordered",
         heroLayout: "header1",
         featureLayout: "layout398",
-        chroma: 0.4,   
-        lightness: 0.8  
+        chroma: 0.25,    // very soft
+        lightness: 0.97  // extremely light
       };
     case "explorer":
       return {
@@ -284,8 +284,8 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header1",
         featureLayout: "layout398",
-        chroma: 0.60,    
-        lightness: 0.55  
+        chroma: 0.85,    // vibrant
+        lightness: 0.60  // brighter
       };
     case "sage":
       return {
@@ -294,8 +294,8 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header1",
         featureLayout: "layout398",
-        chroma: 0.50,    
-        lightness: 0.70  
+        chroma: 0.45,    // muted
+        lightness: 0.85  // lighter
       };
     case "hero":
       return {
@@ -304,8 +304,8 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header1",
         featureLayout: "layout398",
-        chroma: 0.80,    
-        lightness: 0.45  
+        chroma: 1.00,    // max saturation
+        lightness: 0.30  // very dark
       };
     case "outlaw":
       return {
@@ -314,8 +314,8 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header1",
         featureLayout: "layout398",
-        chroma: 0.90,    
-        lightness: 0.35 
+        chroma: 1.10,    // even more saturated
+        lightness: 0.18  // extremely dark
       };
     case "magician":
       return {
@@ -324,8 +324,8 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header1",
         featureLayout: "layout398",
-        chroma: 0.70,    
-        lightness: 0.40  
+        chroma: 0.90,    // vivid
+        lightness: 0.22  // dark and mysterious
       };
     case "everyman":
       return {
@@ -334,8 +334,8 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header1",
         featureLayout: "layout398",
-        chroma: 0.50,    
-        lightness: 0.80  
+        chroma: 0.35,    // gentle
+        lightness: 0.92  // very light
       };
     case "lover":
       return {
@@ -344,8 +344,8 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header1",
         featureLayout: "layout398",
-        chroma: 0.80,    
-        lightness: 0.45  
+        chroma: 1.05,    // intense
+        lightness: 0.38  // rich and deep
       };
     case "jester":
       return {
@@ -354,8 +354,8 @@ MoodStep.getMoodValues = function (mood) {
         cardStyle: "split",
         heroLayout: "header1",
         featureLayout: "layout398",
-        chroma: 0.90,    
-        lightness: 0.70  
+        chroma: 1.15,    // most saturated
+        lightness: 0.80  // bright and playful
       };
     default:
       return {
