@@ -55,7 +55,7 @@ export function LivePreview() {
         </Text>
       </Box>
 
-      <Box className={choices.font}>
+      <Box className={choices.font?.value}>
         {/* Hero Section - Now Uses RelumeHeroWrapper */}
         <Box >
           <RelumeHeroWrapper />
