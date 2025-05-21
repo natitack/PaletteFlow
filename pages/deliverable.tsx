@@ -5,8 +5,7 @@ import jsPDF from "jspdf";
 import { useChoices } from "../context/ChoicesContext";
 import React, { useRef, useEffect, useState } from "react";
 import { Button } from "@radix-ui/themes";
-import * as lightColors from '../components/light';
-import * as darkColors from '../components/dark';
+import { useColorScales } from '../hooks/useColorScales';
 import { getRadixColor, getGrayPair } from '../components/utils/radix-color-utils';
 
 const Deliverable = () => {
@@ -34,6 +33,10 @@ const Deliverable = () => {
     }
   }, [choices, hydrated]);
 
+  // Use the same color scales hook as in ColorPickerStep
+  const colorPalette = choices.color || "indigo";
+  const { colorScale, darkModeColorScale, grayColorScale, darkGrayColorScale } = useColorScales(colorPalette);
+
   if (!hydrated) {
     // Optionally, show a loading spinner here
     return <div>Loading...</div>;
@@ -54,58 +57,58 @@ const Deliverable = () => {
     if (pdfHeight > pdf.internal.pageSize.getHeight()) {
       let position = pdf.internal.pageSize.getHeight();
       while (position < pdfHeight) {
-      pdf.addPage();
-      pdf.addImage(
-        imgData,
-        "PNG",
-        5,
-        -position,
-        (pdfWidth - 10),
-        (pdfHeight - 10)
-      );
-      position += pdf.internal.pageSize.getHeight();
+        pdf.addPage();
+        pdf.addImage(
+          imgData,
+          "PNG",
+          5,
+          -position,
+          (pdfWidth - 10),
+          (pdfHeight - 10)
+        );
+        position += pdf.internal.pageSize.getHeight();
       }
     }
     pdf.save("paletteflow-deliverable.pdf");
   };
 
-  // Get color from Radix palette
-  const getColor = (paletteName, shade, isDark = false) => {
-    return getRadixColor(paletteName, shade, isDark);
+  // Convert color scale objects to arrays for consistent rendering
+  const colorScaleArray = Object.values(colorScale);
+  const darkModeColorScaleArray = Object.values(darkModeColorScale);
+  const grayColorScaleArray = Object.values(grayColorScale);
+  const darkGrayColorScaleArray = Object.values(darkGrayColorScale);
+
+  // Create shade labels for the colors
+  const createShadeLabels = (prefix) => {
+    return Array.from({ length: 12 }, (_, i) => ({
+      value: i + 1,
+      label: `${prefix} ${i + 1}`
+    }));
   };
 
-  // Generate color shades using the Radix color system
-  const generateColorShades = (paletteName, labelPrefix = "Shade", isDark = false) => {
-    // Use standard shade values
-    const shades = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-    
-    return shades.map((shade) => {
-      return {
-        value: getColor(paletteName, shade, isDark),
-        label: `${labelPrefix} ${shade}`
-      };
-    });
+  const primaryShadeLabels = createShadeLabels("Primary");
+  const secondaryShadeLabels = createShadeLabels("Secondary");
+
+  // Get color shade value based on index
+  const getColorShade = (shadeIndex, colorArray) => {
+    return colorArray[shadeIndex] || colorArray[8]; // Default to shade 9 (index 8)
   };
 
-  // Use choices from context for colors
-  const colorPalette = choices.color || "indigo";
-  const colorShade = choices.shade || "9";
-  const primaryColorValue = getColor(colorPalette, colorShade);
+  // Use the color shade selected from choices, defaulting to 9
+  const colorShade = choices.shade || '9';
+  const shadeIndex = parseInt(colorShade, 10) - 1; // Convert to 0-based index
 
-  // Create shade palettes using Radix color system
-  const primaryColorShades = generateColorShades(colorPalette, "Primary");
-  
-  // Get the appropriate gray palette based on the color
-  const grayPalette = getGrayPair(colorPalette);
-  const secondaryColorShades = generateColorShades(grayPalette, "Secondary");
+  // Get primary colors from the color scales
+  const primaryColorValue = colorScaleArray[shadeIndex];
+  const primaryMidColorValue = colorScaleArray[5]; // Shade 6
+  const secondaryColorValue = grayColorScaleArray[shadeIndex];
 
   // Font should be derived from choices
   const fontClass = choices.font?.value || "system-ui";
   const fontLabel = choices.font?.label || "System UI";
 
-
   // Map buttonStyle string to allowed radius values
-  const buttonRadiusMap: { [key: string]: "small" | "none" | "medium" | "large" | "full" } = {
+  const buttonRadiusMap = {
     "None": "none",
     "Small": "small",
     "Medium": "medium",
@@ -114,10 +117,11 @@ const Deliverable = () => {
     "Rounded": "large", // fallback for "Rounded"
   };
   const buttonRadius =
-    buttonRadiusMap[choices.buttonStyle as string] || "large";
+    buttonRadiusMap[choices.buttonStyle] || "large";
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
+
       <div
         className={`bg-white text-gray-900 min-h-screen ${fontClass} m-4`}
         ref={targetRef}
@@ -128,7 +132,7 @@ const Deliverable = () => {
           <div className="flex items-center">
             <div
               className="w-10 h-10 rounded-full mr-3"
-              style={{ backgroundColor: primaryColorValue }}
+              style={{ backgroundColor: primaryColorValue as string }}
             ></div>
             <h1 className="text-3xl font-bold">Brand Style Guide</h1>
           </div>
@@ -140,123 +144,202 @@ const Deliverable = () => {
             Export PDF
           </Button>
         </header>
+          <div style={{ height: "20px" }} />
 
         <main className="p-8 max-w-6xl mx-auto">
           {/* Main Colors section */}
           <section className="mb-12">
-            <h2 className="text-2xl font-bold mb-6">Logo</h2>
-            <div className="flex gap-4">
+            <h2 className="text-2xl font-bold mb-6">Brand Colors</h2>
+            <div className="flex gap-2">
               <div
-                className="w-48 h-32 flex items-center justify-center rounded-md"
-                style={{ backgroundColor: primaryColorValue }}
+                className="flex-1 h-32 flex items-center justify-center rounded-md mx-0.5"
+                style={{ backgroundColor: primaryColorValue as string }}
               >
                 <span className="text-white font-bold text-xl">
-                  {colorPalette} {colorShade}
+                  {primaryColorValue as string}
                 </span>
               </div>
-              <div className="w-48 h-32 flex items-center justify-center rounded-md bg-gray-900">
+              <div
+                className="flex-1 h-32 flex items-center justify-center rounded-md mx-0.5"
+                style={{ backgroundColor: primaryMidColorValue as string }}
+              >
                 <span className="text-white font-bold text-xl">
-                  {colorPalette} {colorShade}
+                  {primaryMidColorValue as string}
                 </span>
               </div>
-              <div className="w-48 h-32 flex items-center justify-center rounded-md bg-gray-100 border">
-                <span className="text-gray-900 font-bold text-xl">
-                  {colorPalette} {colorShade}
+              <div
+                className="flex-1 h-32 flex items-center justify-center rounded-md mx-0.5"
+                style={{ backgroundColor: secondaryColorValue as string }}
+              >
+                <span className="text-white font-bold text-xl">
+                  {secondaryColorValue as string}
                 </span>
               </div>
             </div>
           </section>
         </main>
 
-        {/* Typography section */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Typography</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="p-4 bg-gray-100 rounded-md">
-              <h3 className="text-lg font-medium mb-2">{fontLabel}</h3>
-              <p className="text-sm text-gray-600 mb-4">Primary Font</p>
-              <div className="text-5xl mb-4">AaBbCcDdEe</div>
-            </div>
 
-            <div className="bg-gray-900 text-white p-4 rounded-md">
-              <h3 className="text-lg font-medium mb-2">{fontLabel}</h3>
-              <p className="text-sm text-gray-400 mb-4">Secondary Font</p>
-              <div className="text-6xl">Aa</div>
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <h3 className="text-xl font-bold mb-4">Font Weights</h3>
-            <div className="grid grid-cols-2 gap-8">
-              <div>
-                <h4 className="text-lg mb-2">{fontLabel}</h4>
-                <ul className="space-y-2">
-                  <li>Extra Light</li>
-                  <li>Light</li>
-                  <li>Regular</li>
-                  <li>Medium</li>
-                  <li>Semi Bold</li>
-                  <li>Bold</li>
-                  <li>Extra Bold</li>
-                  <li>Black</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="text-lg mb-2">{fontLabel}</h4>
-                <ul className="space-y-2">
-                  <li>Thin</li>
-                  <li>ExtraLight</li>
-                  <li>Light</li>
-                  <li>Regular</li>
-                  <li>Medium</li>
-                  <li>Semi Bold</li>
-                  <li className="font-bold">Bold</li>
-                  <li className="font-bold">Extra Bold</li>
-                  <li className="font-black">Black</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Color Palette section */}
-        <section className="mb-12">
+        {/* Color Palette section - Updated for better rendering within 816px width */}
+        <section className="mb-12 px-4">
           <h2 className="text-2xl font-bold mb-6">Color Palette</h2>
 
           {/* Primary color palette */}
-          <div className="mb-6">
-            <h3 className="text-lg font-medium mb-4">Primary Colors</h3>
-            <div className="flex flex-wrap gap-1">
-              {primaryColorShades.map((shade, index) => (
-                <div key={`primary-${index}`} className="flex flex-col items-center">
-                  <div
-                    className="w-12 h-12 rounded-md border border-gray-200"
-                    style={{
-                      backgroundColor: shade.value,
-                    }}
-                  ></div>
-                  <span className="text-xs mt-1">{shade.label}</span>
+          <div className="mb-8">
+            <h4 className="text-lg font-medium mb-4">Primary Colors</h4>
+            <div className="grid grid-cols-12 gap-1 mb-1">
+              {/* Shade numbers row */}
+              {Array.from({ length: 12 }, (_, i) => (
+                <div key={`shade-${i + 1}`} className="flex justify-center">
+                  <span className="text-xs font-medium">{i + 1}</span>
                 </div>
               ))}
+            </div>
+
+            {/* Light colors row */}
+            <div className="flex items-center mb-2">
+              <div className="w-16 pr-2">
+                <span className="text-xs font-medium">Light</span>
+              </div>
+              <div className="flex-1 grid grid-cols-12 gap-1">
+                {colorScaleArray.map((color, index) => (
+                  <div
+                    key={`primary-${index}`}
+                    className="aspect-square rounded-md"
+                    style={{
+                      backgroundColor: color as string,
+                      width: '100%',
+                      paddingBottom: '100%',
+                      position: 'relative'
+                    }}
+                  ></div>
+                ))}
+              </div>
+            </div>
+
+            {/* Dark colors row */}
+            <div className="flex items-center">
+              <div className="w-16 pr-2">
+                <span className="text-xs font-medium">Dark</span>
+              </div>
+              <div className="flex-1 grid grid-cols-12 gap-1">
+                {darkModeColorScaleArray.map((color, index) => (
+                  <div
+                    key={`dark-primary-${index}`}
+                    className="aspect-square rounded-md"
+                    style={{
+                      backgroundColor: color as string,
+                      width: '100%',
+                      paddingBottom: '100%',
+                      position: 'relative'
+                    }}
+                  ></div>
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Secondary color palette */}
           <div>
-            <h3 className="text-lg font-medium mb-4">Secondary Colors</h3>
-            <div className="flex flex-wrap gap-1">
-              {secondaryColorShades.map((shade, index) => (
-                <div key={`secondary-${index}`} className="flex flex-col items-center">
-                  <div
-                    className="w-12 h-12 rounded-md border border-gray-200"
-                    style={{
-                      backgroundColor: shade.value,
-                    }}
-                  ></div>
-                  <span className="text-xs mt-1">{shade.label}</span>
+            <h4 className="text-lg font-medium mb-4">Secondary Colors</h4>
+            <div className="grid grid-cols-12 gap-1 mb-1">
+              {/* Shade numbers row */}
+              {Array.from({ length: 12 }, (_, i) => (
+                <div key={`sec-shade-${i + 1}`} className="flex justify-center">
+                  <span className="text-xs font-medium">{i + 1}</span>
                 </div>
               ))}
+            </div>
+
+            {/* Light colors row */}
+            <div className="flex items-center mb-2">
+              <div className="w-16 pr-2">
+                <span className="text-xs font-medium">Light</span>
+              </div>
+              <div className="flex-1 grid grid-cols-12 gap-1">
+                {grayColorScaleArray.map((color, index) => (
+                  <div
+                    key={`secondary-${index}`}
+                    className="aspect-square rounded-md"
+                    style={{
+                      backgroundColor: color as string,
+                      width: '100%',
+                      paddingBottom: '100%',
+                      position: 'relative'
+                    }}
+                  ></div>
+                ))}
+              </div>
+            </div>
+
+            {/* Dark colors row */}
+            <div className="flex items-center">
+              <div className="w-16 pr-2">
+                <span className="text-xs font-medium">Dark</span>
+              </div>
+              <div className="flex-1 grid grid-cols-12 gap-1">
+                {darkGrayColorScaleArray.map((color, index) => (
+                  <div
+                    key={`dark-secondary-${index}`}
+                    className="aspect-square rounded-md"
+                    style={{
+                      backgroundColor: color as string,
+                      width: '100%',
+                      paddingBottom: '100%',
+                      position: 'relative'
+                    }}
+                  ></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* Add significant vertical space between sections */}
+        <div style={{ height: "120px" }} />
+        {/* Typography section */}
+        <section className="p-8 max-w-6xl mx-auto">
+          <h2 className="text-2xl font-bold mb-6">Typography</h2>
+
+          {/* Font display cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Primary font card */}
+            <div
+              className="p-6 rounded-lg flex flex-col"
+              style={{ backgroundColor: grayColorScaleArray[0] as string}}
+            >
+              <div className="mb-1">
+                <h3 className="text-lg font-medium">{fontLabel}</h3>
+                <p className="text-sm text-gray-600">Primary Font</p>
+              </div>
+              <div className="text-5xl mt-auto">AaBbCcDdEe</div>
+            </div>
+
+            {/* Secondary font card */}
+            <div
+              className="p-6 rounded-lg flex flex-col text-white"
+              style={{ backgroundColor: darkGrayColorScaleArray[0]  as string}}
+            >
+              <div className="mb-1">
+                <h3 className="text-lg font-medium">{fontLabel}</h3>
+                <p className="text-sm text-gray-400">Secondary Font</p>
+              </div>
+              <div className="text-6xl mt-auto">Aa</div>
+            </div>
+          </div>
+
+          {/* Font weights */}
+          <div className="mt-8">
+            <h4 className="text-xl font-bold mb-4">Font Weights</h4>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="font-thin">Thin</div>
+              <div className="font-extralight">ExtraLight</div>
+              <div className="font-light">Light</div>
+              <div className="font-normal">Regular</div>
+              <div className="font-semibold">Semi Bold</div>
+              <div className="font-bold">Bold</div>
+              <div className="font-extrabold">Extra Bold</div>
+              <div className="font-black">Black</div>
             </div>
           </div>
         </section>
@@ -300,22 +383,22 @@ const Deliverable = () => {
               <div className="space-y-3">
                 <button
                   className="px-4 py-2 text-white rounded-md w-32"
-                  style={{ backgroundColor: primaryColorValue }}
+                  style={{ backgroundColor: primaryColorValue as string }}
                 >
                   Primary
                 </button>
                 <button
                   className="px-4 py-2 border rounded-md w-32"
                   style={{
-                    borderColor: primaryColorValue,
-                    color: primaryColorValue
+                    borderColor: primaryColorValue as string,
+                    color: primaryColorValue as string
                   }}
                 >
                   Secondary
                 </button>
                 <button
                   className="px-4 py-2 underline w-32"
-                  style={{ color: primaryColorValue }}
+                  style={{ color: primaryColorValue as string }}
                 >
                   Tertiary
                 </button>
@@ -375,7 +458,7 @@ const Deliverable = () => {
           </div>
         </section>
 
-        {/* Color Information Section */}
+        {/* Color Information Section - Updated to use colorScaleArrays */}
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6">Color Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -383,10 +466,10 @@ const Deliverable = () => {
               <h3 className="text-xl font-bold mb-4">Primary Color</h3>
               <p className="text-lg">Palette: {colorPalette}</p>
               <p className="text-lg">Shade: {colorShade}</p>
-              <p className="text-lg">Value: {primaryColorValue}</p>
+              <p className="text-lg">Value: {primaryColorValue as string}</p>
               <div
                 className="h-24 w-48 mt-2 rounded-md"
-                style={{ backgroundColor: primaryColorValue }}
+                style={{ backgroundColor: primaryColorValue as string }}
               ></div>
               <p className="mt-2 text-gray-600">
                 This color represents the brand's connection to nature and
@@ -396,11 +479,11 @@ const Deliverable = () => {
 
             <div>
               <h3 className="text-xl font-bold mb-4">Secondary Color</h3>
-              <p className="text-lg">Palette: {grayPalette}</p>
-              <p className="text-lg">Value: {getColor(grayPalette, "9")}</p>
+              <p className="text-lg">Palette: {getGrayPair(colorPalette)}</p>
+              <p className="text-lg">Value: {secondaryColorValue as string}</p>
               <div
                 className="h-24 w-48 mt-2 rounded-md"
-                style={{ backgroundColor: getColor(grayPalette, "9") }}
+                style={{ backgroundColor: secondaryColorValue as string }}
               ></div>
               <p className="mt-2 text-gray-600">
                 This color complements the primary color and is used for
@@ -409,6 +492,8 @@ const Deliverable = () => {
             </div>
           </div>
         </section>
+
+        {/* Empty section to replace the removed Dark Mode Colors section */}
       </div>
     </div>
   );
