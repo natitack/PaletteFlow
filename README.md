@@ -90,7 +90,6 @@ The Mood Step in PaletteFlow allows users to select a brand personality, which a
      - `styles`: An object with the following properties:
        - `font`: The label of a font from your font options (e.g., `"Nunito"`)
        - `buttonStyle`: Button style string (e.g., `"medium"`)
-       - `cardStyle`: Card style string (e.g., `"split"`)
        - `heroLayout`: Hero layout key (e.g., `"header1"`)
        - `featureLayout`: Feature layout key (e.g., `"layout398"`)
        - `chroma`: Chroma value (number, e.g., `0.30`)
@@ -105,7 +104,6 @@ The Mood Step in PaletteFlow allows users to select a brand personality, which a
        styles: {
          font: "Nunito",
          buttonStyle: "medium",
-         cardStyle: "split",
          heroLayout: "header1",
          featureLayout: "layout398",
          chroma: 0.50,

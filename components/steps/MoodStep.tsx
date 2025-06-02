@@ -15,7 +15,6 @@ const MOOD_CONFIG = {
     styles: {
       font: "Nunito",
       buttonStyle: "full",
-      cardStyle: "raised",
       heroLayout: "header1",
       featureLayout: "layout398",
       chroma: 0.30,
@@ -29,7 +28,6 @@ const MOOD_CONFIG = {
     styles: {
       font: "Fredoka",
       buttonStyle: "none",
-      cardStyle: "flat",
       heroLayout: "header1",
       featureLayout: "layout398",
       chroma: 0.95,
@@ -43,7 +41,6 @@ const MOOD_CONFIG = {
     styles: {
       font: "Source Serif 4",
       buttonStyle: "small",
-      cardStyle: "shadow",
       heroLayout: "header1",
       featureLayout: "layout398",
       chroma: 0.80,
@@ -57,7 +54,6 @@ const MOOD_CONFIG = {
     styles: {
       font: "Labrada",
       buttonStyle: "medium",
-      cardStyle: "bordered",
       heroLayout: "header1",
       featureLayout: "layout398",
       chroma: 0.25,
@@ -71,7 +67,6 @@ const MOOD_CONFIG = {
     styles: {
       font: "Reddit Mono",
       buttonStyle: "medium",
-      cardStyle: "split",
       heroLayout: "header1",
       featureLayout: "layout398",
       chroma: 0.85,
@@ -85,7 +80,6 @@ const MOOD_CONFIG = {
     styles: {
       font: "Reddit Mono",
       buttonStyle: "medium",
-      cardStyle: "split",
       heroLayout: "header1",
       featureLayout: "layout398",
       chroma: 0.45,
@@ -99,7 +93,6 @@ const MOOD_CONFIG = {
     styles: {
       font: "Reddit Mono",
       buttonStyle: "medium",
-      cardStyle: "split",
       heroLayout: "header1",
       featureLayout: "layout398",
       chroma: 1.00,
@@ -113,7 +106,6 @@ const MOOD_CONFIG = {
     styles: {
       font: "Reddit Mono",
       buttonStyle: "medium",
-      cardStyle: "split",
       heroLayout: "header1",
       featureLayout: "layout398",
       chroma: 1.10,
@@ -127,7 +119,6 @@ const MOOD_CONFIG = {
     styles: {
       font: "Reddit Mono",
       buttonStyle: "medium",
-      cardStyle: "split",
       heroLayout: "header1",
       featureLayout: "layout398",
       chroma: 0.90,
@@ -141,7 +132,6 @@ const MOOD_CONFIG = {
     styles: {
       font: "Reddit Mono",
       buttonStyle: "medium",
-      cardStyle: "split",
       heroLayout: "header1",
       featureLayout: "layout398",
       chroma: 0.35,
@@ -155,7 +145,6 @@ const MOOD_CONFIG = {
     styles: {
       font: "Reddit Mono",
       buttonStyle: "medium",
-      cardStyle: "split",
       heroLayout: "header1",
       featureLayout: "layout398",
       chroma: 1.05,
@@ -169,7 +158,6 @@ const MOOD_CONFIG = {
     styles: {
       font: "Reddit Mono",
       buttonStyle: "medium",
-      cardStyle: "split",
       heroLayout: "header1",
       featureLayout: "layout398",
       chroma: 1.15,
