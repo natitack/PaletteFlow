@@ -4,7 +4,7 @@ import { Header5 } from "./Header5";
 import { Header26 } from "./Header26";
 import { Header11 } from "./Header11";
 import { useChoices } from "../../context/ChoicesContext";
-import { getRadixColor } from '../utils/radix-color-utils';
+import { getRadixColor } from '../utils/color-utils';
 import themeManager from '../../lib/themeManager';
 import { useColorScales } from "../../hooks/useColorScales";
 
