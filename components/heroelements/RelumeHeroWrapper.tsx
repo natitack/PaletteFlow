@@ -4,12 +4,11 @@ import { Header5 } from "./Header5";
 import { Header26 } from "./Header26";
 import { Header11 } from "./Header11";
 import { useChoices } from "../../context/ChoicesContext";
-import { getRadixColor } from '../utils/radix-color-utils';
-import themeManager from '../../lib/themeManager';
+import themeManager from "../../lib/themeManager";
 import { useColorScales } from "../../hooks/useColorScales";
 
-
 // Map of available Relume header components
+// Displayed names for hero layouts handled in ../steps/HeroLayoutStep.tsx
 const heroLayouts = {
   header1: Header1,
   header2: Header2,
@@ -18,79 +17,73 @@ const heroLayouts = {
   header11: Header11,
 };
 
+// Tailwind button radius classes
+const buttonRadiusClasses = {
+  none: "rounded-none",
+  small: "rounded-sm",
+  medium: "rounded-md",
+  large: "rounded-lg",
+  full: "rounded-full",
+};
+
+// Applies dynamic styles to relume buttons based on the button's variant
+function getButtonStyles({ variant, color, colorScale, buttonStyle }) {
+  // creates a base tailwind class to apply styling
+  const className = `${buttonRadiusClasses[buttonStyle] || "rounded-md"} px-4 py-2 font-semibold shadow`;
+
+  // stores styling
+  const style: React.CSSProperties = {
+    border: `2px solid ${colorScale[`${color}11`] || "#4f46e5"}`,
+  };
+
+  // determines styling based on radix button variant
+  if (variant === "primary") {
+    style.backgroundColor = colorScale[`${color}9`] || "#6366f1";
+    style.color = "white";
+  } else if (variant === "secondary") {
+    style.backgroundColor = "transparent";
+    style.color = colorScale[`${color}11`] || "#4f46e5";
+  }
+
+  // return the collective style
+  return {
+    className,
+    style,
+  };
+}
+
 export function RelumeHeroWrapper() {
-    const { updateChoice, choices } = useChoices();
-    const isDarkMode = themeManager.getCurrentTheme().darkMode;
-      const { colorScale, darkModeColorScale, grayColorScale, darkGrayColorScale } = useColorScales(choices.color);
-    
+  const { updateChoice, choices } = useChoices();
+  const { color = "indigo", buttonStyle = "full", heroLayout } = choices || {};
 
-    const SelectedHero = heroLayouts[choices.heroLayout as keyof typeof heroLayouts] || Header1;
+  // Get's the color scale, depreciated?
+  const {
+    colorScale,
+    darkModeColorScale,
+    grayColorScale,
+    darkGrayColorScale,
+  } = useColorScales(color);
 
-    const {
-      color = "indigo",
-      buttonStyle = "full",
-      shade = "9",
-    } = choices || {};
+  // retrieves the hero component from the heroLayouts mapping
+  const SelectedHero = heroLayouts[heroLayout as keyof typeof heroLayouts] || Header1;
 
-    // Safely get buttons array from choices, fallback to empty array if not present
-    const buttons = (choices && 'buttons' in choices && Array.isArray((choices as any).buttons))
-      ? (choices as any).buttons
-      : [];
+  // makes an array of buttons
+  const buttons = Array.isArray(choices.buttonStyle) ? choices.buttonStyle : [];
 
-    // Define Tailwind classes for button radius
-    const buttonRadiusClasses = {
-      none: "rounded-none",
-      small: "rounded-sm",
-      medium: "rounded-md",
-      large: "rounded-lg",
-      full: "rounded-full",
-    };
+  // Adjust button title based on its variant in relume
+  const baseButtons =
+    buttons.length > 0
+      ? buttons
+      : [
+        { title: "Primary", variant: "primary" },
+        { title: "Secondary", variant: "secondary" },
+      ];
 
+  // maps the buttons and applies styling to each
+  const updatedButtons = baseButtons.map((button) => ({
+    ...button,
+    ...getButtonStyles({ ...button, color, colorScale, buttonStyle }),
+  }));
 
-    // Ensure buttons array is valid and apply dynamic color styles
- const updatedButtons = buttons.length
-        ? buttons.map((button) => ({
-            ...button,
-            ...(button.variant === "primary"
-                ? {
-                    style: {
-                      backgroundColor: colorScale[`${color}9`] || "#6366f1", // Default to Indigo-600
-                      color: "white",
-                      border: `2px solid ${colorScale[`${color}11`] || "#4f46e5"}`,
-                    },
-                    className: `${buttonRadiusClasses[buttonStyle] || "rounded-md"} px-4 py-2 font-semibold shadow`,
-                }
-                : {
-                    style: {
-                      backgroundColor: "transparent",
-                      color: colorScale[`${color}11`] || "#4f46e5",
-                      border: `2px solid ${colorScale[`${color}11`] || "#4f46e5"}`,
-                    },
-                    className: `${buttonRadiusClasses[buttonStyle] || "rounded-md"} px-4 py-2 font-semibold shadow`,
-                }), 
-            }))
-        : [
-            {
-                title: "Primary",
-                variant: "primary",
-                style: {
-                  backgroundColor: colorScale[`${color}9`] || "#6366f1",
-                  color: "white",
-                  border: `2px solid ${colorScale[`${color}11`] || "#4f46e5"}`,
-                },
-                className: `${buttonRadiusClasses[buttonStyle] || "rounded-md"} px-4 py-2 font-semibold shadow`,
-            },
-            {
-                title: "Secondary",
-                variant: "secondary", 
-                style: {
-                  backgroundColor: "transparent",
-                  color: colorScale[`${color}11`] || "#4f46e5",
-                  border: `2px solid ${colorScale[`${color}11`] || "#4f46e5"}`,
-                },
-                className: `${buttonRadiusClasses[buttonStyle] || "rounded-md"} px-4 py-2 font-semibold shadow`,
-            },
-        ];
-
-    return <SelectedHero {...choices} buttons={updatedButtons} />;
+  return <SelectedHero {...choices} buttons={updatedButtons} />;
 }
