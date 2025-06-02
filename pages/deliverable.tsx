@@ -6,7 +6,7 @@ import { useChoices } from "../context/ChoicesContext";
 import React, { useRef, useEffect, useState } from "react";
 import { Button } from "@radix-ui/themes";
 import { useColorScales } from '../hooks/useColorScales';
-import { getRadixColor, getGrayPair } from '../components/utils/radix-color-utils';
+import { getGrayPair } from '../components/utils/color-utils';
 
 const Deliverable = () => {
   const targetRef = useRef(null);
@@ -78,21 +78,6 @@ const Deliverable = () => {
   const grayColorScaleArray = Object.values(grayColorScale);
   const darkGrayColorScaleArray = Object.values(darkGrayColorScale);
 
-  // Create shade labels for the colors
-  const createShadeLabels = (prefix) => {
-    return Array.from({ length: 12 }, (_, i) => ({
-      value: i + 1,
-      label: `${prefix} ${i + 1}`
-    }));
-  };
-
-  const primaryShadeLabels = createShadeLabels("Primary");
-  const secondaryShadeLabels = createShadeLabels("Secondary");
-
-  // Get color shade value based on index
-  const getColorShade = (shadeIndex, colorArray) => {
-    return colorArray[shadeIndex] || colorArray[8]; // Default to shade 9 (index 8)
-  };
 
   // Use the color shade selected from choices, defaulting to 9
   const colorShade = choices.shade || '9';
@@ -144,7 +129,7 @@ const Deliverable = () => {
             Export PDF
           </Button>
         </header>
-          <div style={{ height: "20px" }} />
+        <div style={{ height: "20px" }} />
 
         <main className="p-8 max-w-6xl mx-auto">
           {/* Main Colors section */}
@@ -306,7 +291,7 @@ const Deliverable = () => {
             {/* Primary font card */}
             <div
               className="p-6 rounded-lg flex flex-col"
-              style={{ backgroundColor: grayColorScaleArray[0] as string}}
+              style={{ backgroundColor: grayColorScaleArray[0] as string }}
             >
               <div className="mb-1">
                 <h3 className="text-lg font-medium">{fontLabel}</h3>
@@ -318,7 +303,7 @@ const Deliverable = () => {
             {/* Secondary font card */}
             <div
               className="p-6 rounded-lg flex flex-col text-white"
-              style={{ backgroundColor: darkGrayColorScaleArray[0]  as string}}
+              style={{ backgroundColor: darkGrayColorScaleArray[0] as string }}
             >
               <div className="mb-1">
                 <h3 className="text-lg font-medium">{fontLabel}</h3>
@@ -344,77 +329,41 @@ const Deliverable = () => {
           </div>
         </section>
 
-        {/* Brand Attributes section */}
+        {/* Brand Attributes & UI Elements section */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Brand Attributes</h2>
-
+          <h2 className="text-2xl font-bold mb-6">Brand Attributes & UI Elements</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Brand Mood */}
             <div>
               <h3 className="text-xl font-bold mb-4">Brand Mood</h3>
               <p className="text-lg">{choices.mood || "Adventurous & Welcoming"}</p>
-              <p className="mt-2 text-gray-600">
-                The brand conveys a sense of exploration while maintaining a
-                friendly, approachable stance. It balances bold visuals with
-                trustworthy messaging.
-              </p>
             </div>
-
-            <div>
-              <h3 className="text-xl font-bold mb-4">Brand Values</h3>
-              <ul className="space-y-2">
-                <li>• Innovation without compromising tradition</li>
-                <li>• Environmental stewardship</li>
-                <li>• Community-focused development</li>
-                <li>• Authentic storytelling</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* UI Elements section */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">UI Elements</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Button Style */}
             <div>
               <h3 className="text-xl font-bold mb-4">Button Style</h3>
               <p className="mb-4">Style: {choices.buttonStyle || "Rounded"}</p>
-
               <div className="space-y-3">
-                <button
-                  className="px-4 py-2 text-white rounded-md w-32"
-                  style={{ backgroundColor: primaryColorValue as string }}
-                >
-                  Primary
-                </button>
-                <button
-                  className="px-4 py-2 border rounded-md w-32"
-                  style={{
-                    borderColor: primaryColorValue as string,
-                    color: primaryColorValue as string
-                  }}
-                >
-                  Secondary
-                </button>
-                <button
-                  className="px-4 py-2 underline w-32"
-                  style={{ color: primaryColorValue as string }}
-                >
-                  Tertiary
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-bold mb-4">Card Style</h3>
-              <p className="mb-4">Style: {choices.cardStyle || "Rounded with subtle shadow"}</p>
-
-              <div className="bg-white border rounded-md shadow-sm p-4">
-                <h4 className="font-bold mb-2">Sample Card</h4>
-                <p className="text-sm text-gray-600">
-                  This card demonstrates the standard styling for content
-                  containers across the brand's digital products.
-                </p>
+          <button
+            className="px-4 py-2 text-white rounded-md w-32"
+            style={{ backgroundColor: primaryColorValue as string }}
+          >
+            Primary
+          </button>
+          <button
+            className="px-4 py-2 border rounded-md w-32"
+            style={{
+              borderColor: primaryColorValue as string,
+              color: primaryColorValue as string
+            }}
+          >
+            Secondary
+          </button>
+          <button
+            className="px-4 py-2 underline w-32"
+            style={{ color: primaryColorValue as string }}
+          >
+            Tertiary
+          </button>
               </div>
             </div>
           </div>
@@ -429,13 +378,19 @@ const Deliverable = () => {
               <h3 className="text-xl font-bold mb-4">Hero Layout</h3>
               <p className="mb-2">{choices.heroLayout || "Centered with overlay text"}</p>
 
-              <div className="relative h-48 rounded-md overflow-hidden bg-gray-200">
-                <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative h-48 rounded-md overflow-hidden bg-gray-200 flex items-center justify-center">
+                {choices.heroLayout ? (
+                  <img
+                    src={`/images/previews/hero/${choices.heroLayout}.png`}
+                    alt="Hero Layout Preview"
+                    className="object-contain h-full w-full"
+                  />
+                ) : (
                   <div className="text-center">
                     <h3 className="text-2xl font-bold">Hero Title</h3>
                     <p className="text-sm">Supporting headline text</p>
                   </div>
-                </div>
+                )}
               </div>
             </div>
 
@@ -443,57 +398,32 @@ const Deliverable = () => {
               <h3 className="text-xl font-bold mb-4">Feature Layout</h3>
               <p className="mb-2">{choices.featureLayout || "Grid with 3-column layout"}</p>
 
-              <div className="grid grid-cols-3 gap-2">
-                <div className="bg-gray-100 p-2 rounded-md aspect-square flex items-center justify-center">
-                  1
-                </div>
-                <div className="bg-gray-200 p-2 rounded-md aspect-square flex items-center justify-center">
-                  2
-                </div>
-                <div className="bg-gray-300 p-2 rounded-md aspect-square flex items-center justify-center">
-                  3
-                </div>
+              <div className="relative h-48 rounded-md overflow-hidden bg-gray-200 flex items-center justify-center">
+                {choices.featureLayout ? (
+                  <img
+                    src={`/images/previews/feature/${choices.featureLayout}.png`}
+                    alt="Feature Layout Preview"
+                    className="object-contain h-full w-full"
+                  />
+                ) : (
+                  <div className="grid grid-cols-3 gap-2 w-full h-full">
+                    <div className="bg-gray-100 p-2 rounded-md aspect-square flex items-center justify-center">
+                      1
+                    </div>
+                    <div className="bg-gray-200 p-2 rounded-md aspect-square flex items-center justify-center">
+                      2
+                    </div>
+                    <div className="bg-gray-300 p-2 rounded-md aspect-square flex items-center justify-center">
+                      3
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </section>
 
-        {/* Color Information Section - Updated to use colorScaleArrays */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Color Information</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-xl font-bold mb-4">Primary Color</h3>
-              <p className="text-lg">Palette: {colorPalette}</p>
-              <p className="text-lg">Shade: {colorShade}</p>
-              <p className="text-lg">Value: {primaryColorValue as string}</p>
-              <div
-                className="h-24 w-48 mt-2 rounded-md"
-                style={{ backgroundColor: primaryColorValue as string }}
-              ></div>
-              <p className="mt-2 text-gray-600">
-                This color represents the brand's connection to nature and
-                stability.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-bold mb-4">Secondary Color</h3>
-              <p className="text-lg">Palette: {getGrayPair(colorPalette)}</p>
-              <p className="text-lg">Value: {secondaryColorValue as string}</p>
-              <div
-                className="h-24 w-48 mt-2 rounded-md"
-                style={{ backgroundColor: secondaryColorValue as string }}
-              ></div>
-              <p className="mt-2 text-gray-600">
-                This color complements the primary color and is used for
-                supporting elements.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Empty section to replace the removed Dark Mode Colors section */}
+        
       </div>
     </div>
   );

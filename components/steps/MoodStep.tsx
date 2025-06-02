@@ -1,8 +1,8 @@
 import { Flex, Text, Box, Card } from "@radix-ui/themes";
 import { useChoices } from "../../context/ChoicesContext";
 import { useFontOptions } from "../../hooks/useFontOptions";
-import { transformColorByMood, getRadixColor } from "../utils/radix-color-utils";
-import { hexToRgb, hexToOklch, parseOklch, formatOklch, adjustOklch, oklchDistance } from '../utils/oklch-color-utils';
+import { transformColorByMood, getRadixColor } from "../utils/color-utils";
+import {  hexToOklch } from '../utils/color-utils';
 import { useState, useEffect } from "react";
 import themeManager from '../../lib/themeManager';
 

@@ -7,7 +7,6 @@ import { ColorPickerStep } from "../components/steps/ColorPickerStep"
 import { MoodStep } from "../components/steps/MoodStep"
 import { FontStep } from "../components/steps/FontStep"
 import { ButtonStyleStep } from "../components/steps/ButtonStyleStep"
-import { CardStyleStep } from "../components/steps/CardStyleStep"
 import { HeroLayoutStep } from "../components/steps/HeroLayoutStep"
 import { FeatureLayoutStep } from "../components/steps/FeatureLayoutStep"
 
@@ -18,7 +17,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useColorScales } from "../hooks/useColorScales";
 import themeManager from '../lib/themeManager';
 import { useChoices } from "../context/ChoicesContext";
-import { getRadixColor } from '../components/utils/radix-color-utils';
+import { getRadixColor } from '../components/utils/color-utils';
 
 const STEPS = [
   { id: "color", component: ColorPickerStep, title: "Color Palette" },

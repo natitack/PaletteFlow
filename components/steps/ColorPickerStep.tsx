@@ -6,8 +6,8 @@ import { useChoices } from "../../context/ChoicesContext";
 import { 
   findClosestRadixPalette, 
   getPaletteColor, 
-} from '../utils/radix-color-utils';
-import { getRadixColor } from '../utils/radix-color-utils';
+} from '../utils/color-utils';
+import { getRadixColor } from '../utils/color-utils';
 
 export function ColorPickerStep({ value, onChange }) {
   const { choices, updateChoice } = useChoices();

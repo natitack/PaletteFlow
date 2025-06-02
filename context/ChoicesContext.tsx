@@ -14,7 +14,6 @@ interface ChoicesState {
   mood: string;                // Selected mood
   font: FontChoice,            // Selected font
   buttonStyle: string;         // Button style choice
-  cardStyle: string;           // Card style choice
   heroLayout: string;          // Hero layout choice
   featureLayout: string;       // Feature layout choice
 }
@@ -56,7 +55,6 @@ export const ChoicesProvider = ({ children }) => {
       mood: "modern",          // Selected mood
       font: { label: "System UI", value: "system-ui" }, // Selected font
       buttonStyle: "rounded",  // Button style choice
-      cardStyle: "flat",       // Card style choice
       heroLayout: "header1",   // Hero layout choice
       featureLayout: "event2", // Feature layout choice
     };
