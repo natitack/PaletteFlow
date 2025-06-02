@@ -126,3 +126,129 @@ The Mood Step in PaletteFlow allows users to select a brand personality, which a
 - Edit `MOOD_CONFIG` in `/components/steps/MoodStep.tsx` to add or update moods.
 - Use font labels that exist in your font options.
 - Save and test the Mood Step in the app.
+
+## Adding and Referencing New Fields in Choices Context
+
+PaletteFlow uses a global Choices Context (`/context/ChoicesContext.tsx`) to store user selections such as color, font, mood, and more. If you want to add a new field (for example, `backgroundPattern` or `logoShape`) to the context and use it throughout the app, follow these steps:
+
+### 1. Add the Field to the ChoicesState Interface
+
+Open `/context/ChoicesContext.tsx` and update the `ChoicesState` interface to include your new field:
+
+```typescript
+interface ChoicesState {
+  // ...existing fields...
+  backgroundPattern: string; // <-- Add your new field here
+}
+```
+
+### 2. Add the Field to the Initial State
+
+In the `getInitialChoices` function, add a default value for your new field:
+
+```typescript
+return {
+  // ...existing fields...
+  backgroundPattern: "dots", // <-- Default value for new field
+};
+```
+
+
+### 3. Reference or Update the Field in Components
+
+To **read** the value in a component:
+
+```typescript
+import { useChoices } from "@/context/ChoicesContext";
+
+const { choices } = useChoices();
+console.log(choices.backgroundPattern); // Access the value
+```
+
+To **update** the value:
+
+```typescript
+const { updateChoice } = useChoices();
+updateChoice("backgroundPattern", "stripes");
+```
+
+### 4.  Add to setAllChoices
+
+If you use `setAllChoices`, ensure your new field is included in any objects passed to it.
+
+---
+
+**Summary:**  
+- Add your field to `ChoicesState` and the initial state.
+- Migrate old data if needed.
+- Use `choices.<field>` to read, and `updateChoice("<field>", value)` to update.
+- Update any UI or logic to use the new field.
+
+This ensures your new field is globally available and persists across sessions.
+
+## Adding a New Step to the Brand Builder
+
+To add a new step (such as a new design choice or configuration) to the Brand Builder flow in PaletteFlow, follow these steps:
+
+### 1. Create Your Step Component
+
+- Create a new file for your step in `/components/steps/`, e.g. `NewStep.tsx`.
+- Export a React component that accepts `value` and `onChange` props.
+- Example:
+  ```tsx
+  // filepath: /components/steps/NewStep.tsx
+  import { Flex, Text } from "@radix-ui/themes";
+
+  export function NewStep({ value, onChange }) {
+    return (
+      <Flex direction="column" gap="4">
+        <Text size="5" weight="bold">Choose your new option</Text>
+        {/* Your UI here */}
+      </Flex>
+    );
+  }
+  ```
+
+### 2. Add the Field to Choices Context
+
+- Add a new field to the `ChoicesState` interface in `/context/ChoicesContext.tsx`.
+- Add a default value for your field in the `getInitialChoices` function.
+- Example:
+  ```typescript
+  // filepath: /context/ChoicesContext.tsx
+  interface ChoicesState {
+    // ...existing fields...
+    newField: string; // <-- Add your new field
+  }
+
+  // In getInitialChoices:
+  return {
+    // ...existing fields...
+    newField: "", // <-- Default value
+  };
+  ```
+
+### 3. Register the Step in the Brand Builder
+
+- Open `/pages/brand-builder.tsx`.
+- Add your new step to the `STEPS` array, specifying a unique `id`, your component, and a title.
+- Example:
+  ```typescript
+  // filepath: /pages/brand-builder.tsx
+  import { NewStep } from "../components/steps/NewStep";
+
+  const STEPS = [
+    // ...existing steps...
+    { id: "newField", component: NewStep, title: "New Step Title" },
+  ];
+  ```
+
+### 4. (Optional) Update the Live Preview
+
+- If your new step affects the live preview, update the `LivePreview` component to use the new field from `choices`.
+
+### 5. (Optional) Update Deliverables
+
+- If your new field should appear in exported documents or deliverables, update the relevant export logic to include it.
+
+---
