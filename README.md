@@ -1,11 +1,11 @@
 # PaletteFlow
 PaletteFlow is a tool developed by students at OSU-Cascades in collaboration with fare*well, designed to streamline the client onboarding process for customers building a website. Its primary objective is to provide an intuitive platform that assists clients in establishing a preliminary brand identity, enabling a faster start to site development. PaletteFlow guides users through the selection of an initial color and brand archetype, leveraging this information to generate an accessible color palette and site theme. Users can further customize their theme, and PaletteFlow produces a branding document that can be exported as a PDF.
 
-## How to Deploy
+# How to Deploy
 
 This project is built on Next.JS 14, and can be easily deployed to Vercel. To deploy PaletteFlow, refer to the [Vercel deployment guide](https://vercel.com/docs/getting-started-with-vercel/import). This resource provides step-by-step instructions for importing your project, configuring settings, and launching your application on Vercel.
 
-## Architecture Overview
+# How to Modify
 
 ## Adding New Relume Components
 
@@ -252,3 +252,14 @@ To add a new step (such as a new design choice or configuration) to the Brand Bu
 - If your new field should appear in exported documents or deliverables, update the relevant export logic to include it.
 
 ---
+
+
+# Known Issues, Future Improvements
+
+-   Moodstep options need more meaningful differentiation
+-   Additional Relume feature and hero components should be added
+-   Color selection does not handle colors with low color saturation and lightness values well because the mood step overrides those values. One way to resolve this issue is to have a low saturation option in the mood step
+-   The client is very interested in having an inspiration step component, incorporating a ranking process of existing websites to inform archtype selection
+-   Font Selection component does not show what a font would look like until after it is selected. 
+-   Deliverable component needs aesthetic refinement
+-   Application is not mobile friendly
