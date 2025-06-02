@@ -78,7 +78,6 @@ const Deliverable = () => {
   const grayColorScaleArray = Object.values(grayColorScale);
   const darkGrayColorScaleArray = Object.values(darkGrayColorScale);
 
-
   // Use the color shade selected from choices, defaulting to 9
   const colorShade = choices.shade || '9';
   const shadeIndex = parseInt(colorShade, 10) - 1; // Convert to 0-based index
@@ -163,8 +162,6 @@ const Deliverable = () => {
             </div>
           </section>
         </main>
-
-
 
         {/* Color Palette section - Updated for better rendering within 816px width */}
         <section className="mb-12 px-4">
@@ -330,39 +327,47 @@ const Deliverable = () => {
         </section>
 
         {/* Brand Attributes & UI Elements section */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Brand Attributes & UI Elements</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <section className="p-6 max-w-6xl mx-auto">
+          <h2 className="text-2xl font-bold mb-4">Brand Attributes & UI Elements</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Brand Mood */}
-            <div>
-              <h3 className="text-xl font-bold mb-4">Brand Mood</h3>
-              <p className="text-lg">{choices.mood || "Adventurous & Welcoming"}</p>
+            <div
+              className="p-4 rounded-lg flex flex-col"
+              style={{ backgroundColor: grayColorScaleArray[1] as string }}
+            >
+              <h4 className="text-base font-medium mb-1">Brand Mood</h4>
+              <p className="text-base font-bold">{choices.mood || "Adventurous & Welcoming"}</p>
             </div>
             {/* Button Style */}
-            <div>
-              <h3 className="text-xl font-bold mb-4">Button Style</h3>
-              <p className="mb-4">Style: {choices.buttonStyle || "Rounded"}</p>
-              <div className="space-y-3">
+            <div
+              className="p-4 rounded-lg flex flex-col"
+              style={{ backgroundColor: grayColorScaleArray[1] as string }}
+            >
+              <h4 className="text-base font-medium mb-1">Button Style</h4>
+              <p className="mb-2">
+          Style: <span className="font-bold">{choices.buttonStyle || "Rounded"}</span>
+              </p>
+              <div className="flex gap-2">
           <button
-            className="px-4 py-2 text-white rounded-md w-32"
+            className="px-3 py-1 text-white rounded-md w-24 text-sm"
             style={{ backgroundColor: primaryColorValue as string }}
           >
-            Primary
+            <span className={choices.buttonStyle === "Primary" ? "font-bold" : ""}>Primary</span>
           </button>
           <button
-            className="px-4 py-2 border rounded-md w-32"
+            className="px-3 py-1 border rounded-md w-24 text-sm"
             style={{
               borderColor: primaryColorValue as string,
               color: primaryColorValue as string
             }}
           >
-            Secondary
+            <span className={choices.buttonStyle === "Secondary" ? "font-bold" : ""}>Secondary</span>
           </button>
           <button
-            className="px-4 py-2 underline w-32"
+            className="px-3 py-1 underline w-24 text-sm"
             style={{ color: primaryColorValue as string }}
           >
-            Tertiary
+            <span className={choices.buttonStyle === "Tertiary" ? "font-bold" : ""}>Tertiary</span>
           </button>
               </div>
             </div>
@@ -370,60 +375,63 @@ const Deliverable = () => {
         </section>
 
         {/* Layouts section */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Layouts</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-xl font-bold mb-4">Hero Layout</h3>
-              <p className="mb-2">{choices.heroLayout || "Centered with overlay text"}</p>
-
-              <div className="relative h-48 rounded-md overflow-hidden bg-gray-200 flex items-center justify-center">
-                {choices.heroLayout ? (
-                  <img
-                    src={`/images/previews/hero/${choices.heroLayout}.png`}
-                    alt="Hero Layout Preview"
-                    className="object-contain h-full w-full"
-                  />
-                ) : (
-                  <div className="text-center">
-                    <h3 className="text-2xl font-bold">Hero Title</h3>
-                    <p className="text-sm">Supporting headline text</p>
-                  </div>
-                )}
+        <section className="p-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div
+              className="p-4 rounded-lg flex flex-col"
+              style={{ backgroundColor: grayColorScaleArray[2] as string }}
+            >
+              <h4 className="text-base font-bold mb-2">Hero Layout </h4>
+              <p className="mb-1">
+          <span className="font-bold">{choices.heroLayout || "Centered with overlay text"}</span>
+              </p>
+              <div className="relative h-32 rounded-md overflow-hidden bg-gray-200 flex items-center justify-center">
+          {choices.heroLayout ? (
+            <img
+              src={`/images/previews/hero/${choices.heroLayout}.png`}
+              alt="Hero Layout Preview"
+              className="object-contain h-full w-full"
+            />
+          ) : (
+            <div className="text-center">
+              <h3 className="text-lg font-bold">Hero Title</h3>
+              <p className="text-xs">Supporting headline text</p>
+            </div>
+          )}
               </div>
             </div>
-
-            <div>
-              <h3 className="text-xl font-bold mb-4">Feature Layout</h3>
-              <p className="mb-2">{choices.featureLayout || "Grid with 3-column layout"}</p>
-
-              <div className="relative h-48 rounded-md overflow-hidden bg-gray-200 flex items-center justify-center">
-                {choices.featureLayout ? (
-                  <img
-                    src={`/images/previews/feature/${choices.featureLayout}.png`}
-                    alt="Feature Layout Preview"
-                    className="object-contain h-full w-full"
-                  />
-                ) : (
-                  <div className="grid grid-cols-3 gap-2 w-full h-full">
-                    <div className="bg-gray-100 p-2 rounded-md aspect-square flex items-center justify-center">
-                      1
-                    </div>
-                    <div className="bg-gray-200 p-2 rounded-md aspect-square flex items-center justify-center">
-                      2
-                    </div>
-                    <div className="bg-gray-300 p-2 rounded-md aspect-square flex items-center justify-center">
-                      3
-                    </div>
-                  </div>
-                )}
+            <div
+              className="p-4 rounded-lg flex flex-col"
+              style={{ backgroundColor: grayColorScaleArray[2] as string }}
+            >
+              <h4 className="text-base font-bold mb-2">Feature Layout</h4>
+              <p className="mb-1">
+          <span className="font-bold">{choices.featureLayout || "Grid with 3-column layout"}</span>
+              </p>
+              <div className="relative h-32 rounded-md overflow-hidden bg-gray-200 flex items-center justify-center">
+          {choices.featureLayout ? (
+            <img
+              src={`/images/previews/feature/${choices.featureLayout}.png`}
+              alt="Feature Layout Preview"
+              className="object-contain h-full w-full"
+            />
+          ) : (
+            <div className="grid grid-cols-3 gap-1 w-full h-full">
+              <div className="bg-gray-100 p-1 rounded-md aspect-square flex items-center justify-center text-xs">
+                1
+              </div>
+              <div className="bg-gray-200 p-1 rounded-md aspect-square flex items-center justify-center text-xs">
+                2
+              </div>
+              <div className="bg-gray-300 p-1 rounded-md aspect-square flex items-center justify-center text-xs">
+                3
+              </div>
+            </div>
+          )}
               </div>
             </div>
           </div>
         </section>
-
-        
       </div>
     </div>
   );
