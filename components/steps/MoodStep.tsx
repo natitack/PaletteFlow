@@ -1,142 +1,260 @@
 import { Flex, Text, Box, Card } from "@radix-ui/themes";
 import { useChoices } from "../../context/ChoicesContext";
 import { useFontOptions } from "../../hooks/useFontOptions";
-import {  transformColorByMood, getRadixColor } from "../utils/radix-color-utils";
+import { transformColorByMood, getRadixColor } from "../utils/radix-color-utils";
 import { hexToRgb, hexToOklch, parseOklch, formatOklch, adjustOklch, oklchDistance } from '../utils/oklch-color-utils';
 import { useState, useEffect } from "react";
 import themeManager from '../../lib/themeManager';
 
-// Mapping of moods to their visual characteristics
-const moodVisuals = {
+// Unified mood configuration combining all mood-related data
+const MOOD_CONFIG = {
   caregiver: {
+    label: "Caregiver",
     emoji: "❤️",
-    description: "Nurturing, compassionate, supportive"
+    description: "Nurturing, compassionate, supportive",
+    styles: {
+      font: "Nunito",
+      buttonStyle: "full",
+      cardStyle: "raised",
+      heroLayout: "header1",
+      featureLayout: "layout398",
+      chroma: 0.30,
+      lightness: 0.90
+    }
   },
   creator: {
+    label: "Creator",
     emoji: "🎨",
-    description: "Innovative, artistic, expressive"
+    description: "Innovative, artistic, expressive",
+    styles: {
+      font: "Fredoka",
+      buttonStyle: "none",
+      cardStyle: "flat",
+      heroLayout: "header1",
+      featureLayout: "layout398",
+      chroma: 0.95,
+      lightness: 0.40
+    }
   },
   ruler: {
+    label: "Ruler",
     emoji: "👑",
-    description: "Authoritative, refined, commanding"
+    description: "Authoritative, refined, commanding",
+    styles: {
+      font: "Source Serif 4",
+      buttonStyle: "small",
+      cardStyle: "shadow",
+      heroLayout: "header1",
+      featureLayout: "layout398",
+      chroma: 0.80,
+      lightness: 0.25
+    }
   },
   innocent: {
+    label: "Innocent",
     emoji: "🌸",
-    description: "Pure, optimistic, trustful"
+    description: "Pure, optimistic, trustful",
+    styles: {
+      font: "Labrada",
+      buttonStyle: "medium",
+      cardStyle: "bordered",
+      heroLayout: "header1",
+      featureLayout: "layout398",
+      chroma: 0.25,
+      lightness: 0.97
+    }
   },
   explorer: {
+    label: "Explorer",
     emoji: "🧭",
-    description: "Adventurous, independent, authentic"
+    description: "Adventurous, independent, authentic",
+    styles: {
+      font: "Reddit Mono",
+      buttonStyle: "medium",
+      cardStyle: "split",
+      heroLayout: "header1",
+      featureLayout: "layout398",
+      chroma: 0.85,
+      lightness: 0.60
+    }
   },
   sage: {
+    label: "Sage",
     emoji: "🧠",
-    description: "Wise, knowledgeable, analytical"
+    description: "Wise, knowledgeable, analytical",
+    styles: {
+      font: "Reddit Mono",
+      buttonStyle: "medium",
+      cardStyle: "split",
+      heroLayout: "header1",
+      featureLayout: "layout398",
+      chroma: 0.45,
+      lightness: 0.85
+    }
   },
   hero: {
+    label: "Hero",
     emoji: "⚔️",
-    description: "Brave, determined, inspiring"
+    description: "Brave, determined, inspiring",
+    styles: {
+      font: "Reddit Mono",
+      buttonStyle: "medium",
+      cardStyle: "split",
+      heroLayout: "header1",
+      featureLayout: "layout398",
+      chroma: 1.00,
+      lightness: 0.30
+    }
   },
   outlaw: {
+    label: "Outlaw",
     emoji: "🔥",
-    description: "Rebellious, disruptive, free-thinking"
+    description: "Rebellious, disruptive, free-thinking",
+    styles: {
+      font: "Reddit Mono",
+      buttonStyle: "medium",
+      cardStyle: "split",
+      heroLayout: "header1",
+      featureLayout: "layout398",
+      chroma: 1.10,
+      lightness: 0.18
+    }
   },
   magician: {
+    label: "Magician",
     emoji: "✨",
-    description: "Transformative, visionary, charismatic"
+    description: "Transformative, visionary, charismatic",
+    styles: {
+      font: "Reddit Mono",
+      buttonStyle: "medium",
+      cardStyle: "split",
+      heroLayout: "header1",
+      featureLayout: "layout398",
+      chroma: 0.90,
+      lightness: 0.22
+    }
   },
   everyman: {
+    label: "Everyman",
     emoji: "🤝",
-    description: "Relatable, down-to-earth, practical"
+    description: "Relatable, down-to-earth, practical",
+    styles: {
+      font: "Reddit Mono",
+      buttonStyle: "medium",
+      cardStyle: "split",
+      heroLayout: "header1",
+      featureLayout: "layout398",
+      chroma: 0.35,
+      lightness: 0.92
+    }
   },
   lover: {
+    label: "Lover",
     emoji: "💕",
-    description: "Passionate, intimate, appreciative"
+    description: "Passionate, intimate, appreciative",
+    styles: {
+      font: "Reddit Mono",
+      buttonStyle: "medium",
+      cardStyle: "split",
+      heroLayout: "header1",
+      featureLayout: "layout398",
+      chroma: 1.05,
+      lightness: 0.38
+    }
   },
   jester: {
+    label: "Jester",
     emoji: "🎭",
-    description: "Playful, humorous, spontaneous"
+    description: "Playful, humorous, spontaneous",
+    styles: {
+      font: "Reddit Mono",
+      buttonStyle: "medium",
+      cardStyle: "split",
+      heroLayout: "header1",
+      featureLayout: "layout398",
+      chroma: 1.15,
+      lightness: 0.80
+    }
   }
 };
 
-const moodOptions = [
-  { value: "caregiver", label: "Caregiver" },
-  { value: "creator", label: "Creator" },
-  { value: "ruler", label: "Ruler" },
-  { value: "innocent", label: "Innocent" },
-  { value: "explorer", label: "Explorer" },
-  { value: "sage", label: "Sage" },
-  { value: "hero", label: "Hero" },
-  { value: "outlaw", label: "Outlaw" },
-  { value: "magician", label: "Magician" },
-  { value: "everyman", label: "Everyman" },
-  { value: "lover", label: "Lover" },
-  { value: "jester", label: "Jester" },
-];
+// Helper function to get mood values with font mapping
+function getMoodValues(mood: string, fontOptions: any[]) {
+  const fontMap = fontOptions.reduce((acc, option) => {
+    acc[option.label] = option;
+    return acc;
+  }, {});
+
+  const moodData = MOOD_CONFIG[mood];
+  if (!moodData) {
+    return {
+      chroma: 0.20,
+      lightness: 0.55
+    };
+  }
+
+  return {
+    ...moodData.styles,
+    font: fontMap[moodData.styles.font]
+  };
+}
 
 export function MoodStep({ value, onChange }) {
   const { updateChoice, choices } = useChoices();
+  const fontOptions = useFontOptions();
   const [selectedMood, setSelectedMood] = useState(value || "");
   const [moodColors, setMoodColors] = useState({});
   const [radixInfo, setRadixInfo] = useState({});
   const isDarkMode = themeManager.getCurrentTheme().darkMode;
 
   useEffect(() => {
-    // Generate color variations for each mood based on originalHex when available
     if (choices.originalHex) {
       generateMoodColorData(choices.originalHex);
     }
   }, [choices.originalHex]);
 
-  // Unified function to generate mood color data
-  const generateMoodColorData = (hexColor) => {
+  const generateMoodColorData = (hexColor: string) => {
     const oklchColor = hexToOklch(hexColor);
     if (!oklchColor) return;
 
     const newMoodColors = {};
     const newRadixInfo = {};
     
-    // Generate a color for each mood based on its chroma and lightness values
-    moodOptions.forEach(option => {
-      const moodValue = MoodStep.getMoodValues(option.value);
+    Object.entries(MOOD_CONFIG).forEach(([moodKey, moodData]) => {
       const { paletteName, shade } = transformColorByMood(
         hexColor,
-        moodValue.chroma,
-        moodValue.lightness
+        moodData.styles.chroma,
+        moodData.styles.lightness
       );
       
-      // Store the radix color information
-      newRadixInfo[option.value] = {
+      newRadixInfo[moodKey] = {
         paletteName,
         shade
       };
       
-      // Get the actual color from the Radix palette
       const radixColor = getRadixColor(paletteName, shade, false);
-      newMoodColors[option.value] = radixColor;
+      newMoodColors[moodKey] = radixColor;
     });
     
     setMoodColors(newMoodColors);
     setRadixInfo(newRadixInfo);
   };
 
-  const handleChange = (newValue) => {
+  const handleChange = (newValue: string) => {
     setSelectedMood(newValue);
-    const moodValues = MoodStep.getMoodValues(newValue);
-    updateChoice("mood", newValue); // Update the mood in the context
+    const moodValues = getMoodValues(newValue, fontOptions);
+    updateChoice("mood", newValue);
     
-    // Update other related values
-    Object.entries(moodValues).forEach(([key, val]) => updateChoice(key, val));
+    // Update all style-related values
+    Object.entries(moodValues).forEach(([key, val]) => updateChoice(key, val as string));
     
-    // Process the color transformation based on the new mood
     if (choices.originalHex) {
-      // Transform the color according to the mood values
       const { paletteName, shade } = transformColorByMood(
         choices.originalHex,
         moodValues.chroma,
         moodValues.lightness
       );
       
-      // Update the context with the new values
       updateChoice("color", paletteName);
       updateChoice("shade", shade);
       updateChoice("chroma", moodValues.chroma.toString());
@@ -146,230 +264,108 @@ export function MoodStep({ value, onChange }) {
     onChange(newValue);
   };
 
+  const moodEntries = Object.entries(MOOD_CONFIG);
+
   return (
     <Flex direction="column" gap="6">
-      <Text size="5" weight="bold" style={{ color: "#111" }}>Select your brand personality</Text>
+      <Text size="5" weight="bold" style={{ color: "#111" }}>
+        Select your brand personality
+      </Text>
       <Card
-                    className="p-4"
-                    style={{
-                      maxHeight: "70vh",
-                      overflowY: "auto", // Enable vertical scrolling
-                      scrollbarWidth: "thin", // Thin scrollbar for better aesthetics
-                    }}
-                  >
-                     <Flex direction="column" gap="4">
-        {moodOptions.map((option) => {
-          const isSelected = selectedMood === option.value;
-          const visualInfo = moodVisuals[option.value];
-          const moodInfo = radixInfo[option.value];
+        className="p-4"
+        style={{
+          maxHeight: "70vh",
+          overflowY: "auto",
+          scrollbarWidth: "thin",
+        }}
+      >
+        <Flex direction="column" gap="4">
+          {moodEntries.map(([moodKey, moodData]) => {
+            const isSelected = selectedMood === moodKey;
+            const moodInfo = radixInfo[moodKey];
+            const swatchColor = choices.originalHex && moodInfo && moodColors[moodKey] 
+              ? moodColors[moodKey] 
+              : "#e0e0e0";
 
-          // Consistent background for all options
-          const consistentBg = "#f8f8f8";
-          let swatchColor = "#e0e0e0";
-          
-          if (choices.originalHex && moodInfo && moodColors[option.value]) {
-            swatchColor = moodColors[option.value];
-          }
-
-          return (
-           
-            <Box
-              key={option.value}
-              onClick={() => handleChange(option.value)}
-              style={{
-                width: "100%",
-                cursor: "pointer",
-                transition: "all 0.2s ease-in-out",
-                transform: isSelected ? "translateX(12px)" : "none",
-              }}
-            >
-              <Flex 
-                align="center"
+            return (
+              <Box
+                key={moodKey}
+                onClick={() => handleChange(moodKey)}
                 style={{
-                  padding: "16px",
-                  borderRadius: "12px",
-                  backgroundColor: consistentBg,
-                  color: "#111", // Force all text to black
-                  border: isSelected ? "3px solid rgba(0,0,0,0.3)" : "3px solid transparent",
-                  boxShadow: isSelected 
-                    ? "0 8px 16px rgba(0, 0, 0, 0.15)" 
-                    : "0 2px 4px rgba(0, 0, 0, 0.05)",
+                  width: "100%",
+                  cursor: "pointer",
+                  transition: "all 0.2s ease-in-out",
+                  transform: isSelected ? "translateX(12px)" : "none",
                 }}
               >
-                {/* Color swatch */}
-                <Box
+                <Flex 
+                  align="center"
                   style={{
-                    width: 28,
-                    height: 28,
-                    borderRadius: "50%",
-                    backgroundColor: swatchColor,
-                    marginRight: 16,
-                    border: "2px solid #ddd",
-                    flexShrink: 0,
+                    padding: "16px",
+                    borderRadius: "12px",
+                    backgroundColor: "#f8f8f8",
+                    color: "#111",
+                    border: isSelected ? "3px solid rgba(0,0,0,0.3)" : "3px solid transparent",
+                    boxShadow: isSelected 
+                      ? "0 8px 16px rgba(0, 0, 0, 0.15)" 
+                      : "0 2px 4px rgba(0, 0, 0, 0.05)",
                   }}
-                />
-                <Text size="6" style={{ marginRight: "16px", color: "#111" }}>
-                  {visualInfo.emoji}
-                </Text>
-                <Flex direction="column" style={{ flex: 1 }}>
-                  <Text size="3" weight={isSelected ? "bold" : "medium"} style={{ marginBottom: "4px", color: "#111" }}>
-                    {option.label}
+                >
+                  {/* Color swatch */}
+                  <Box
+                    style={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: "50%",
+                      backgroundColor: swatchColor,
+                      marginRight: 16,
+                      border: "2px solid #ddd",
+                      flexShrink: 0,
+                    }}
+                  />
+                  
+                  {/* Emoji */}
+                  <Text size="6" style={{ marginRight: "16px", color: "#111" }}>
+                    {moodData.emoji}
                   </Text>
-                  <Text size="2" style={{ color: "#111" }}>
-                    {visualInfo.description}
-                  </Text>
-                  {isSelected && moodInfo && (
-                    <Text size="1" style={{ color: "#555", marginTop: "4px" }}>
-                      {moodInfo.paletteName} {moodInfo.shade}
+                  
+                  {/* Text content */}
+                  <Flex direction="column" style={{ flex: 1 }}>
+                    <Text 
+                      size="3" 
+                      weight={isSelected ? "bold" : "medium"} 
+                      style={{ marginBottom: "4px", color: "#111" }}
+                    >
+                      {moodData.label}
                     </Text>
+                    <Text size="2" style={{ color: "#111" }}>
+                      {moodData.description}
+                    </Text>
+                    {isSelected && moodInfo && (
+                      <Text size="1" style={{ color: "#555", marginTop: "4px" }}>
+                        {moodInfo.paletteName} {moodInfo.shade}
+                      </Text>
+                    )}
+                  </Flex>
+                  
+                  {/* Checkmark */}
+                  {isSelected && (
+                    <Box style={{ marginLeft: "8px" }}>
+                      <Text size="5" style={{ color: "#111" }}>✓</Text>
+                    </Box>
                   )}
                 </Flex>
-                {isSelected && (
-                  <Box style={{ marginLeft: "8px" }}>
-                    <Text size="5" style={{ color: "#111" }}>✓</Text>
-                  </Box>
-                )}
-              </Flex>
-            </Box>
-          );
-        })}
-      </Flex></Card>
+              </Box>
+            );
+          })}
+        </Flex>
+      </Card>
     </Flex>
   );
 }
 
-MoodStep.getMoodValues = function (mood) {
+// Static method for backward compatibility
+MoodStep.getMoodValues = function(mood: string) {
   const fontOptions = useFontOptions();
-  const fontMap = fontOptions.reduce((acc, option) => {
-    acc[option.label] = option;
-    return acc;
-  }, {});
-
-  switch (mood) {
-    case "caregiver":
-      return {
-        font: fontMap["Nunito"],
-        buttonStyle: "full",
-        cardStyle: "raised",
-        heroLayout: "header1",
-        featureLayout: "layout398",
-        chroma: 0.30,    // softer, less saturated
-        lightness: 0.90  // much lighter
-      };
-    case "creator":
-      return {
-        font: fontMap["Fredoka"],
-        buttonStyle: "none",
-        cardStyle: "flat",
-        heroLayout: "header1",
-        featureLayout: "layout398",
-        chroma: 0.95,    // very saturated
-        lightness: 0.40  // much darker
-      };
-    case "ruler":
-      return {
-        font: fontMap["Source Serif 4"],
-        buttonStyle: "small",
-        cardStyle: "shadow",
-        heroLayout: "header1",
-        featureLayout: "layout398",
-        chroma: 0.80,    // strong, rich color
-        lightness: 0.25  // much darker
-      };
-    case "innocent":
-      return {
-        font: fontMap["Labrada"],
-        buttonStyle: "medium",
-        cardStyle: "bordered",
-        heroLayout: "header1",
-        featureLayout: "layout398",
-        chroma: 0.25,    // very soft
-        lightness: 0.97  // extremely light
-      };
-    case "explorer":
-      return {
-        font: fontMap["Reddit Mono"],
-        buttonStyle: "medium",
-        cardStyle: "split",
-        heroLayout: "header1",
-        featureLayout: "layout398",
-        chroma: 0.85,    // vibrant
-        lightness: 0.60  // brighter
-      };
-    case "sage":
-      return {
-        font: fontMap["Reddit Mono"],
-        buttonStyle: "medium",
-        cardStyle: "split",
-        heroLayout: "header1",
-        featureLayout: "layout398",
-        chroma: 0.45,    // muted
-        lightness: 0.85  // lighter
-      };
-    case "hero":
-      return {
-        font: fontMap["Reddit Mono"],
-        buttonStyle: "medium",
-        cardStyle: "split",
-        heroLayout: "header1",
-        featureLayout: "layout398",
-        chroma: 1.00,    // max saturation
-        lightness: 0.30  // very dark
-      };
-    case "outlaw":
-      return {
-        font: fontMap["Reddit Mono"],
-        buttonStyle: "medium",
-        cardStyle: "split",
-        heroLayout: "header1",
-        featureLayout: "layout398",
-        chroma: 1.10,    // even more saturated
-        lightness: 0.18  // extremely dark
-      };
-    case "magician":
-      return {
-        font: fontMap["Reddit Mono"],
-        buttonStyle: "medium",
-        cardStyle: "split",
-        heroLayout: "header1",
-        featureLayout: "layout398",
-        chroma: 0.90,    // vivid
-        lightness: 0.22  // dark and mysterious
-      };
-    case "everyman":
-      return {
-        font: fontMap["Reddit Mono"],
-        buttonStyle: "medium",
-        cardStyle: "split",
-        heroLayout: "header1",
-        featureLayout: "layout398",
-        chroma: 0.35,    // gentle
-        lightness: 0.92  // very light
-      };
-    case "lover":
-      return {
-        font: fontMap["Reddit Mono"],
-        buttonStyle: "medium",
-        cardStyle: "split",
-        heroLayout: "header1",
-        featureLayout: "layout398",
-        chroma: 1.05,    // intense
-        lightness: 0.38  // rich and deep
-      };
-    case "jester":
-      return {
-        font: fontMap["Reddit Mono"],
-        buttonStyle: "medium",
-        cardStyle: "split",
-        heroLayout: "header1",
-        featureLayout: "layout398",
-        chroma: 1.15,    // most saturated
-        lightness: 0.80  // bright and playful
-      };
-    default:
-      return {
-        chroma: 0.20,    // Default chroma
-        lightness: 0.55  // Default lightness
-      };
-  }
+  return getMoodValues(mood, fontOptions);
 };
