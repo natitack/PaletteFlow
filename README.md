@@ -1,6 +1,40 @@
 # PaletteFlow
 PaletteFlow is a tool developed by students at OSU-Cascades in collaboration with fare*well, designed to streamline the client onboarding process for customers building a website. Its primary objective is to provide an intuitive platform that assists clients in establishing a preliminary brand identity, enabling a faster start to site development. PaletteFlow guides users through the selection of an initial color and brand archetype, leveraging this information to generate an accessible color palette and site theme. Users can further customize their theme, and PaletteFlow produces a branding document that can be exported as a PDF.
 
+# Setup Instructions
+## Prerequisites
+- Node.js (v18+)
+- npm or yarn
+
+## Steps
+1. **Clone the repo**
+
+    - `git clone https://github.com/natitack/codespaces-nextjs.git`
+    - `cd codespaces-nextjs.git`
+
+2. **Install dependencies**
+
+    - `npm install`
+        - or
+    - `yarn install`
+
+3. **Run locally**
+    - `npm run dev`
+      - or
+    - `yarn dev`
+
+Visit http://localhost:3000
+
+## VS Code
+
+    - Make sure the Dev Containers extension is installed.
+    - Open the project folder in VS Code.
+    - Click "Reopen in Container" when prompted.
+
+## Codespaces
+
+    - Start your code space and the deployment should start automatically
+
 # How to Deploy
 
 This project is built on Next.JS 14, and can be easily deployed to Vercel. To deploy PaletteFlow, refer to the [Vercel deployment guide](https://vercel.com/docs/getting-started-with-vercel/import). This resource provides step-by-step instructions for importing your project, configuring settings, and launching your application on Vercel.
