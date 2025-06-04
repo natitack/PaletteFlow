@@ -1,6 +1,12 @@
 # PaletteFlow
 PaletteFlow is a tool developed by students at OSU-Cascades in collaboration with fare*well, designed to streamline the client onboarding process for customers building a website. Its primary objective is to provide an intuitive platform that assists clients in establishing a preliminary brand identity, enabling a faster start to site development. PaletteFlow guides users through the selection of an initial color and brand archetype, leveraging this information to generate an accessible color palette and site theme. Users can further customize their theme, and PaletteFlow produces a branding document that can be exported as a PDF.
 
+# Features
+- Client Choice section
+- Accompanying Visuals
+- Preliminary Brand Identity Document
+- PDF Deliverable
+
 # Setup Instructions
 ## Prerequisites
 - Node.js (v18+)
@@ -300,3 +306,51 @@ To add a new step (such as a new design choice or configuration) to the Brand Bu
 -   Font Selection component does not show what a font would look like until after it is selected. 
 -   Deliverable component needs aesthetic refinement
 -   Application is not mobile friendly
+
+# Troubleshooting
+Here are some common issues you might encounter while running or modifying PaletteFlow, along with suggested fixes:
+
+## App Doesn’t Start or Shows Errors on Launch
+Symptom: npm run dev or yarn dev fails with errors.
+
+Fixes:
+
+Make sure you're using Node.js version 18 or later.
+
+Run rm -rf node_modules && npm install to clear and reinstall dependencies.
+
+Check that your .env file (if applicable) is correctly configured.
+
+## New Component or Step Doesn’t Show Up
+Symptom: Custom hero/feature layout or a new builder step doesn’t appear in the UI.
+
+Fixes:
+
+Confirm you’ve correctly imported and registered the component in the appropriate wrapper (RelumeHeroWrapper.tsx, RelumeFeatureWrapper.tsx, or the STEPS array).
+
+Ensure your component file is located in the correct folder (/heroelements/, /featureelelemts/, or /steps/).
+
+Check for typos in layout keys or missing preview image files.
+
+## Font Doesn’t Appear in Dropdown
+Symptom: Added a Google Font but it’s not selectable in the UI.
+
+Fixes:
+
+Ensure the font is imported and instantiated in /hooks/useFontOptions.ts.
+
+Make sure the label in the font config matches the label used in any mood configurations.
+
+## Exported PDF Missing Previews or Styles
+Symptom: Branding PDF shows empty blocks or missing images.
+
+Fixes:
+
+Verify that preview images are added to the correct directory (/public/images/previews/hero/ or /feature/) and that file names match layout keys.
+
+Ensure all required fields in Choices Context are set before export.
+
+## UI Looks Broken on Smaller Screens
+Symptom: Layout issues or components overlap on mobile.
+
+Fix: PaletteFlow is not currently optimized for mobile. Responsive design improvements are tracked in the Known Issues section.
