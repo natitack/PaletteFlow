@@ -39,6 +39,9 @@ Visit http://localhost:3000
 
 This project is built on Next.JS 14, and can be easily deployed to Vercel. To deploy PaletteFlow, refer to the [Vercel deployment guide](https://vercel.com/docs/getting-started-with-vercel/import). This resource provides step-by-step instructions for importing your project, configuring settings, and launching your application on Vercel.
 
+# System Architecture
+![Image](https://github.com/user-attachments/assets/2cd0d67a-2578-405d-94d4-6baf8ddce39a)
+
 # How to Modify
 
 ## Adding New Relume Components
