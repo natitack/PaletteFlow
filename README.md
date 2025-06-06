@@ -299,13 +299,15 @@ To add a new step (such as a new design choice or configuration) to the Brand Bu
 
 # Known Issues, Future Improvements
 
--   Moodstep options need more meaningful differentiation
--   Additional Relume feature and hero components should be added
--   Color selection does not handle colors with low color saturation and lightness values well because the mood step overrides those values. One way to resolve this issue is to have a low saturation option in the mood step
--   The client is very interested in having an inspiration step component, incorporating a ranking process of existing websites to inform archtype selection
--   Font Selection component does not show what a font would look like until after it is selected. 
--   Deliverable component needs aesthetic refinement
--   Application is not mobile friendly
+- Mood overrides can interfere with low-saturation colors
+- Font Picker needs real-time previews  
+- App is not mobile-friendly
+  
+- Inspiration step (client request) needs to be designed 
+- Moodstep options need more meaningful differentiation  
+- Additional Relume components should be added  
+- Deliverable design requires visual polish  
+ 
 
 # Troubleshooting
 Here are some common issues you might encounter while running or modifying PaletteFlow, along with suggested fixes:
@@ -354,3 +356,27 @@ Ensure all required fields in Choices Context are set before export.
 Symptom: Layout issues or components overlap on mobile.
 
 Fix: PaletteFlow is not currently optimized for mobile. Responsive design improvements are tracked in the Known Issues section.
+
+# Architectural & Refactor Plans
+
+As PaletteFlow matures, several architectural improvements will support better scalability, maintainability, and potential client integration:
+
+- **Naming Standardization**  
+  Folder and component names are currently inconsistent (e.g., inconsistent use of snake case, camel case, and kebab case). Standardizing naming conventions across the codebase will reduce cognitive load and make onboarding easier for new developers.
+
+- **Backend Integration (Database or Cloud Services)**  
+  At present, PaletteFlow operates entirely on the client side. Incorporating a backend—whether via a cloud database (e.g. Firebase, Supabase) or API-based storage—would enable persistent user sessions, saving progress, and versioned deliverables. This is especially critical if the tool evolves into a client portal.
+
+- **Collaboration with fare*well Architecture**  
+  To ensure seamless integration with fare*well’s future client workflows, we recommend aligning the architecture of PaletteFlow with fare*well’s existing systems and preferences. This could involve standardizing component structure, design tokens, or export formats to match their site-building tools and pipelines.
+
+# Project Roadmap
+
+#### High Priority to Low Priority 
+- [ ] **Mobile Responsiveness**: Ensure the UI scales correctly across breakpoints and devices.  
+- [ ] **Mood Step Logic**: Improve support for low-saturation and lightness color options.  
+- [ ] **Inspiration Step**: Add a new step where users rate example websites to inform mood/archetype selection.  
+- [ ] **Font Preview in Picker**: Display live font previews in the dropdown instead of post-selection.
+- [ ] **Deliverable Aesthetic Overhaul**: Improve visual layout of the PDF export.  
+- [ ] **Component Naming Cleanup**: Rename directories and files to follow consistant naming conventions.
+- [ ] **Hero/Feature Expansion**: Add more Relume layouts to increase client choice.
