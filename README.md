@@ -106,13 +106,32 @@ PaletteFlow allows you to easily add new Google Fonts for users to select. To ad
      { value: lato.className, label: "Lato" },
      ```
 
-4. **Use in the Font Picker**
+4. **Update Global Font Variables**
+
+   - Open `/pages/_app.js`.
+   - Import your new font at the top:
+     ```javascript
+     import { Lato } from "next/font/google";
+     ```
+   - Initialize the font:
+     ```javascript
+     const lato = Lato({ subsets: ['latin'], weight: "400" });
+     ```
+   - Add a CSS variable for your font in the `<style jsx global>` block:
+     ```css
+     --font-lato: ${lato.style.fontFamily};
+     ```
+   - (Optional) Set as default in `body` if desired.
+
+5. **Use in the Font Picker**
 
    - The new font will automatically appear in the font selection dropdown in the UI (e.g., in the FontStep component).
+   
 
 **Summary:**  
-- Import the font in `/hooks/useFontOptions.ts`.
+- Import the font in `/hooks/useFontOptions.ts` and `/pages/_app.js`.
 - Initialize it and add it to the `fontOptions` array.
+- Add a CSS variable for the font in `_app.js` for global use.
 - The font will be available for users to select in the app.
 
 ## Updating the Mood Step
